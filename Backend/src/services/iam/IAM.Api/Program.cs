@@ -98,10 +98,12 @@ else
 
 // ثبت Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
 // ثبت Services
 builder.Services.AddScoped<IOtpService, OtpService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // ثبت MediatR
 builder.Services.AddMediatR(cfg => 
@@ -121,21 +123,19 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidateAudience = true,
-        ValidAudience = jwtSettings["Audience"],
-        ValidateLifetime = true,
-        ClockSkew = TimeSpan.FromMinutes(5)
-    };
-    
-    // لاگ‌گیری برای دیباگ
+    // ⚠️ چون توکن از هدر نمی‌آید، بلکه از کوکی می‌آید
     options.Events = new JwtBearerEvents
     {
+        OnMessageReceived = context =>
+        {
+            // گرفتن توکن از کوکی
+            if (context.Request.Cookies.ContainsKey("access_token"))
+            {
+                context.Token = context.Request.Cookies["access_token"];
+            }
+
+            return Task.CompletedTask;
+        },
         OnAuthenticationFailed = context =>
         {
             Console.WriteLine($"Authentication failed: {context.Exception.Message}");
@@ -147,6 +147,26 @@ builder.Services.AddAuthentication(options =>
             return Task.CompletedTask;
         }
     };
+
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+
+        ValidateIssuer = true,
+        ValidIssuer = jwtSettings["Issuer"],
+
+        ValidateAudience = true,
+        ValidAudience = jwtSettings["Audience"],
+
+        ValidateLifetime = true,
+
+        // ⛔ برای امنیت بالاتر و انقضا دقیق، حتماً صفرش کن
+        ClockSkew = TimeSpan.Zero
+    };
+
+    // برای اینکه HTTPS لازم نباشه در لوکال (در پروڈاکشن حذف کن!)
+    options.RequireHttpsMetadata = false;
 });
 
 // افزودن Authorization

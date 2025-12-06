@@ -51,13 +51,14 @@ namespace IAM.Application.Handlers
                     return AuthResponseDto.FailureResponse("ایمیل یا رمز عبور اشتباه است");
                 }
 
-                var token = await _tokenService.GenerateTokenAsync(user);
-
-                _logger.LogInformation($"User {user.Email} logged in successfully");
+                // داخل Handle، بعد از اعتبارسنجی:
+                var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
+                var refreshToken = await _tokenService.GenerateAndSaveRefreshTokenAsync(user);
 
                 return AuthResponseDto.SuccessResponse(
                     "ورود موفقیت‌آمیز بود",
-                    token,
+                    accessToken,
+                    refreshToken,
                     new UserDto
                     {
                         UserId = user.UserId,

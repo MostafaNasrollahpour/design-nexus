@@ -47,13 +47,14 @@ namespace IAM.Application.Handlers
             user.MarkAsVerified();
             await _userRepository.UpdateAsync(user);
 
-            var token = await _tokenService.GenerateTokenAsync(user);
-
-            _logger.LogInformation($"User {user.Email} verified successfully");
+            // داخل Handle، بعد از اعتبارسنجی:
+            var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
+            var refreshToken = await _tokenService.GenerateAndSaveRefreshTokenAsync(user);
 
             return AuthResponseDto.SuccessResponse(
-                "احراز هویت موفقیت‌آمیز بود",
-                token,
+                "ورود موفقیت‌آمیز بود",
+                accessToken,
+                refreshToken,
                 new UserDto
                 {
                     UserId = user.UserId,
@@ -63,6 +64,7 @@ namespace IAM.Application.Handlers
                     IsVerified = user.IsVerified
                 }
             );
+
         }
     }
 }

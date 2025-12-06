@@ -17,7 +17,6 @@ namespace IAM.Application.Handlers
         public VerifyChangePasswordCommandHandler(
             IUserRepository userRepository,
             IOtpService otpService,
-            ITokenService tokenService,
             ILogger<VerifyChangePasswordCommandHandler> logger)
         {
             _userRepository = userRepository;

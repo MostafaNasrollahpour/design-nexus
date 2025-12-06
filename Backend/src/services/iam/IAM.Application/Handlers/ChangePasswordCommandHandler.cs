@@ -64,14 +64,16 @@ namespace IAM.Application.Handlers
 
             try
             {
-                var token = await _tokenService.GenerateTokenAsync(user);
-                
+                var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
+                var refreshToken = await _tokenService.GenerateAndSaveRefreshTokenAsync(user);
+
                 return AuthResponseDto.SuccessResponse(
-                    "رمز عبور با موفقیت تغییر یافت",
-                    token,
+                    "ورود موفقیت‌آمیز بود",
+                    accessToken,
+                    refreshToken,
                     new UserDto
                     {
-                        UserId = user!.UserId,
+                        UserId = user.UserId,
                         FullName = user.FullName,
                         Email = user.Email,
                         Role = user.Role,

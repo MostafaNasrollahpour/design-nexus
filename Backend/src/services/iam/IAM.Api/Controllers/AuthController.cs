@@ -13,11 +13,12 @@ namespace IAM.Api.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<AuthController> _logger;
-
-        public AuthController(IMediator mediator, ILogger<AuthController> logger)
+        private readonly IConfiguration _configuration;
+        public AuthController(IMediator mediator, ILogger<AuthController> logger, IConfiguration configuration)
         {
             _mediator = mediator;
             _logger = logger;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -56,16 +57,28 @@ namespace IAM.Api.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
         {
             _logger.LogInformation($"Login attempt for email: {request.Email}");
-            
+
             var command = new LoginCommand(request);
             var result = await _mediator.Send(command);
-            
-            if (result.Success)
+
+            if (!result.Success)
+                return Unauthorized(result);
+
+            // Refresh Token Cookie
+            if (!string.IsNullOrEmpty(result.RefreshToken))
             {
-                return Ok(result);
+                Response.Cookies.Append("refreshToken", result.RefreshToken!, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = DateTime.UtcNow.AddDays(
+                        Convert.ToDouble(_configuration["Jwt:RefreshTokenDays"] ?? "7")
+                    )
+                });
             }
-            
-            return Unauthorized(result);
+
+            return Ok(result);
         }
 
         [HttpPost("resend-code")]
@@ -132,6 +145,50 @@ namespace IAM.Api.Controllers
             return Unauthorized(result);
         }
 
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            if (string.IsNullOrEmpty(refreshToken))
+                return Unauthorized(new { message = "No refresh token" });
 
+            var command = new RefreshTokenCommand(refreshToken);
+            var result = await _mediator.Send(command);
+
+            if (!result.Success)
+                return Unauthorized(result);
+
+            // Set new refresh token
+            Response.Cookies.Append("refreshToken", result.RefreshToken!, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(
+                    Convert.ToDouble(_configuration["Jwt:RefreshTokenDays"] ?? "7")
+                )
+            });
+
+            return Ok(result);
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var refresh = Request.Cookies["refreshToken"];
+
+            var command = new LogoutCommand(refresh);
+            var result = await _mediator.Send(command);
+
+            // Always delete cookie
+            Response.Cookies.Delete("refreshToken", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
+
+            return Ok(result);
+        }
     }
 }
