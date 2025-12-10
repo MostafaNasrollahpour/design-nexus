@@ -45,12 +45,24 @@ namespace IAM.Api.Controllers
             var command = new VerifyOtpCommand(request);
             var result = await _mediator.Send(command);
             
-            if (result.Success)
+            if (!result.Success)
+                return BadRequest(result);
+
+            if (!string.IsNullOrEmpty(result.RefreshToken))
             {
-                return Ok(result);
+                Response.Cookies.Append("refreshToken", result.RefreshToken!, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = DateTime.UtcNow.AddDays(
+                        Convert.ToDouble(_configuration["Jwt:RefreshTokenDays"] ?? "7")
+                    )
+                });
+
+                result.RefreshToken = null;
             }
-            
-            return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPost("login")]
@@ -64,7 +76,6 @@ namespace IAM.Api.Controllers
             if (!result.Success)
                 return Unauthorized(result);
 
-            // Refresh Token Cookie
             if (!string.IsNullOrEmpty(result.RefreshToken))
             {
                 Response.Cookies.Append("refreshToken", result.RefreshToken!, new CookieOptions
@@ -76,6 +87,8 @@ namespace IAM.Api.Controllers
                         Convert.ToDouble(_configuration["Jwt:RefreshTokenDays"] ?? "7")
                     )
                 });
+
+                result.RefreshToken = null;
             }
 
             return Ok(result);
@@ -158,7 +171,6 @@ namespace IAM.Api.Controllers
             if (!result.Success)
                 return Unauthorized(result);
 
-            // Set new refresh token
             Response.Cookies.Append("refreshToken", result.RefreshToken!, new CookieOptions
             {
                 HttpOnly = true,
@@ -168,6 +180,7 @@ namespace IAM.Api.Controllers
                     Convert.ToDouble(_configuration["Jwt:RefreshTokenDays"] ?? "7")
                 )
             });
+            result.RefreshToken = null;
 
             return Ok(result);
         }
@@ -190,5 +203,6 @@ namespace IAM.Api.Controllers
 
             return Ok(result);
         }
+
     }
 }

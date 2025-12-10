@@ -312,11 +312,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mosta\\OneDrive\\Desktop\\Design Nexus\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj",
+      "projectUniqueName": "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj",
       "projectName": "IAM.Application",
-      "projectPath": "C:\\Users\\mosta\\OneDrive\\Desktop\\Design Nexus\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj",
+      "projectPath": "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj",
       "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mosta\\OneDrive\\Desktop\\Design Nexus\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\obj\\",
+      "outputPath": "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -331,8 +331,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\mosta\\OneDrive\\Desktop\\Design Nexus\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj": {
-              "projectPath": "C:\\Users\\mosta\\OneDrive\\Desktop\\Design Nexus\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj"
+            "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj": {
+              "projectPath": "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj"
             }
           }
         }

@@ -10,5 +10,6 @@ namespace IAM.Domain.Interfaces
         Task RevokeAsync(RefreshToken token);
         Task RemoveByUserAsync(int userId);
         Task SaveChangesAsync();
+        Task<RefreshToken?> GetValidByUserAsync(int userId);
     }
 }

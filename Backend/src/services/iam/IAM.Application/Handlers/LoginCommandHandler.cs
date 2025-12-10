@@ -11,15 +11,19 @@ namespace IAM.Application.Handlers
 {
     public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthResponseDto>
     {
+        private readonly IRefreshTokenRepository _refreshRepo;
+
         private readonly IUserRepository _userRepository;
         private readonly ITokenService _tokenService;
         private readonly ILogger<LoginCommandHandler> _logger;
 
         public LoginCommandHandler(
+            IRefreshTokenRepository refreshRepo,
             IUserRepository userRepository,
             ITokenService tokenService,
             ILogger<LoginCommandHandler> logger)
         {
+            _refreshRepo = refreshRepo;
             _userRepository = userRepository;
             _tokenService = tokenService;
             _logger = logger;
@@ -53,7 +57,15 @@ namespace IAM.Application.Handlers
 
                 // داخل Handle، بعد از اعتبارسنجی:
                 var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
-                var refreshToken = await _tokenService.GenerateAndSaveRefreshTokenAsync(user);
+
+                var oldToken = await _refreshRepo.GetValidByUserAsync(user.UserId);
+                if (oldToken == null)
+                {
+                    await _refreshRepo.RemoveByUserAsync(user.UserId);
+                }
+                var refreshToken = (oldToken == null) 
+                    ? await _tokenService.GenerateAndSaveRefreshTokenAsync(user) 
+                    : oldToken.Token;
 
                 return AuthResponseDto.SuccessResponse(
                     "ورود موفقیت‌آمیز بود",

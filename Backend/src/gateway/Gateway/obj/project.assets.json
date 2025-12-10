@@ -108,11 +108,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mosta\\OneDrive\\Desktop\\Design Nexus\\DesignNexus\\Backend\\src\\gateway\\Gateway\\Gateway.csproj",
+      "projectUniqueName": "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\gateway\\Gateway\\Gateway.csproj",
       "projectName": "Gateway",
-      "projectPath": "C:\\Users\\mosta\\OneDrive\\Desktop\\Design Nexus\\DesignNexus\\Backend\\src\\gateway\\Gateway\\Gateway.csproj",
+      "projectPath": "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\gateway\\Gateway\\Gateway.csproj",
       "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mosta\\OneDrive\\Desktop\\Design Nexus\\DesignNexus\\Backend\\src\\gateway\\Gateway\\obj\\",
+      "outputPath": "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\gateway\\Gateway\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config"

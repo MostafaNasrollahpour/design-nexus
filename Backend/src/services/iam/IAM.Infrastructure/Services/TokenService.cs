@@ -17,13 +17,11 @@ namespace IAM.Infrastructure.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IRefreshTokenRepository _refreshRepo;
-        private readonly AppDbContext _context;
 
         public TokenService(IConfiguration configuration, IRefreshTokenRepository refreshRepo, AppDbContext context)
         {
             _configuration = configuration;
             _refreshRepo = refreshRepo;
-            _context = context;
         }
 
         public Task<string> GenerateAccessTokenAsync(User user)
@@ -55,6 +53,11 @@ namespace IAM.Infrastructure.Services
 
         public async Task<string> GenerateAndSaveRefreshTokenAsync(User user)
         {
+            var existingToken = await _refreshRepo.GetValidByUserAsync(user.UserId);
+            if (existingToken != null)
+            {
+                return existingToken.Token; // اگر توکن معتبر موجود بود، همان را برگردان
+            }
             // Create secure random token
             var randomBytes = new byte[64];
             using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())

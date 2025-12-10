@@ -62,3 +62,19 @@ C:\Users\mosta\OneDrive\Desktop\New folder\DesignNexus\Backend\src\services\iam\
 C:\Users\mosta\OneDrive\Desktop\New folder\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\refint\IAM.Application.dll
 C:\Users\mosta\OneDrive\Desktop\New folder\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\IAM.Application.pdb
 C:\Users\mosta\OneDrive\Desktop\New folder\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\ref\IAM.Application.dll
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\bin\Debug\net9.0\IAM.Application.deps.json
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\bin\Debug\net9.0\IAM.Application.dll
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\bin\Debug\net9.0\IAM.Application.pdb
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\bin\Debug\net9.0\IAM.Domain.dll
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\bin\Debug\net9.0\IAM.Domain.pdb
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\IAM.Application.csproj.AssemblyReference.cache
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\IAM.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\IAM.Application.AssemblyInfoInputs.cache
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\IAM.Application.AssemblyInfo.cs
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\IAM.Application.csproj.CoreCompileInputs.cache
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\IAM.Application.sourcelink.json
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\IAM.Appl.5049C8E2.Up2Date
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\IAM.Application.dll
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\refint\IAM.Application.dll
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\IAM.Application.pdb
+C:\Users\mosta\OneDrive\Desktop\DesignNexus\DesignNexus\Backend\src\services\iam\IAM.Application\obj\Debug\net9.0\ref\IAM.Application.dll

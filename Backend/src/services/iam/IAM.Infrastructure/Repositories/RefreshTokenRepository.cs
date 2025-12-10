@@ -45,5 +45,14 @@ namespace IAM.Infrastructure.Repositories
         {
             await _context.SaveChangesAsync();
         }
+
+        public async Task<RefreshToken?> GetValidByUserAsync(int userId)
+        {
+            return await _context.RefreshTokens
+                .Where(t => t.UserId == userId && !t.IsRevoked && t.ExpiresAt > DateTime.UtcNow)
+                .OrderByDescending(t => t.CreatedAt)
+                .FirstOrDefaultAsync();
+        }
+
     }
 }
