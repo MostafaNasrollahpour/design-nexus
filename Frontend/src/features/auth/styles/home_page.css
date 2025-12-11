@@ -1,0 +1,242 @@
+/* --- RESET --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  direction: rtl;
+  font-family: sans-serif;
+}
+
+/* --- MAIN CONTAINER --- */
+.home-container {
+  width: 100%;
+  padding: 20px;
+}
+
+/* ---------------------- NAVBAR ---------------------- */
+.navbar {
+  width: 100%;
+  padding: 5px 5px;
+  border-bottom: 2px solid #5b5757;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  
+}
+
+/* LEFT: Logo + login/signup */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* CENTER: Main menu */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 35px;
+  font-size: 15px;
+  color: #333;
+  margin: 0 auto;       
+  padding: 0;
+  font-weight: bold;
+
+}
+
+/* RIGHT: DesignNexus image */
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.design_img {
+  width: 120px;
+}
+
+.logo {
+  width: 40px;
+  height: 55px;
+  filter: contrast(110%) brightness(110%) saturate(110%);
+
+}
+
+.login_signup {
+  text-decoration: none;
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+/* ---------------------- HAMBURGER (Initially hidden) ---------------------- */
+.hamburger {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ---------------------- MOBILE MENU ---------------------- */
+.mobile-menu {
+  position: absolute;
+  top: 100%; /* دقیقاً زیر همبرگر */
+  left: 0;   /* همونجایی که دکمه هست */
+  width: 180px;
+  background: #e9e4e4;
+  border: 1px solid #1e0303;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 20;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+
+.mobile-menu a {
+  color: black;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+/* ---------------------- RESPONSIVE ---------------------- */
+@media (max-width: 850px) {
+
+  /* Hide center menu */
+  .nav-links {
+    display: none;
+  }
+
+  /* Hide login in desktop-left */
+  .login_signup {
+    display: none;
+  }
+
+  /* Hide right image */
+  .design_img {
+    display: none;
+  }
+
+  /* Show hamburger */
+  .hamburger {
+    display: block;
+  }
+
+  /* Keep only logo + hamburger */
+  .navbar {
+    justify-content: space-between;
+  }
+}
+
+
+
+/* ---------------------- HEADER TITLE ---------------------- */
+.header-title {
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  margin: 40px 0;
+  font-size: clamp(24px, 5vw, 40px); /* حداقل 24px، حداکثر 40px، وسطش 5vw */
+
+}
+
+.red {
+  color: red;
+  font-weight: bold;
+  font-size: 50px;
+}
+
+/* ---------------------- IMAGE SECTION ---------------------- */
+.image-section {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.image-large {
+  width: 55%;
+  position: relative;
+}
+
+/* .image-grid {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+} */
+
+/* placeholder images */
+.img-placeholder {
+  width: 100%;
+  height: 260px;
+  background: #e4e4e4;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  font-size: 18px;
+}
+
+/* .small {
+  height: 150px;
+} */
+
+/* badge on the big picture */
+.badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* ---------------------- FOOTER ---------------------- */
+.footer {
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 10px;
+  border-top: 1px solid #ccc;
+}
+
+.footer-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  background: #222;
+  border-radius: 50%;
+}
+
+/* ---------------------- RESPONSIVE ---------------------- */
+@media (max-width: 900px) {
+  .image-section {
+    flex-direction: column;
+  }
+
+  .image-large,
+  .image-grid {
+    width: 100%;
+  }
+
+  .header-title {
+    font-size: 24px;
+  }
+
+  .nav-links {
+    display: none; /* mobile simple */
+  }
+}
