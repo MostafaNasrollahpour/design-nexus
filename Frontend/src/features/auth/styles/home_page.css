@@ -7,142 +7,14 @@
 
 body, html {
   direction: rtl;
-  /* font-family: sans-serif; */
 }
 
-/* --- MAIN CONTAINER --- */
-/* مطمئن شو این‌ها یک‌جایی در استایل‌های کلی‌ات هست */
-/* html,
-body,
-#root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-} */
 
 /* لایوت اصلی صفحه */
 .home-container {
   min-height: 90vh;      
   display: flex;
   flex-direction: column; 
-}
-
-
-/* ---------------------- NAVBAR ---------------------- */
-.navbar {
-  width: 100%;
-  padding: 5px 5px;
-  border-bottom: 2px solid #5b5757;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  
-}
-
-/* LEFT: Logo + login/signup */
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* CENTER: Main menu */
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 35px;
-  font-size: 15px;
-  color: #333;
-  margin: 0 auto;       
-  padding: 0;
-  font-weight: bold;
-
-}
-
-/* RIGHT: DesignNexus image */
-.nav-right {
-  display: flex;
-  align-items: center;
-}
-
-.design_img {
-  width: 120px;
-}
-
-.logo {
-  width: 40px;
-  height: 55px;
-  filter: contrast(110%) brightness(110%) saturate(110%);
-
-}
-
-.login_signup {
-  text-decoration: none;
-  color: black;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-/* ---------------------- HAMBURGER (Initially hidden) ---------------------- */
-.hamburger {
-  display: none;
-  font-size: 28px;
-  cursor: pointer;
-  user-select: none;
-}
-
-/* ---------------------- MOBILE MENU ---------------------- */
-.mobile-menu {
-  position: absolute;
-  top: 100%; /* دقیقاً زیر همبرگر */
-  left: 0;   /* همونجایی که دکمه هست */
-  width: 180px;
-  background: #e9e4e4;
-  border: 1px solid #1e0303;
-  border-radius: 10px;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  z-index: 20;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-
-.mobile-menu a {
-  color: black;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-/* ---------------------- RESPONSIVE ---------------------- */
-@media (max-width: 850px) {
-
-  /* Hide center menu */
-  .nav-links {
-    display: none;
-  }
-
-  /* Hide login in desktop-left */
-  .login_signup {
-    display: none;
-  }
-
-  /* Hide right image */
-  .design_img {
-    display: none;
-  }
-
-  /* Show hamburger */
-  .hamburger {
-    display: block;
-  }
-
-  /* Keep only logo + hamburger */
-  .navbar {
-    justify-content: space-between;
-  }
 }
 
 
@@ -171,17 +43,7 @@ body,
   /* flex-wrap: wrap; */
 }
 /*
-.image-large {
-  width: 55%;
-  position: relative;
-} */
 
-/* .image-grid {
-  width: 30%;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-} */
 
 /* placeholder images */
 .img-placeholder {
