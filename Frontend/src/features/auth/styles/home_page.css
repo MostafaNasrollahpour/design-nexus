@@ -152,17 +152,17 @@ body, html {
 }
 
 /* ---------------------- IMAGE SECTION ---------------------- */
-.image-section {
+ .image-section {
   display: flex;
   justify-content: center;
   gap: 20px;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
 }
-
+/*
 .image-large {
   width: 55%;
   position: relative;
-}
+} */
 
 /* .image-grid {
   width: 30%;
@@ -222,7 +222,7 @@ body, html {
 }
 
 /* ---------------------- RESPONSIVE ---------------------- */
-@media (max-width: 900px) {
+/* @media (max-width: 900px) {
   .image-section {
     flex-direction: column;
   }
@@ -238,5 +238,29 @@ body, html {
 
   .nav-links {
     display: none; /* mobile simple */
+  
+
+/* استایل‌های مربوط به اسلایدر در صفحه اصلی */
+.slider-wrapper-custom {
+  width: 100%;
+  /* overflow: hidden; */
+  /* position: relative; */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* اطمینان از نمایش صحیح اسلایدر */
+.image-large {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+/* تنظیمات واکنش‌گرا برای اسلایدر */
+@media (max-width: 768px) {
+  .slider-wrapper-custom {
+    border-radius: 8px;
   }
 }
