@@ -39,7 +39,6 @@ const Slider: React.FC<SliderProps> = ({ images, interval = 3000 }) => {
         {images.map((img, index) => (
           <div className="slide" key={index}>
             <img src={img} alt={`slide-${index}`} />
-            <div className="badge">اتاق کار</div>
           </div>
         ))}
       </div>

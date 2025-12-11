@@ -4,6 +4,10 @@ import DesignNexus from "../assets/design_img.png"
 import { useState } from "react";
 import "../styles/fonts.css"
 import Slider from "./slider";
+import bedroom from "../assets/bedroom.jpg"
+import hall from "../assets/hall.jpg"
+import kitchen from "../assets/kitchen.jpg"
+
 
 
 export default function HomePage() {
@@ -65,13 +69,10 @@ const [menuOpen, setMenuOpen] = useState(false);
   <div className="image-large">
     <Slider
       images={[
-        "https://via.placeholder.com/800x400?text=Image+1",
-        "https://via.placeholder.com/800x400?text=Image+2",
-        "https://via.placeholder.com/800x400?text=Image+3"
+        hall,bedroom,kitchen
       ]}
       interval={3000} // اختیاری: هر ۳ ثانیه عکس بعدی
     />
-    {/* Badge روی هر عکس در کامپوننت Slider است، نیازی به اینجا نیست */}
   </div>
 </div>
 
