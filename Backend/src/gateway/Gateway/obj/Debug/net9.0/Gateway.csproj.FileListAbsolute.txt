@@ -62,3 +62,35 @@ C:\Users\mosta\OneDrive\Desktop\New folder\DesignNexus\Backend\src\gateway\Gatew
 C:\Users\mosta\OneDrive\Desktop\New folder\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.pdb
 C:\Users\mosta\OneDrive\Desktop\New folder\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.genruntimeconfig.cache
 C:\Users\mosta\OneDrive\Desktop\New folder\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\ref\Gateway.dll
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\bin\Debug\net9.0\appsettings.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\bin\Debug\net9.0\Gateway.staticwebassets.endpoints.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\bin\Debug\net9.0\Gateway.exe
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\bin\Debug\net9.0\Gateway.deps.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\bin\Debug\net9.0\Gateway.runtimeconfig.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\bin\Debug\net9.0\Gateway.dll
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\bin\Debug\net9.0\Gateway.pdb
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\bin\Debug\net9.0\System.IO.Hashing.dll
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\bin\Debug\net9.0\Yarp.ReverseProxy.dll
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.csproj.AssemblyReference.cache
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.AssemblyInfoInputs.cache
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.AssemblyInfo.cs
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.csproj.CoreCompileInputs.cache
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.sourcelink.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\rjimswa.dswa.cache.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\scopedcss\bundle\Gateway.styles.css
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\staticwebassets.build.json.cache
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\staticwebassets.development.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.csproj.Up2Date
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.dll
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\refint\Gateway.dll
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.pdb
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\Gateway.genruntimeconfig.cache
+C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\gateway\Gateway\obj\Debug\net9.0\ref\Gateway.dll

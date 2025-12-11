@@ -1,13 +1,14 @@
 import "../styles/home_page.css";
-import logoImage from "../assets/logo.jpg"
-import DesignNexus from "../assets/design_img.png"
+import logoImage from "../assets/logo.jpg";
+import DesignNexus from "../assets/design_img.png";
 import { useState } from "react";
-import "../styles/fonts.css"
+import "../styles/fonts.css";
 import Slider from "../components/slider";
-import bedroom from "../assets/bedroom.jpg"
-import hall from "../assets/hall.jpg"
-import kitchen from "../assets/kitchen.jpg"
-import workroom from "../assets/workroom.jpg"
+import bedroom from "../assets/bedroom.jpg";
+import hall from "../assets/hall.jpg";
+import kitchen from "../assets/kitchen.jpg";
+import workroom from "../assets/workroom.jpg";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -19,7 +20,11 @@ export default function HomePage() {
       <nav className="navbar">
         <div className="nav-left">
           <img src={logoImage} className="logo" />
-          <a href="#" className="login_signup mobile-hidden">ورود / ثبت نام</a>
+          
+          {/* تبدیل به Link */}
+          <Link to="/login" className="login_signup mobile-hidden">
+            ورود / ثبت نام
+          </Link>
         </div>
 
         {/* Desktop menu */}
@@ -42,7 +47,9 @@ export default function HomePage() {
         {/* Mobile menu */}
         {menuOpen && (
           <div className="mobile-menu">
-            <a>ورود / ثبت نام</a>
+            {/* تبدیل به Link */}
+            <Link to="/login">ورود / ثبت نام</Link>
+
             <a>دسته بندی ها</a>
             <a>طراح ها</a>
             <a>پربازدیدها</a>
@@ -61,7 +68,7 @@ export default function HomePage() {
         <div className="image-large">
           <div className="slider-wrapper-custom">
             <Slider
-              images={[bedroom, hall, kitchen,workroom]}
+              images={[bedroom, hall, kitchen, workroom]}
               interval={2000}
               showDots={true}
               autoPlay={true}
@@ -73,7 +80,7 @@ export default function HomePage() {
       {/* --- Footer --- */}
       <footer className="footer">
         <div className="footer-links">
-          <span>تماس با ما</span>
+          <span className="login_signup">تماس با ما</span>
         </div>
         <div className="footer-icons">
           <div className="icon" />

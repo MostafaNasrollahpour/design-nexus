@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\gateway\\Gateway\\Gateway.csproj": {}
+    "C:\\Users\\Raziyeh\\Desktop\\Design\\DesignNexus\\Backend\\src\\gateway\\Gateway\\Gateway.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\gateway\\Gateway\\Gateway.csproj": {
+    "C:\\Users\\Raziyeh\\Desktop\\Design\\DesignNexus\\Backend\\src\\gateway\\Gateway\\Gateway.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\gateway\\Gateway\\Gateway.csproj",
+        "projectUniqueName": "C:\\Users\\Raziyeh\\Desktop\\Design\\DesignNexus\\Backend\\src\\gateway\\Gateway\\Gateway.csproj",
         "projectName": "Gateway",
-        "projectPath": "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\gateway\\Gateway\\Gateway.csproj",
-        "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mosta\\OneDrive\\Desktop\\DesignNexus\\DesignNexus\\Backend\\src\\gateway\\Gateway\\obj\\",
+        "projectPath": "C:\\Users\\Raziyeh\\Desktop\\Design\\DesignNexus\\Backend\\src\\gateway\\Gateway\\Gateway.csproj",
+        "packagesPath": "C:\\Users\\Raziyeh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Raziyeh\\Desktop\\Design\\DesignNexus\\Backend\\src\\gateway\\Gateway\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Raziyeh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"

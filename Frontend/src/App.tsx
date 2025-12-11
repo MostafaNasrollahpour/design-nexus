@@ -15,10 +15,10 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<PasswordResetPage />} />
         <Route path="/verify" element={<VerifyCodePage />} />
-        <Route path="/dashboard" element={<HomePage />} />
+        {/* <Route path="/dashboard" element={<HomePage />} /> */}
         <Route path="/verify-change-password" element={<VerifyToChangePassword />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<HomePage />} />
       </Routes>
     </Router>
   );

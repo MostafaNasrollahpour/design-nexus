@@ -205,13 +205,14 @@ body, html {
   margin-top: 40px;
   display: flex;
   justify-content: space-between;
-  padding: 20px 10px;
-  border-top: 1px solid #ccc;
+  padding: 5px 5px;
+  border-top: 2px solid #5b5757;
 }
 
 .footer-icons {
   display: flex;
   gap: 15px;
+  float: inline-start;
 }
 
 .icon {
