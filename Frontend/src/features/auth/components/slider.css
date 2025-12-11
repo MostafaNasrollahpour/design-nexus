@@ -18,7 +18,7 @@
 .custom-slide {
   flex: 0 0 100%;   /* 👈 این خط‌ها مهم‌ترین بخش هستن */
   max-width: 100%;
-  height: 360px;    /* ارتفاع دلخواه دسکتاپ */
+  height: 480px;    /* ارتفاع بزرگ‌تر برای دسکتاپ */
 }
 
 .custom-slide img {
@@ -94,7 +94,7 @@
 /* موبایل */
 @media (max-width: 768px) {
   .custom-slide {
-    height: 230px;
+    height: 300px; /* ارتفاع موبایل کمی بزرگ‌تر شد */
   }
 
   .slider-arrow {

@@ -7,14 +7,26 @@
 
 body, html {
   direction: rtl;
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
 }
 
 /* --- MAIN CONTAINER --- */
+/* مطمئن شو این‌ها یک‌جایی در استایل‌های کلی‌ات هست */
+/* html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+} */
+
+/* لایوت اصلی صفحه */
 .home-container {
-  width: 100%;
-  padding: 20px;
+  min-height: 90vh;      
+  display: flex;
+  flex-direction: column; 
 }
+
 
 /* ---------------------- NAVBAR ---------------------- */
 .navbar {
@@ -198,47 +210,6 @@ body, html {
   border-radius: 6px;
   font-size: 14px;
 }
-
-/* ---------------------- FOOTER ---------------------- */
-.footer {
-  width: 100%;
-  margin-top: 40px;
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 5px;
-  border-top: 2px solid #5b5757;
-}
-
-.footer-icons {
-  display: flex;
-  gap: 15px;
-  float: inline-start;
-}
-
-.icon {
-  width: 28px;
-  height: 28px;
-  background: #222;
-  border-radius: 50%;
-}
-
-/* ---------------------- RESPONSIVE ---------------------- */
-/* @media (max-width: 900px) {
-  .image-section {
-    flex-direction: column;
-  }
-
-  .image-large,
-  .image-grid {
-    width: 100%;
-  }
-
-  .header-title {
-    font-size: 24px;
-  }
-
-  .nav-links {
-    display: none; /* mobile simple */
   
 
 /* استایل‌های مربوط به اسلایدر در صفحه اصلی */

@@ -4,10 +4,16 @@ import DesignNexus from "../assets/design_img.png";
 import { useState } from "react";
 import "../styles/fonts.css";
 import Slider from "../components/slider";
+import Footer from "../components/footer";
 import bedroom from "../assets/bedroom.jpg";
 import hall from "../assets/hall.jpg";
 import kitchen from "../assets/kitchen.jpg";
 import workroom from "../assets/workroom.jpg";
+import wedding from "../assets/wedding.jpg";
+import birthday from "../assets/birthday.jpg";
+import caffee from "../assets/caffee.jpg";
+
+
 import { Link } from "react-router-dom";
 
 export default function HomePage() {
@@ -68,8 +74,8 @@ export default function HomePage() {
         <div className="image-large">
           <div className="slider-wrapper-custom">
             <Slider
-              images={[bedroom, hall, kitchen, workroom]}
-              interval={2000}
+              images={[bedroom, hall, kitchen, workroom,wedding,birthday,caffee]}
+              interval={3000}
               showDots={true}
               autoPlay={true}
             />
@@ -77,18 +83,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* --- Footer --- */}
-      <footer className="footer">
-        <div className="footer-links">
-          <span className="login_signup">تماس با ما</span>
-        </div>
-        <div className="footer-icons">
-          <div className="icon" />
-          <div className="icon" />
-          <div className="icon" />
-          <div className="icon" />
-        </div>
-      </footer>
+    <Footer/>
     </div>
   );
 }
