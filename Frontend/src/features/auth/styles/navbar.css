@@ -1,37 +1,43 @@
-
 /* ---------------------- NAVBAR ---------------------- */
 .navbar {
   width: 100%;
-  padding: 5px 5px;
+  padding: 5px 10px;
   border-bottom: 2px solid #5b5757;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   position: relative;
-  
 }
 
-/* LEFT: Logo + login/signup */
+/* LEFT */
 .nav-left {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* CENTER: Main menu */
+/* CENTER (Desktop) */
 .nav-links {
   display: flex;
   list-style: none;
   gap: 35px;
+
   font-size: 15px;
   color: #333;
-  margin: 0 auto;       
+  margin: 0 auto;
   padding: 0;
-  font-weight: bold;
 
+  font-weight: bold;
 }
 
-/* RIGHT: DesignNexus image */
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
+/* RIGHT */
 .nav-right {
   display: flex;
   align-items: center;
@@ -45,7 +51,6 @@
   width: 40px;
   height: 55px;
   filter: contrast(110%) brightness(110%) saturate(110%);
-
 }
 
 .login_signup {
@@ -55,62 +60,92 @@
   font-weight: bold;
 }
 
-/* ---------------------- HAMBURGER (Initially hidden) ---------------------- */
+/* ---------------------- Demo trigger ---------------------- */
+.nav-dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  background: none;
+  border: none;
+  padding: 0;
+
+  font: inherit;
+  color: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ---------------------- Mobile area ---------------------- */
+.nav-mobile {
+  display: none; /* فقط موبایل */
+  position: relative; /* مهم: منو زیر همبرگری */
+  align-items: center;
+}
+
+/* Hamburger */
 .hamburger {
-  display: none;
+  background: transparent;
+  border: none;
+
   font-size: 28px;
   cursor: pointer;
   user-select: none;
+
+  padding: 6px 10px;
+  line-height: 1;
 }
 
-/* ---------------------- MOBILE MENU ---------------------- */
+/* Mobile dropdown (زیر همبرگری) */
 .mobile-menu {
   position: absolute;
-  top: 100%; /* دقیقاً زیر همبرگر */
-  left: 0;   /* همونجایی که دکمه هست */
-  width: 180px;
-  background: #e9e4e4;
-  border: 1px solid #1e0303;
-  border-radius: 10px;
-  padding: 15px;
+  top: calc(100% + 8px);
+   left: 0;     /* مهم */
+  right: auto; /* مهم */
+
+  width: min(280px, calc(100vw - 16px));
+  background: #fff;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 10px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  z-index: 999;
+
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  z-index: 20;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
+  gap: 6px;
 
+  direction: rtl;
+  text-align: right;
+}
 
 .mobile-menu a {
-  color: black;
   text-decoration: none;
-  font-size: 16px;
+  color: #222;
+  font-weight: 700;
+  font-size: 14px;
+
+  padding: 10px 10px;
+  border-radius: 10px;
 }
 
-/* ---------------------- RESPONSIVE ---------------------- */
+.mobile-menu a:hover {
+  background: #f3f3f3;
+}
+
+/* ---------------------- Responsive ---------------------- */
 @media (max-width: 850px) {
-
-  /* Hide center menu */
-  .nav-links {
-    display: none;
+  .mobile-hidden {
+    display: none !important;
   }
 
-  /* Hide login in desktop-left */
-  .login_signup {
-    display: none;
+  .nav-mobile {
+    display: flex;
   }
 
-  /* Hide right image */
-  .design_img {
-    display: none;
-  }
-
-  /* Show hamburger */
-  .hamburger {
-    display: block;
-  }
-
-  /* Keep only logo + hamburger */
+  /* لوگو + همبرگری */
   .navbar {
     justify-content: space-between;
   }

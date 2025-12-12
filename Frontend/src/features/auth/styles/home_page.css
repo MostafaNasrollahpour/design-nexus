@@ -56,14 +56,12 @@ body, html {
 
 
 /* ---------------------- IMAGE SECTION ---------------------- */
- .image-section {
+.image-section {
   display: flex;
   justify-content: center;
   gap: 20px;
   /* flex-wrap: wrap; */
 }
-/*
-
 
 /* placeholder images */
 .img-placeholder {
@@ -78,9 +76,6 @@ body, html {
   font-size: 18px;
 }
 
-/* .small {
-  height: 150px;
-} */
 
 /* badge on the big picture */
 .badge {
