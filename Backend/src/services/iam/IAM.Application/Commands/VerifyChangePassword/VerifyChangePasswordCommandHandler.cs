@@ -1,38 +1,33 @@
 using System.Threading;
 using System.Threading.Tasks;
-using IAM.Application.Commands;
 using IAM.Application.DTOs;
 using IAM.Domain.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IAM.Application.Handlers
+namespace IAM.Application.Commands.VerifyChangePassword
 {
-    public class VerifyOtpCommandHandler : IRequestHandler<VerifyOtpCommand, AuthResponseDto>
+    public class VerifyChangePasswordCommandHandler : IRequestHandler<VerifyChangePasswordCommand, AuthResponseDto>
     {
         private readonly IUserRepository _userRepository;
         private readonly IOtpService _otpService;
-        private readonly ITokenService _tokenService;
-        private readonly ILogger<VerifyOtpCommandHandler> _logger;
+        private readonly ILogger<VerifyChangePasswordCommandHandler> _logger;
 
-        public VerifyOtpCommandHandler(
+        public VerifyChangePasswordCommandHandler(
             IUserRepository userRepository,
             IOtpService otpService,
-            ITokenService tokenService,
-            ILogger<VerifyOtpCommandHandler> logger)
+            ILogger<VerifyChangePasswordCommandHandler> logger)
         {
             _userRepository = userRepository;
             _otpService = otpService;
-            _tokenService = tokenService;
             _logger = logger;
         }
 
-        public async Task<AuthResponseDto> Handle(VerifyOtpCommand command, CancellationToken cancellationToken)
+        public async Task<AuthResponseDto> Handle(VerifyChangePasswordCommand command, CancellationToken cancellationToken)
         {
             var request = command.Request;
 
-            // اعتبارسنجی OTP
-            var isValidOtp = await _otpService.ValidateOtpAsync(request.Email, request.Otp, true);
+            var isValidOtp = await _otpService.ValidateOtpAsync(request.Email, request.Otp, false);
             if (!isValidOtp)
             {
                 return AuthResponseDto.FailureResponse("کد OTP نامعتبر یا منقضی شده است");
@@ -47,14 +42,12 @@ namespace IAM.Application.Handlers
             user.MarkAsVerified();
             await _userRepository.UpdateAsync(user);
 
-            // داخل Handle، بعد از اعتبارسنجی:
-            var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
-            var refreshToken = await _tokenService.GenerateAndSaveRefreshTokenAsync(user);
+            _logger.LogInformation($"User {user.Email} verified change password successfully");
 
             return AuthResponseDto.SuccessResponse(
-                "ورود موفقیت‌آمیز بود",
-                accessToken,
-                refreshToken,
+                "احراز هویت موفقیت‌آمیز بود",
+                string.Empty,
+                string.Empty,
                 new UserDto
                 {
                     UserId = user.UserId,
@@ -64,7 +57,6 @@ namespace IAM.Application.Handlers
                     IsVerified = user.IsVerified
                 }
             );
-
         }
     }
 }

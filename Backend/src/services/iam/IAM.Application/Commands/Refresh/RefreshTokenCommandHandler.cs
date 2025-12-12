@@ -1,13 +1,11 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
-using IAM.Application.Commands;
 using IAM.Application.DTOs;
 using IAM.Domain.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IAM.Application.Handlers
+namespace IAM.Application.Commands.Refresh
 {
     public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, AuthResponseDto>
     {

@@ -1,13 +1,12 @@
 using System.Threading;
 using System.Threading.Tasks;
-using IAM.Application.Commands;
 using IAM.Application.DTOs;
 using IAM.Domain.Interfaces;
 using IAM.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IAM.Application.Handlers
+namespace IAM.Application.Commands.ResendCode
 {
     public class ResendCodeCommandHandler : IRequestHandler<ResendCodeCommand, AuthResponseDto>
     {
@@ -46,6 +45,7 @@ namespace IAM.Application.Handlers
 
                 return AuthResponseDto.SuccessResponse(
                     "کد تایید دوباره برایتان ارسال شد",
+                    string.Empty,
                     string.Empty,
                     new UserDto
                     {

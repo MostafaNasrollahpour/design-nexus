@@ -1,7 +1,7 @@
 using IAM.Application.DTOs;
 using MediatR;
 
-namespace IAM.Application.Commands
+namespace IAM.Application.Commands.VerifyOtp
 {
     public class VerifyOtpCommand : IRequest<AuthResponseDto>
     {

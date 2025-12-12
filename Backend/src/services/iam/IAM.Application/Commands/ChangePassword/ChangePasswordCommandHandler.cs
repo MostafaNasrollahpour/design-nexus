@@ -1,19 +1,16 @@
 using System.Threading;
 using System.Threading.Tasks;
-using IAM.Application.Commands;
 using IAM.Application.DTOs;
-using IAM.Domain.Entities;
 using IAM.Domain.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IAM.Application.Handlers
+namespace IAM.Application.Commands.ChangePassword
 {
     public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, AuthResponseDto>
     {
         private readonly IUserRepository _userRepository;
         private readonly IOtpService _otpService;
-        private readonly ITokenService _tokenService;
         private readonly ILogger<ChangePasswordCommandHandler> _logger;
 
         public ChangePasswordCommandHandler(
@@ -24,7 +21,6 @@ namespace IAM.Application.Handlers
         {
             _userRepository = userRepository;
             _otpService = otpService;
-            _tokenService = tokenService;
             _logger = logger;
         }
 
@@ -64,13 +60,10 @@ namespace IAM.Application.Handlers
 
             try
             {
-                var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
-                var refreshToken = await _tokenService.GenerateAndSaveRefreshTokenAsync(user);
-
                 return AuthResponseDto.SuccessResponse(
-                    "ورود موفقیت‌آمیز بود",
-                    accessToken,
-                    refreshToken,
+                    "رمز با موفقیت تغییر یافت. با رمز جدید ورود کنید.",
+                    string.Empty,
+                    string.Empty,
                     new UserDto
                     {
                         UserId = user.UserId,

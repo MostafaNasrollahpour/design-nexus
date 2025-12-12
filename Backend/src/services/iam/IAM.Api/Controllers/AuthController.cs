@@ -1,9 +1,17 @@
 using System.Threading.Tasks;
-using IAM.Application.Commands;
 using IAM.Application.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+
+using IAM.Application.Commands.Register;
+using IAM.Application.Commands.VerifyOtp;
+using IAM.Application.Commands.Login;
+using IAM.Application.Commands.ResendCode;
+using IAM.Application.Commands.VerifyChangePassword;
+using IAM.Application.Commands.ChangePassword;
+using IAM.Application.Commands.Refresh;
+using IAM.Application.Commands.Logout;
 
 namespace IAM.Api.Controllers
 {
@@ -94,44 +102,13 @@ namespace IAM.Api.Controllers
             return Ok(result);
         }
 
+        [HttpPost("forgot-password")]
         [HttpPost("resend-code")]
         public async Task<IActionResult> ResendCode([FromBody] ResendCodeRequestDto request)
         {
             _logger.LogInformation($"Resend otp code for email: {request.Email}");
             
             var command = new ResendCodeCommand(request);
-            var result = await _mediator.Send(command);
-            
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            
-            return Unauthorized(result);
-        }
-
-        [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDto request)
-        {
-            _logger.LogInformation($"Login attempt for email: {request.Email}");
-            
-            var command = new ForgotPasswordCommand(request);
-            var result = await _mediator.Send(command);
-            
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            
-            return Unauthorized(result);
-        }
-
-        [HttpPost("change-password")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDto request)
-        {
-            _logger.LogInformation($"Change-password attempt for email: {request.Email}");
-            
-            var command = new ChangePasswordCommand(request);
             var result = await _mediator.Send(command);
             
             if (result.Success)
@@ -157,6 +134,23 @@ namespace IAM.Api.Controllers
             
             return Unauthorized(result);
         }
+        
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDto request)
+        {
+            _logger.LogInformation($"Change-password attempt for email: {request.Email}");
+            
+            var command = new ChangePasswordCommand(request);
+            var result = await _mediator.Send(command);
+            
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            
+            return Unauthorized(result);
+        }
+
 
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh()

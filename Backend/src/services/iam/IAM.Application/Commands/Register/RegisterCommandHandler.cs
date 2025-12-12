@@ -1,14 +1,12 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
-using IAM.Application.Commands;
 using IAM.Application.DTOs;
 using IAM.Domain.Entities;
 using IAM.Domain.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IAM.Application.Handlers
+namespace IAM.Application.Commands.Register
 {
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthResponseDto>
     {
@@ -63,6 +61,7 @@ namespace IAM.Application.Handlers
 
                 return AuthResponseDto.SuccessResponse(
                     "ثبت‌نام موفقیت‌آمیز بود. لطفاً ایمیل خود را تأیید کنید.",
+                    string.Empty,
                     string.Empty,
                     new UserDto
                     {

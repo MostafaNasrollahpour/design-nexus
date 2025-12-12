@@ -1,7 +1,7 @@
 using IAM.Application.DTOs;
 using MediatR;
 
-namespace IAM.Application.Commands
+namespace IAM.Application.Commands.ChangePassword
 {
     public class ChangePasswordCommand : IRequest<AuthResponseDto>
     {

@@ -11,6 +11,5 @@ namespace IAM.Domain.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime ExpiresAt { get; set; }
         public bool IsRevoked { get; set; }
-        public string? ReplacedByToken { get; set; } // برای rotation (اختیاری)
     }
 }
