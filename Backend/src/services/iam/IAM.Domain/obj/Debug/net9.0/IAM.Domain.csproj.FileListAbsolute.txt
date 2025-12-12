@@ -58,3 +58,15 @@ C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\services\iam\IAM.Domain\
 C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\services\iam\IAM.Domain\obj\Debug\net9.0\refint\IAM.Domain.dll
 C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\services\iam\IAM.Domain\obj\Debug\net9.0\IAM.Domain.pdb
 C:\Users\Raziyeh\Desktop\Design\DesignNexus\Backend\src\services\iam\IAM.Domain\obj\Debug\net9.0\ref\IAM.Domain.dll
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\iam\IAM.Domain\bin\Debug\net9.0\IAM.Domain.deps.json
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\iam\IAM.Domain\bin\Debug\net9.0\IAM.Domain.dll
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\iam\IAM.Domain\bin\Debug\net9.0\IAM.Domain.pdb
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\iam\IAM.Domain\obj\Debug\net9.0\IAM.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\iam\IAM.Domain\obj\Debug\net9.0\IAM.Domain.AssemblyInfoInputs.cache
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\iam\IAM.Domain\obj\Debug\net9.0\IAM.Domain.AssemblyInfo.cs
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\iam\IAM.Domain\obj\Debug\net9.0\IAM.Domain.csproj.CoreCompileInputs.cache
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\iam\IAM.Domain\obj\Debug\net9.0\IAM.Domain.sourcelink.json
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\iam\IAM.Domain\obj\Debug\net9.0\IAM.Domain.dll
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\iam\IAM.Domain\obj\Debug\net9.0\refint\IAM.Domain.dll
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\iam\IAM.Domain\obj\Debug\net9.0\IAM.Domain.pdb
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\iam\IAM.Domain\obj\Debug\net9.0\ref\IAM.Domain.dll

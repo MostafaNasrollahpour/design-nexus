@@ -1,4 +1,3 @@
-using IAM.Application.Handlers;
 using IAM.Domain.Interfaces;
 using IAM.Infrastructure.Data;
 using IAM.Infrastructure.Repositories;
@@ -9,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+
+using IAM.Application.Commands.Register;
 
 
 var builder = WebApplication.CreateBuilder(args);
