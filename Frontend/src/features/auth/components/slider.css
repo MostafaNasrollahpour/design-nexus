@@ -1,11 +1,17 @@
+/* Wrapper برای هم‌راستا شدن با فوتر */
+.slider-shell {
+  width: 80%;
+  margin: 0 auto;
+}
+
 /* ظرف اصلی اسلایدر */
 .custom-slider {
   position: relative;
-  width: 100%;
+  width: 100%;              /* داخل wrapper، تمام عرض را بگیرد */
   overflow: hidden;
   border-radius: 12px;
   background: #f5f5f5;
-  direction: ltr; /* خیلی مهم: جهت داخلی اسلایدر مستقل از RTL صفحه */
+  direction: ltr;
 }
 
 /* ردیف اسلایدها */
@@ -14,11 +20,12 @@
   transition: transform 0.6s ease-in-out;
 }
 
-/* هر اسلاید باید دقیقا 100% عرض بگیره و کوچک نشه */
+/* اسلاید */
 .custom-slide {
-  flex: 0 0 100%;   /* 👈 این خط‌ها مهم‌ترین بخش هستن */
+  position: relative;
+  flex: 0 0 100%;
   max-width: 100%;
-  height: 480px;    /* ارتفاع بزرگ‌تر برای دسکتاپ */
+  height: 480px;
 }
 
 .custom-slide img {
@@ -28,7 +35,32 @@
   display: block;
 }
 
-/* دکمه‌های قبلی / بعدی */
+/* CTA */
+.slide-cta {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 7;
+
+  border: none;
+  cursor: pointer;
+
+  padding: clamp(8px, 1.2vw, 12px) clamp(10px, 1.6vw, 16px);
+  border-radius: clamp(8px, 1.2vw, 12px);
+  font-size: clamp(12px, 1.1vw, 16px);
+  line-height: 1.1;
+
+  max-width: calc(100% - 24px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  background: rgba(242, 242, 242, 0.6);
+  color: #000000;
+  backdrop-filter: blur(4px);
+}
+
+/* arrow ها (بدون تغییر) */
 .slider-arrow {
   position: absolute;
   top: 50%;
@@ -61,7 +93,7 @@
   transform: translateY(-50%) scale(1.05);
 }
 
-/* دات‌ها */
+/* dots */
 .slider-dots {
   position: absolute;
   bottom: 12px;
@@ -93,13 +125,31 @@
 
 /* موبایل */
 @media (max-width: 768px) {
+  .slider-shell {
+    width: 100%;      /* ریسپانسیو */
+  }
+
   .custom-slide {
-    height: 300px; /* ارتفاع موبایل کمی بزرگ‌تر شد */
+    height: 300px;
   }
 
   .slider-arrow {
     width: 30px;
     height: 30px;
     font-size: 16px;
+  }
+
+  .slide-cta {
+    left: 10px;
+    max-width: calc(100% - 20px);
+  }
+}
+
+/* موبایل خیلی کوچک */
+@media (max-width: 420px) {
+  .slide-cta {
+    left: 8px;
+    font-size: 12px;
+    max-width: calc(100% - 16px);
   }
 }

@@ -464,3 +464,50 @@ export async function sendPasswordResetLink(
   return await response.json();
 }
 
+
+
+//------------------------------------------------------slider
+
+
+
+const joinUrl = (base: string, path: string) =>
+  `${base.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
+
+const RESOLVE_ENDPOINT = joinUrl(BASE_URL, "resolve-page");
+
+export type ResolveSlideResponse<TPageData = unknown> = {
+  route: string;
+  pageData: TPageData;
+};
+
+async function postJson<TResponse>(url: string, body: unknown): Promise<TResponse> {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    // تلاش برای خواندن خطا به شکل JSON یا متن
+    let message = res.statusText;
+    try {
+      const data = await res.json();
+      message = typeof data === "string" ? data : JSON.stringify(data);
+    } catch {
+      const text = await res.text().catch(() => "");
+      if (text) message = text;
+    }
+    throw new Error(`API ${res.status}: ${message}`);
+  }
+
+  return (await res.json()) as TResponse;
+}
+
+export function resolveSlide<TPageData = unknown>(key: string) {
+  return postJson<ResolveSlideResponse<TPageData>>(RESOLVE_ENDPOINT, { key });
+}
+
+
+
+
+

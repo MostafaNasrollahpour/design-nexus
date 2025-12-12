@@ -24,18 +24,12 @@ const Footer: React.FC = () => {
             <span className="footer__text">@design_nexus</span>
           </a>
 
-          <a
-            href="mailto:designNexus@gmail.com"
-            className="footer__contact"
-          >
+          <a href="mailto:designNexus@gmail.com" className="footer__contact">
             <img src={emailIcon} alt="ایمیل" className="footer__icon" />
             <span className="footer__text">designNexus@gmail.com</span>
           </a>
 
-          <a
-            href="tel:011567849"
-            className="footer__contact"
-          >
+          <a href="tel:011567849" className="footer__contact">
             <img src={phoneIcon} alt="تلفن" className="footer__icon" />
             <span className="footer__text">011 567 849</span>
           </a>

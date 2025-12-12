@@ -12,28 +12,48 @@ body, html {
 
 /* لایوت اصلی صفحه */
 .home-container {
-  min-height: 90vh;      
+  min-height: 100vh;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 }
+
+.footer {
+  margin-top: auto;
+}
+
 
 
 
 /* ---------------------- HEADER TITLE ---------------------- */
 .header-title {
+  direction: rtl;
   text-align: center;
-  font-size: 40px;
-  font-weight: bold;
-  margin: 40px 0;
-  font-size: clamp(24px, 5vw, 40px); /* حداقل 24px، حداکثر 40px، وسطش 5vw */
 
+  /* ریسپانسیو */
+  font-size: clamp(18px, 3.2vw, 42px);
+  line-height: 1.4;
+
+  margin: clamp(14px, 3vw, 28px) auto;
+  padding: 0 clamp(12px, 4vw, 24px);
+
+  font-weight: 700;
 }
 
-.red {
+.header-title .red {
   color: red;
-  font-weight: bold;
-  font-size: 50px;
+  
 }
+
+/* موبایل‌های خیلی کوچک */
+@media (max-width: 420px) {
+  .header-title {
+    font-size: 18px;   /* خوانا بمونه */
+    line-height: 1.5;
+  }
+}
+
+
+
 
 /* ---------------------- IMAGE SECTION ---------------------- */
  .image-section {

@@ -1,14 +1,16 @@
 .footer {
   width: 100%;
-  margin-top: 4%;               /* بردن فوتر به انتهای صفحه */
+  /* margin-top: 4%; */
   border-top: 2px solid #5b5757;
   direction: rtl;
   background-color: #ffffff;
   box-sizing: border-box;
+  padding-top: 12px;
 }
 
+/* مهم: هم‌عرض شدن با اسلایدر */
 .footer__container {
-  max-width: 1200px;
+  width: 80%;
   margin: 0 auto;
   padding: 8px 16px;
 
@@ -65,6 +67,7 @@
 /* ریسپانسیو برای تبلت و موبایل */
 @media (max-width: 768px) {
   .footer__container {
+    width: 100%;              /* ریسپانسیو */
     flex-direction: column;
     align-items: flex-start;
   }
@@ -76,7 +79,7 @@
   }
 }
 
-/* ریسپانسیو برای موبایل‌های خیلی کوچک */
+/* موبایل‌های خیلی کوچک */
 @media (max-width: 480px) {
   .footer__container {
     padding: 8px 12px;
