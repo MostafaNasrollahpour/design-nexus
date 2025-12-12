@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./slider.css";
+import "../styles/slider.css";
 import { resolveSlide, type ResolveSlideResponse } from "../API/authAPI";
 
 export type Slide = {

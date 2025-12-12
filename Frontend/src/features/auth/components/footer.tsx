@@ -1,5 +1,5 @@
 import React from "react";
-import "./Footer.css";
+import "../styles/footer.css";
 
 import instagramIcon from "../assets/icons8-instagram-48.png";
 import emailIcon from "../assets/icons8-email-48.png";

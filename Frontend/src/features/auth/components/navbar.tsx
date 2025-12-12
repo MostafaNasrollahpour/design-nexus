@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import logoImage from "../assets/logo.jpg";
 import DesignNexus from "../assets/design_img.png";
-import "./navbar.css"
+import "../styles/navbar.css"
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
