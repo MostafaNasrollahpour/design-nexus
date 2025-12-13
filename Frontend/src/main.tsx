@@ -5,9 +5,17 @@ import App from "./App";
 import "@mantine/core/styles.css";
 import { MantineProvider } from "@mantine/core";
 
+import "./styles/font.css";
+import "./index.css";
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <MantineProvider>
+    <MantineProvider
+      theme={{
+        fontFamily: "Vazir, sans-serif",
+        headings: { fontFamily: "Vazir, sans-serif" },
+      }}
+    >
       <App />
     </MantineProvider>
   </React.StrictMode>

@@ -1,5 +1,4 @@
 import "../styles/home_page.css";
-import "../styles/fonts.css";
 
 import Navbar from "../components/navbar";
 import Slider, { type Slide } from "../components/slider";

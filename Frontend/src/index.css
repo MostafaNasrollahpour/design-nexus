@@ -1,0 +1,8 @@
+:root,
+[data-mantine-color-scheme] {
+  --mantine-font-family: 'Vazir', sans-serif;
+}
+
+html, body {
+  font-family: 'Vazir', sans-serif;
+}
