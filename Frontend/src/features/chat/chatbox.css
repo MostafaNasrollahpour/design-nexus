@@ -1,0 +1,136 @@
+.chat-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    background-color: #4e54c8;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+.message {
+    margin-bottom: 15px;
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    line-height: 1.4;
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.user-message {
+    background-color: #4e54c8;
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 5px;
+}
+
+.admin-message {
+    background-color: #e5e5ea;
+    color: black;
+    margin-right: auto;
+    border-bottom-left-radius: 5px;
+}
+
+.message-time {
+    display: block;
+    font-size: 0.7rem;
+    margin-top: 5px;
+    opacity: 0.8;
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 10px;
+    background-color: white;
+    border-top: 1px solid #eee;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+    font-size: 1rem;
+}
+
+.send-button {
+    background-color: #4e54c8;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.send-button:hover {
+    background-color: #3a41b0;
+}
+
+.admin-chat-selector {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.admin-chat-selector ul {
+    list-style: none;
+    padding: 0;
+}
+
+.admin-chat-selector li {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.admin-chat-selector li:hover {
+    background-color: #e0e0e0;
+}
+
+
+
+.send-button::after {
+    content: '→';
+    margin-right: 5px;
+}
+
+
+.dark-mode .chat-messages {
+    background: #2d2d2d;
+}

@@ -1,0 +1,33 @@
+.dash-wrap {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.dash-col {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-title {
+  font-weight: 700;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+/* اگر چت‌هات ارتفاع می‌خوان */
+.home-container,
+.admin-panel,
+.chat-container {
+  min-height: 0;
+  flex: 1;
+}
