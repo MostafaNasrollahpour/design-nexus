@@ -1,115 +1,244 @@
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5157/iam";
 
-/* ---------- Login ---------- */
 
-// export interface LoginRequest {
-//   email: string;
-//   password: string;
-// }
 
-// export interface LoginResponse {
-//   access_token: string;
-//   [key: string]: any;
-// }
-
-// export async function loginUser(
-//   credentials: LoginRequest
-// ): Promise<LoginResponse> {
-//   const response = await fetch(`${BASE_URL}/api/Auth/login`, {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     credentials: "include",
-//     body: JSON.stringify(credentials),
-//   });
-
-//   if (!response.ok) {
-//     let message = "ایمیل یا رمز عبور اشتباه است";
-
-//     try {
-//       const data = await response.json();
-//       if (data?.message) message = data.message;
-//     } catch {}
-
-//     throw new Error(message);
-//   }
-
-//   return await response.json();
-// }
 export interface LoginRequest {
   email: string;
   password: string;
 }
 
-export interface LoginResponse {
-  access_token: string;
+export interface UserDto {
+  UserId: number | string;
+  FullName: string;
+  Email: string;
+  Role: string;
+  IsVerified: boolean;
   [key: string]: any;
+}
+
+export interface AuthResponseDto {
+  Success: boolean;
+  Message: string;
+  Token: string;
+  RefreshToken: string;
+  User: UserDto;
+  [key: string]: any;
+}
+
+
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface UserDto {
+  UserId: number | string;
+  FullName: string;
+  Email: string;
+  Role: string;
+  IsVerified: boolean;
+  // [key: string]: any;
+}
+
+export interface AuthResponseDto {
+  Success: boolean;
+  Message: string;
+  Token: string;
+  RefreshToken: string;
+  User: UserDto;
+  // [key: string]: any;
 }
 
 
 export async function loginUser(
   credentials: LoginRequest
-): Promise<LoginResponse> {
-  const response = await fetch(`${BASE_URL}/api/Auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include", // برای ارسال کوکی refresh token
-    body: JSON.stringify(credentials),
-  });
+): Promise<AuthResponseDto> {
+  try {
+    console.log("Sending login request to:", `${BASE_URL}/api/Auth/login`);
+    console.log("Credentials:", { email: credentials.email, password: "***" });
 
-  if (!response.ok) {
-    let message = "ایمیل یا رمز عبور اشتباه است";
-    try {
-      const data = await response.json();
-      if (data?.message) message = data.message;
-    } catch {}
-    throw new Error(message);
-  }
-
-  const data: LoginResponse = await response.json();
-  // ذخیره access token برای استفاده در درخواست‌های بعدی
-  localStorage.setItem("access_token", data.accessToken);
-  return data;
-}
-
-
-export async function fetchWithToken(url: string, options: RequestInit = {}) {
-  let accessToken = localStorage.getItem("access_token");
-
-  if (!accessToken) {
-    throw new Error("توکن موجود نیست، لطفا دوباره لاگین کنید");
-  }
-
-  if (!options.headers) options.headers = {};
-  (options.headers as any)["Authorization"] = `Bearer ${accessToken}`;
-
-  let response = await fetch(url, { ...options, credentials: "include" });
-
-  if (response.status === 401) {
-    // access token منقضی شده، درخواست رفرش
-    const refreshRes = await fetch(`${BASE_URL}/api/Auth/refresh`, {
+    const response = await fetch(`${BASE_URL}/api/Auth/login`, {
       method: "POST",
-      credentials: "include", // کوکی refresh token فرستاده میشه
+      headers: { 
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify(credentials),
     });
 
-    if (!refreshRes.ok) throw new Error("توکن منقضی شد، دوباره لاگین کنید");
+    console.log("Response status:", response.status, response.statusText);
 
-    const data = await refreshRes.json();
-    accessToken = data.access_token;
+    // دریافت پاسخ به صورت متن اول
+    const responseText = await response.text();
+    // console.log("Raw response text:", responseText);
 
-    if (!accessToken) {
-      throw new Error("رفرش توکن معتبر نیست، دوباره لاگین کنید");
+    // بررسی اینکه آیا پاسخ JSON است
+    if (!responseText) {
+      throw new Error("پاسخ خالی از سرور دریافت شد");
     }
 
-    localStorage.setItem("access_token", accessToken);
+    let responseData: any;
+    try {
+      responseData = JSON.parse(responseText);
+    } catch (error) {
+      console.error("Failed to parse JSON:", responseText);
+      throw new Error("پاسخ سرور معتبر نیست (JSON نیست)");
+    }
 
-    // دوباره درخواست اصلی با توکن جدید
-    (options.headers as any)["Authorization"] = `Bearer ${accessToken}`;
-    response = await fetch(url, { ...options, credentials: "include" });
+    // console.log("Parsed response data:", responseData);
+
+    // بررسی خطای HTTP
+    if (!response.ok) {
+      console.error("HTTP error response:", responseData);
+      const errorMessage = responseData?.Message || 
+                          responseData?.message ||
+                          `خطای سرور: ${response.status} ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    // بررسی ساختار پاسخ با دقت
+    // console.log("Checking response structure...");
+    // console.log("Has 'User' property?", 'User' in responseData);
+    // console.log("Has 'user' property?", 'user' in responseData);
+    // console.log("All properties:", Object.keys(responseData));
+
+    // استخراج اطلاعات کاربر با روش ایمن
+    let userData: any = null;
+    
+    // اول با حرف بزرگ 'User' بررسی می‌کنیم
+    if (responseData.User && typeof responseData.User === 'object') {
+      // console.log("Found 'User' with capital U");
+      userData = responseData.User;
+    } 
+    // سپس با حرف کوچک 'user' بررسی می‌کنیم
+    else if (responseData.user && typeof responseData.user === 'object') {
+      // console.log("Found 'user' with lowercase u");
+      userData = responseData.user;
+    }
+    // اگر هیچکدام نبود، خود responseData را بررسی می‌کنیم
+    else if (responseData.UserId || responseData.FullName) {
+      // console.log("User data is at root level");
+      userData = responseData;
+    } 
+    else {
+      console.warn("No user data found in response");
+    }
+
+    // console.log("Extracted userData:", userData);
+
+    // استخراج FullName با بررسی همه حالت‌های ممکن
+    let fullName = "";
+    
+    if (userData) {
+      fullName = userData.FullName || 
+                userData.fullName || 
+                userData.Fullname || 
+                userData.fullname || 
+                userData.name ||
+                "";
+    }
+
+    console.log("Extracted fullName:", fullName);
+
+    // ایجاد آبجکت نهایی
+    const data: AuthResponseDto = {
+      Success: responseData.Success || responseData.success || true,
+      Message: responseData.Message || responseData.message || "",
+      Token: responseData.Token || responseData.token || "",
+      RefreshToken: responseData.RefreshToken || responseData.refreshToken || "",
+      User: {
+        UserId: userData?.UserId || userData?.userId || "",
+        FullName: fullName,
+        Email: userData?.Email || userData?.email || "",
+        Role: userData?.Role || userData?.role || "",
+        IsVerified: userData?.IsVerified || userData?.isVerified || false,
+        ...(userData || {})
+      }
+    };
+
+    // لاگ اطلاعات نهایی
+    console.log("Final data structure:", {
+      hasToken: !!data.Token,
+      tokenLength: data.Token?.length,
+      hasUser: !!data.User,
+      userFullName: data.User.FullName,
+      userEmail: data.User.Email
+    });
+
+    // ذخیره در localStorage فقط اگر مقادیر معتبر باشند
+    if (data.Token && data.Token.trim() !== "") {
+      localStorage.setItem("token", data.Token);
+      // console.log("✓ Token saved to localStorage");
+    } else {
+      console.warn("⚠ No valid token to save");
+    }
+
+    if (data.User.FullName && data.User.FullName.trim() !== "") {
+      localStorage.setItem("fullName", data.User.FullName);
+      // console.log("✓ FullName saved:", data.User.FullName);
+    } else {
+      console.warn("⚠ FullName is empty, not saving");
+      // اگر ایمیل داریم، از آن استفاده می‌کنیم
+      if (data.User.Email) {
+        localStorage.setItem("fullName", data.User.Email.split('@')[0]);
+        // console.log("✓ Using email username as fallback");
+      }
+    }
+
+    if (data.User) {
+      localStorage.setItem("user", JSON.stringify(data.User));
+      // console.log("✓ User object saved");
+      
+      if (data.User.UserId) {
+        localStorage.setItem("userId", String(data.User.UserId));
+      }
+      
+      if (data.User.Role) {
+        localStorage.setItem("userRole", data.User.Role);
+      }
+    }
+
+    console.log("✅ Login successful!");
+    return data;
+
+  } catch (error) {
+    console.error("❌ Login failed:", error);
+    
+    // پاک کردن localStorage در صورت خطا
+    localStorage.removeItem("token");
+    localStorage.removeItem("fullName");
+    localStorage.removeItem("user");
+    
+    if (error instanceof Error) {
+      throw error;
+    }
+    
+    throw new Error("خطای ناشناخته در عملیات ورود");
   }
-
-  return response;
 }
+
+// توابع کمکی اضافه
+export function validateLoginResponse(data: any): boolean {
+  if (!data) return false;
+  if (!data.Token || data.Token.trim() === "") return false;
+  if (!data.User || typeof data.User !== 'object') return false;
+  return true;
+}
+
+export function extractUserInfo(data: any): {fullName: string, email: string} {
+  const user = data.User || data.user || data;
+  
+  return {
+    fullName: user.FullName || user.fullName || user.Email?.split('@')[0] || "کاربر",
+    email: user.Email || user.email || ""
+  };
+}
+
+
+
 
 
 
