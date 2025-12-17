@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/verify_email_page.css";
 import design_img from "../assets/design_img.png";
 
@@ -15,7 +15,8 @@ export default function VerifyCodePage() {
   const location = useLocation();
 
   const [email, setEmail] = useState<string | null>(null);
-  const [fullName, setFullName] = useState<string>(""); // ✅ اضافه شد
+  const [fullName, setFullName] = useState<string>("");
+  const [role, setRole] = useState<string>("کاربر");
 
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,23 +25,26 @@ export default function VerifyCodePage() {
   const [resendLoading, setResendLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(300);
 
-  /* ---------------------- Load Email + FullName ---------------------- */
+  /* ---------------------- Load Email + FullName + Role ---------------------- */
   useEffect(() => {
-    const stateEmail = (location.state as any)?.email;
-    const savedEmail = localStorage.getItem("signupEmail");
+    const stateEmail = (location.state as any)?.email as string | undefined;
 
-    if (stateEmail) {
-      setEmail(stateEmail);
-      localStorage.setItem("signupEmail", stateEmail);
-    } else if (savedEmail) {
-      setEmail(savedEmail);
-    } else {
+    const savedEmail = localStorage.getItem("signupEmail");
+    const savedFullName = localStorage.getItem("signupFullName");
+    const savedRole = localStorage.getItem("signupRole");
+
+    const finalEmail = stateEmail || savedEmail;
+
+    if (!finalEmail) {
       setError("ایمیل کاربر یافت نشد. لطفاً دوباره ثبت‌نام کنید.");
+      return;
     }
 
-    // ✅ فول نیم ثبت‌نام شده (از SignupPage)
-    const savedFullName = localStorage.getItem("signupFullName");
+    setEmail(finalEmail);
+    localStorage.setItem("signupEmail", finalEmail);
+
     if (savedFullName) setFullName(savedFullName);
+    if (savedRole) setRole(savedRole);
   }, [location.state]);
 
   /* ---------------------- Timer Logic ---------------------- */
@@ -60,51 +64,59 @@ export default function VerifyCodePage() {
       return;
     }
 
-    if (!code.trim()) {
+    const otp = code.trim();
+    if (!otp) {
       setError("کد تأیید را وارد کنید");
       return;
     }
 
     setLoading(true);
 
-    const payload: VerifyPayload = { email, otp: code };
+    const payload: VerifyPayload = { email, otp };
 
     try {
       const data = await verifyCode(payload);
 
-      // ✅ دقیقاً مثل لاگین: ذخیره token + fullName
+      // ✅ FullName نهایی
       const nameToSave = fullName || data?.name || email.split("@")[0];
 
-      if (data?.token) localStorage.setItem("token", data.token);
-      if (nameToSave) localStorage.setItem("fullName", nameToSave);
+      // ✅ Role نهایی (از ثبت‌نام)
+      const roleFromSignup = localStorage.getItem("signupRole") || role || "کاربر";
 
-      // ✅ برای سازگاری با refreshAccessToken فعلی خودت (که user.token می‌خونه)
+      // ✅ ذخیره مثل لاگین
+      if (data?.token) localStorage.setItem("token", data.token);
+      if (data?.refreshToken) localStorage.setItem("refreshToken", data.refreshToken);
+
+      localStorage.setItem("fullName", nameToSave);
+      localStorage.setItem("userRole", roleFromSignup);
+
+      // ✅ سازگار با refreshAccessToken قدیمی (user.token / user.refreshToken)
       localStorage.setItem(
         "user",
         JSON.stringify({
           Email: email,
           FullName: nameToSave,
+          Role: roleFromSignup,
           token: data?.token,
           refreshToken: data?.refreshToken,
         })
       );
 
+      // پاکسازی مقادیر موقت ثبت‌نام
       localStorage.removeItem("signupEmail");
       localStorage.removeItem("signupFullName");
+      localStorage.removeItem("signupRole");
 
-      // ✅ خیلی مهم: تا Navbar بدون رفرش آپدیت شه
+      // ✅ آپدیت Navbar بدون رفرش
       window.dispatchEvent(new Event("authChanged"));
 
       // ✅ برو Home
       navigate("/", { replace: true });
-      // اگر Home رو روی /dashboard داری:
+      // اگر Home روی /dashboard هست:
       // navigate("/dashboard", { replace: true });
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message || "خطا در ارتباط با سرور");
-      } else {
-        setError("خطای ناشناخته‌ای رخ داد");
-      }
+      if (err instanceof Error) setError(err.message || "خطا در ارتباط با سرور");
+      else setError("خطای ناشناخته‌ای رخ داد");
     } finally {
       setLoading(false);
     }
@@ -126,11 +138,8 @@ export default function VerifyCodePage() {
       await resendVerificationCode(payload);
       setResendTimer(300);
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message || "خطا در ارسال کد جدید");
-      } else {
-        setError("خطای ناشناخته‌ای رخ داد");
-      }
+      if (err instanceof Error) setError(err.message || "خطا در ارسال کد جدید");
+      else setError("خطای ناشناخته‌ای رخ داد");
     } finally {
       setResendLoading(false);
     }

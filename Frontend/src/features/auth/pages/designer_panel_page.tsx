@@ -5,12 +5,13 @@ import "../styles/user_panel_page.css";
 import { useNavigate } from "react-router-dom";
 
 
-type PanelTab = "profile" | "orders" | "favorites" | "settings";
+type DesignerTab = "profile" | "projects" | "requests" | "wallet" | "settings";
 
-export default function UserPanelPage() {
+export default function DesignerPanelPage() {
   const userRaw = localStorage.getItem("user");
   const fullName = localStorage.getItem("fullName") || "";
-  const token = localStorage.getItem("token") || "";
+  const navigate = useNavigate();
+
 
   const user = useMemo(() => {
     try {
@@ -20,24 +21,21 @@ export default function UserPanelPage() {
     }
   }, [userRaw]);
 
-  const [activeTab, setActiveTab] = useState<PanelTab>("profile");
-  const navigate = useNavigate();
-
+  const [activeTab, setActiveTab] = useState<DesignerTab>("profile");
 
   return (
     <div className="panel-container">
       <Navbar />
 
       <div className="panel-layout">
-        {/* ✅ سایدبار سمت راست */}
+        {/* سایدبار راست */}
         <aside className="panel-sidebar">
           <div className="sidebar-header">
-            <div className="sidebar-name">{fullName || "کاربر"}</div>
+            <div className="sidebar-name">{fullName || "طراح"}</div>
             <div className="sidebar-email">{user?.Email || ""}</div>
           </div>
 
-
-          <button
+         <button
   className="sidebar-item"
   onClick={() => navigate("/", { replace: true })}
   type="button"
@@ -51,23 +49,31 @@ export default function UserPanelPage() {
             onClick={() => setActiveTab("profile")}
             type="button"
           >
-            اطلاعات حساب
+            اطلاعات طراح
           </button>
 
           <button
-            className={`sidebar-item ${activeTab === "orders" ? "active" : ""}`}
-            onClick={() => setActiveTab("orders")}
+            className={`sidebar-item ${activeTab === "projects" ? "active" : ""}`}
+            onClick={() => setActiveTab("projects")}
             type="button"
           >
-            سفارش‌ها
+            پروژه‌ها
           </button>
 
           <button
-            className={`sidebar-item ${activeTab === "favorites" ? "active" : ""}`}
-            onClick={() => setActiveTab("favorites")}
+            className={`sidebar-item ${activeTab === "requests" ? "active" : ""}`}
+            onClick={() => setActiveTab("requests")}
             type="button"
           >
-            علاقه‌مندی‌ها
+            درخواست‌ها
+          </button>
+
+          <button
+            className={`sidebar-item ${activeTab === "wallet" ? "active" : ""}`}
+            onClick={() => setActiveTab("wallet")}
+            type="button"
+          >
+            کیف پول / درآمد
           </button>
 
           <button
@@ -79,11 +85,13 @@ export default function UserPanelPage() {
           </button>
         </aside>
 
-        {/* ✅ محتوای سمت چپ */}
+        {/* محتوا */}
+
+        
         <main className="panel-content">
           {activeTab === "profile" && (
             <div className="panel-card">
-              <h2>اطلاعات حساب</h2>
+              <h2>اطلاعات طراح</h2>
 
               <div className="panel-row">
                 <span>نام:</span>
@@ -97,31 +105,36 @@ export default function UserPanelPage() {
 
               <div className="panel-row">
                 <span>نقش:</span>
-                <b>{user?.Role || "—"}</b>
+                <b>{user?.Role || localStorage.getItem("userRole") || "طراح"}</b>
               </div>
-
-             
             </div>
           )}
 
-          {activeTab === "orders" && (
+          {activeTab === "projects" && (
             <div className="panel-card">
-              <h2>سفارش‌ها</h2>
-              <p className="panel-muted">فعلاً سفارشی برای نمایش ندارید.</p>
+              <h2>پروژه‌ها</h2>
+              <p className="panel-muted">اینجا لیست پروژه‌های شما نمایش داده می‌شود.</p>
             </div>
           )}
 
-          {activeTab === "favorites" && (
+          {activeTab === "requests" && (
             <div className="panel-card">
-              <h2>علاقه‌مندی‌ها</h2>
-              <p className="panel-muted">فعلاً موردی در علاقه‌مندی‌ها ندارید.</p>
+              <h2>درخواست‌ها</h2>
+              <p className="panel-muted">اینجا درخواست‌های جدید مشتری‌ها می‌آید.</p>
+            </div>
+          )}
+
+          {activeTab === "wallet" && (
+            <div className="panel-card">
+              <h2>کیف پول / درآمد</h2>
+              <p className="panel-muted">گزارش درآمد و تسویه‌ها اینجا قرار می‌گیرد.</p>
             </div>
           )}
 
           {activeTab === "settings" && (
             <div className="panel-card">
               <h2>تنظیمات</h2>
-              <p className="panel-muted">این بخش بعداً کامل می‌شود.</p>
+              <p className="panel-muted">تنظیمات پنل طراح.</p>
             </div>
           )}
         </main>

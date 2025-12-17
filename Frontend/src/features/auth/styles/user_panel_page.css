@@ -4,15 +4,76 @@
   flex-direction: column;
 }
 
+/* لایه اصلی پنل: سایدبار راست + محتوا چپ */
+.panel-layout {
+  width: min(1200px, calc(100% - 24px));
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: 280px 1fr; /* راست: سایدبار، چپ: محتوا */
+  gap: 16px;
+  direction: rtl;
+}
+
+/* سایدبار */
+.panel-sidebar {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  height: fit-content;
+}
+
+.sidebar-header {
+  padding: 10px 10px 14px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 10px;
+}
+
+.sidebar-name {
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.sidebar-email {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 4px;
+  word-break: break-word;
+}
+
+.sidebar-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: right;
+  padding: 10px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.sidebar-item:hover {
+  background: #f3f3f3;
+}
+
+.sidebar-item.active {
+  background: #111;
+  color: #fff;
+}
+
+/* محتوا */
+.panel-content {
+  min-width: 0;
+}
+
+/* کارت‌های محتوا */
 .panel-card {
-  width: min(600px, calc(100% - 24px));
-  margin: 24px auto;
   background: #fff;
   border: 1px solid #e5e5e5;
   border-radius: 14px;
   padding: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  direction: rtl;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
 }
 
 .panel-card h2 {
@@ -28,4 +89,16 @@
 
 .panel-row:last-child {
   border-bottom: none;
+}
+
+.panel-muted {
+  opacity: 0.75;
+  line-height: 1.8;
+}
+
+/* ریسپانسیو */
+@media (max-width: 900px) {
+  .panel-layout {
+    grid-template-columns: 1fr;
+  }
 }

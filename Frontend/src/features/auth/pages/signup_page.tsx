@@ -105,7 +105,9 @@ export default function SignupPage() {
       console.log("Signup success:", response);
 
       localStorage.setItem("signupEmail", form.email);
-      localStorage.setItem("signupFullName", payload.fullName); // ✅ اضافه شد
+      localStorage.setItem("signupFullName", payload.fullName); 
+      localStorage.setItem("signupRole", form.role); // ✅ کاربر/طراح
+// ✅ اضافه شد
 
 
       navigate("/verify", { state: { email: form.email } });
