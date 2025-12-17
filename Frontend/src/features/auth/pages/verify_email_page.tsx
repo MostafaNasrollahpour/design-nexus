@@ -5,7 +5,7 @@ import design_img from "../assets/design_img.png";
 
 import {
   verifyCode,
-  resendVerificationCode,  
+  resendVerificationCode,
   type VerifyPayload,
   type ResendCodePayload,
 } from "../API/authAPI";
@@ -15,6 +15,8 @@ export default function VerifyCodePage() {
   const location = useLocation();
 
   const [email, setEmail] = useState<string | null>(null);
+  const [fullName, setFullName] = useState<string>(""); // ✅ اضافه شد
+
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -22,7 +24,7 @@ export default function VerifyCodePage() {
   const [resendLoading, setResendLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(300);
 
-  /* ---------------------- Load Email ---------------------- */
+  /* ---------------------- Load Email + FullName ---------------------- */
   useEffect(() => {
     const stateEmail = (location.state as any)?.email;
     const savedEmail = localStorage.getItem("signupEmail");
@@ -35,6 +37,10 @@ export default function VerifyCodePage() {
     } else {
       setError("ایمیل کاربر یافت نشد. لطفاً دوباره ثبت‌نام کنید.");
     }
+
+    // ✅ فول نیم ثبت‌نام شده (از SignupPage)
+    const savedFullName = localStorage.getItem("signupFullName");
+    if (savedFullName) setFullName(savedFullName);
   }, [location.state]);
 
   /* ---------------------- Timer Logic ---------------------- */
@@ -66,17 +72,33 @@ export default function VerifyCodePage() {
     try {
       const data = await verifyCode(payload);
 
-      const user = {
-        email,
-        name: data?.name ?? email.split("@")[0],
-        token: data?.token,
-        refreshToken: data?.refreshToken,  
-      };
+      // ✅ دقیقاً مثل لاگین: ذخیره token + fullName
+      const nameToSave = fullName || data?.name || email.split("@")[0];
 
-      localStorage.setItem("user", JSON.stringify(user));
+      if (data?.token) localStorage.setItem("token", data.token);
+      if (nameToSave) localStorage.setItem("fullName", nameToSave);
+
+      // ✅ برای سازگاری با refreshAccessToken فعلی خودت (که user.token می‌خونه)
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          Email: email,
+          FullName: nameToSave,
+          token: data?.token,
+          refreshToken: data?.refreshToken,
+        })
+      );
+
       localStorage.removeItem("signupEmail");
+      localStorage.removeItem("signupFullName");
 
-      navigate("/dashboard");
+      // ✅ خیلی مهم: تا Navbar بدون رفرش آپدیت شه
+      window.dispatchEvent(new Event("authChanged"));
+
+      // ✅ برو Home
+      navigate("/", { replace: true });
+      // اگر Home رو روی /dashboard داری:
+      // navigate("/dashboard", { replace: true });
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message || "خطا در ارتباط با سرور");

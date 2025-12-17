@@ -264,74 +264,142 @@ export interface ResendCodePayload {
 interface TokenResponse {
   accessToken: string;
   refreshToken?: string;
+  // بعضی بک‌اندها ممکنه token هم بده
+  token?: string;
+  Token?: string;
+  refresh_token?: string;
+}
+
+/* --------------------- ابزارهای کوچک --------------------- */
+function emitAuthChanged() {
+  window.dispatchEvent(new Event("authChanged"));
+}
+
+function safeParseUser(): any | null {
+  const raw = localStorage.getItem("user");
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
 }
 
 /* --------------------- مدیریت توکن و رفرش --------------------- */
 function getAccessToken(): string | null {
-  const user = localStorage.getItem("user");
-  return user ? JSON.parse(user)?.token : null;
+  // ✅ اولویت با token اصلی پروژه
+  const t = localStorage.getItem("token");
+  if (t) return t;
+
+  // ✅ سازگاری با ساختار قدیمی
+  const user = safeParseUser();
+  return user?.token || null;
+}
+
+function getRefreshToken(): string | null {
+  const rt = localStorage.getItem("refreshToken");
+  if (rt) return rt;
+
+  const user = safeParseUser();
+  return user?.refreshToken || null;
+}
+
+function setTokens(accessToken: string, refreshToken?: string) {
+  if (accessToken) localStorage.setItem("token", accessToken);
+  if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
+
+  // ✅ سازگاری: user.token هم آپدیت بشه
+  const user = safeParseUser();
+  if (user) {
+    const updatedUser = {
+      ...user,
+      token: accessToken || user.token,
+      refreshToken: refreshToken ?? user.refreshToken,
+    };
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+  }
+
+  emitAuthChanged();
+}
+
+function clearAuthOnFailure() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("user");
+  localStorage.removeItem("fullName");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("userRole");
+  emitAuthChanged();
 }
 
 async function refreshAccessToken(): Promise<string> {
-  const user = localStorage.getItem("user");
-  if (!user) throw new Error("کاربر لاگین نکرده");
-
-  const refreshToken = JSON.parse(user)?.refreshToken;
-  if (!refreshToken) throw new Error("رفرش توکن موجود نیست");
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) {
+    clearAuthOnFailure();
+    throw new Error("رفرش توکن موجود نیست");
+  }
 
   const res = await fetch(`${BASE_URL}/api/Auth/refresh-token`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    credentials: "include", // ✅ مهم
     body: JSON.stringify({ refreshToken }),
   });
 
   if (!res.ok) {
-    localStorage.removeItem("user");
+    clearAuthOnFailure();
     throw new Error("توکن منقضی شد، لطفاً دوباره وارد شوید");
   }
 
   const data: TokenResponse = await res.json();
 
-  const updatedUser = { ...JSON.parse(user), token: data.accessToken };
-  if (data.refreshToken) updatedUser.refreshToken = data.refreshToken;
-  localStorage.setItem("user", JSON.stringify(updatedUser));
+  // ✅ حالت‌های مختلف نام فیلد از بک‌اند
+  const newAccess =
+    data.accessToken || data.token || (data as any).Token || "";
+  const newRefresh =
+    data.refreshToken || (data as any).refresh_token || undefined;
 
-  return data.accessToken;
+  if (!newAccess) {
+    clearAuthOnFailure();
+    throw new Error("پاسخ رفرش معتبر نیست");
+  }
+
+  setTokens(newAccess, newRefresh);
+  return newAccess;
 }
 
 /* --------------------- fetch با مدیریت توکن --------------------- */
-async function fetchWithAuth(
-  url: string,
-  options: RequestInit
-): Promise<any> {
+async function fetchWithAuth(url: string, options: RequestInit): Promise<any> {
   let token = getAccessToken();
-  options.headers = {
-    ...options.headers,
-    Authorization: token ? `Bearer ${token}` : "",
-    "Content-Type": "application/json",
-  };
 
-  let res = await fetch(url, options);
+  const buildHeaders = (tk: string | null) => ({
+    ...(options.headers || {}),
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    ...(tk ? { Authorization: `Bearer ${tk}` } : {}),
+  });
+
+  let res = await fetch(url, {
+    ...options,
+    headers: buildHeaders(token),
+    credentials: "include", // ✅ مهم
+  });
 
   if (res.status === 401) {
-    try {
-      token = await refreshAccessToken();
-      options.headers = {
-        ...options.headers,
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      };
-      res = await fetch(url, options);
-    } catch (err) {
-      throw err;
-    }
+    token = await refreshAccessToken();
+
+    res = await fetch(url, {
+      ...options,
+      headers: buildHeaders(token),
+      credentials: "include", // ✅ مهم
+    });
   }
 
   if (!res.ok) {
     let message = "خطا در درخواست";
     try {
       const err = await res.json();
-      if (err?.message) message = err.message;
+      message = err?.message || err?.Message || message;
     } catch {}
     throw new Error(message);
   }
@@ -354,36 +422,6 @@ export async function resendVerificationCode(payload: ResendCodePayload): Promis
   });
 }
 
-
-/* ---------- Resend Code to Signup---------- */
-
-export interface ResendCodePayload {
-  email: string;   
-}
-
-export async function resendCode(
-  payload: ResendCodePayload
-): Promise<{ message: string }> {
-  const response = await fetch(`${BASE_URL}/api/Auth/resend-code`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify(payload),
-  });
-
-  if (!response.ok) {
-    let message = "خطا در ارسال کد جدید";
-
-    try {
-      const err = await response.json();
-      if (err?.message) message = err.message;
-    } catch {}
-
-    throw new Error(message);
-  }
-
-  return await response.json();
-}
 
 
 

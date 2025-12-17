@@ -156,6 +156,7 @@
   background: transparent;
   font-weight: bold;
   cursor: pointer;
+  color: red;
 }
 
 .mobile-logout {
