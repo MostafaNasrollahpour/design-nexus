@@ -26,7 +26,7 @@
 
 .sidebar-header {
   padding: 10px 10px 14px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #989797;
   margin-bottom: 10px;
 }
 
@@ -84,7 +84,7 @@
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #989797;
 }
 
 .panel-row:last-child {

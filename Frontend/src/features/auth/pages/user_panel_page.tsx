@@ -51,23 +51,21 @@ export default function UserPanelPage() {
     confirmNewPassword: "",
   }));
 
-  const readLatestFromStorage = (): Pick<ProfileSettingsPayload, "fullName" | "email"> => {
+  const readLatestFromStorage = (): Pick<ProfileSettingsPayload, "fullName"> => {
     const latestFullName = localStorage.getItem("fullName") || "";
     let latestEmail = "";
     try {
       const u = JSON.parse(localStorage.getItem("user") || "null");
       latestEmail = u?.Email || "";
     } catch {}
-    return { fullName: latestFullName, email: latestEmail };
+    return { fullName: latestFullName};
   };
 
   const refreshDraft = () => {
     const latest = readLatestFromStorage();
     setDraft((d) => ({
       ...d,
-      fullName: latest.fullName,
-      email: latest.email,
-      // پسوردها رو دست نمی‌زنیم مگر cancelAll
+      fullName: latest.fullName
     }));
   };
 
@@ -85,8 +83,7 @@ export default function UserPanelPage() {
     const current = readLatestFromStorage();
 
     const profileChanged =
-      draft.fullName.trim() !== current.fullName.trim() ||
-      draft.email.trim() !== current.email.trim();
+      draft.fullName.trim() !== current.fullName.trim();
 
     const passwordTouched =
       !!draft.currentPassword?.trim() ||
@@ -101,7 +98,7 @@ export default function UserPanelPage() {
 
     const payload: ProfileSettingsPayload = {
       fullName: draft.fullName.trim(),
-      email: draft.email.trim(),
+      
       currentPassword: draft.currentPassword?.trim() || "",
       newPassword: draft.newPassword?.trim() || "",
       confirmNewPassword: draft.confirmNewPassword?.trim() || "",
@@ -111,10 +108,7 @@ export default function UserPanelPage() {
       setSettingsError("نام نمی‌تواند خالی باشد.");
       return;
     }
-    if (!payload.email) {
-      setSettingsError("ایمیل نمی‌تواند خالی باشد.");
-      return;
-    }
+    
 
     setSaving(true);
     try {
@@ -126,7 +120,7 @@ export default function UserPanelPage() {
         const u = JSON.parse(localStorage.getItem("user") || "null") || {};
         localStorage.setItem(
           "user",
-          JSON.stringify({ ...u, FullName: payload.fullName, Email: payload.email })
+          JSON.stringify({ ...u, FullName: payload.fullName })
         );
       } catch {}
 
@@ -155,7 +149,7 @@ export default function UserPanelPage() {
     const latest = readLatestFromStorage();
     setDraft({
       fullName: latest.fullName,
-      email: latest.email,
+      
       currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
@@ -246,7 +240,7 @@ export default function UserPanelPage() {
 
           {activeTab === "settings" && (
             <div className="panel-card">
-              <h2>تنظیمات</h2>
+              <h2>ویرایش اطلاعات</h2>
 
               {settingsError && <p className="settings-error">{settingsError}</p>}
 
@@ -269,22 +263,12 @@ export default function UserPanelPage() {
               </div>
 
               {/* Email */}
-              <div className="settings-row">
+              {/* <div className="settings-row">
                 <div className="settings-label">ایمیل</div>
                 <div className="settings-control">
-                  {!editing.email ? (
-                    <>
-                      <div className="settings-value">{draft.email || "—"}</div>
-                      <button type="button" className="icon-btn" onClick={() => startEdit("email")} title="ویرایش">✎</button>
-                    </>
-                  ) : (
-                    <>
-                      <input className="settings-input" value={draft.email} onChange={(e) => setDraft((d) => ({ ...d, email: e.target.value }))} dir="ltr" />
-                      <button type="button" className="icon-btn" onClick={() => stopEdit("email")} title="تمام">✓</button>
-                    </>
-                  )}
+                 
                 </div>
-              </div>
+              </div> */}
 
               {/* Current Password */}
               <div className="settings-row">

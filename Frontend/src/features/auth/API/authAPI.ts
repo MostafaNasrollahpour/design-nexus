@@ -610,9 +610,6 @@ const AUTH_REFRESH_TOKEN_PATH = "/api/Auth/refresh-token";
 
 export type ProfileSettingsPayload = {
   fullName: string;
-  email: string;
-
-  // ✅ Password fields (optional)
   currentPassword?: string;
   newPassword?: string;
   confirmNewPassword?: string;
@@ -752,9 +749,9 @@ export async function saveProfileSettings(
   const body: any = {
     // سازگاری با بک‌اندهای مختلف
     FullName: payload.fullName,
-    Email: payload.email,
+   
     fullName: payload.fullName,
-    email: payload.email,
+    
   };
 
   if (hasPasswordChange) {
