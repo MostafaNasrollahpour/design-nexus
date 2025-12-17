@@ -3,6 +3,9 @@ const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5157/iam";
 
 
 
+
+
+/** ---------------- Types ---------------- */
 export interface LoginRequest {
   email: string;
   password: string;
@@ -26,216 +29,133 @@ export interface AuthResponseDto {
   [key: string]: any;
 }
 
+/** ---------------- Helpers ---------------- */
+type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface UserDto {
-  UserId: number | string;
-  FullName: string;
-  Email: string;
-  Role: string;
-  IsVerified: boolean;
-  // [key: string]: any;
-}
-
-export interface AuthResponseDto {
-  Success: boolean;
-  Message: string;
-  Token: string;
-  RefreshToken: string;
-  User: UserDto;
-  // [key: string]: any;
-}
-
-
-export async function loginUser(
-  credentials: LoginRequest
-): Promise<AuthResponseDto> {
+function safeJsonParse(text: string): any | null {
   try {
-    console.log("Sending login request to:", `${BASE_URL}/api/Auth/login`);
-    console.log("Credentials:", { email: credentials.email, password: "***" });
-
-    const response = await fetch(`${BASE_URL}/api/Auth/login`, {
-      method: "POST",
-      headers: { 
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      credentials: "include",
-      body: JSON.stringify(credentials),
-    });
-
-    console.log("Response status:", response.status, response.statusText);
-
-    // دریافت پاسخ به صورت متن اول
-    const responseText = await response.text();
-    // console.log("Raw response text:", responseText);
-
-    // بررسی اینکه آیا پاسخ JSON است
-    if (!responseText) {
-      throw new Error("پاسخ خالی از سرور دریافت شد");
-    }
-
-    let responseData: any;
-    try {
-      responseData = JSON.parse(responseText);
-    } catch (error) {
-      console.error("Failed to parse JSON:", responseText);
-      throw new Error("پاسخ سرور معتبر نیست (JSON نیست)");
-    }
-
-    // console.log("Parsed response data:", responseData);
-
-    // بررسی خطای HTTP
-    if (!response.ok) {
-      console.error("HTTP error response:", responseData);
-      const errorMessage = responseData?.Message || 
-                          responseData?.message ||
-                          `خطای سرور: ${response.status} ${response.statusText}`;
-      throw new Error(errorMessage);
-    }
-
-    // بررسی ساختار پاسخ با دقت
-    // console.log("Checking response structure...");
-    // console.log("Has 'User' property?", 'User' in responseData);
-    // console.log("Has 'user' property?", 'user' in responseData);
-    // console.log("All properties:", Object.keys(responseData));
-
-    // استخراج اطلاعات کاربر با روش ایمن
-    let userData: any = null;
-    
-    // اول با حرف بزرگ 'User' بررسی می‌کنیم
-    if (responseData.User && typeof responseData.User === 'object') {
-      // console.log("Found 'User' with capital U");
-      userData = responseData.User;
-    } 
-    // سپس با حرف کوچک 'user' بررسی می‌کنیم
-    else if (responseData.user && typeof responseData.user === 'object') {
-      // console.log("Found 'user' with lowercase u");
-      userData = responseData.user;
-    }
-    // اگر هیچکدام نبود، خود responseData را بررسی می‌کنیم
-    else if (responseData.UserId || responseData.FullName) {
-      // console.log("User data is at root level");
-      userData = responseData;
-    } 
-    else {
-      console.warn("No user data found in response");
-    }
-
-    // console.log("Extracted userData:", userData);
-
-    // استخراج FullName با بررسی همه حالت‌های ممکن
-    let fullName = "";
-    
-    if (userData) {
-      fullName = userData.FullName || 
-                userData.fullName || 
-                userData.Fullname || 
-                userData.fullname || 
-                userData.name ||
-                "";
-    }
-
-    console.log("Extracted fullName:", fullName);
-
-    // ایجاد آبجکت نهایی
-    const data: AuthResponseDto = {
-      Success: responseData.Success || responseData.success || true,
-      Message: responseData.Message || responseData.message || "",
-      Token: responseData.Token || responseData.token || "",
-      RefreshToken: responseData.RefreshToken || responseData.refreshToken || "",
-      User: {
-        UserId: userData?.UserId || userData?.userId || "",
-        FullName: fullName,
-        Email: userData?.Email || userData?.email || "",
-        Role: userData?.Role || userData?.role || "",
-        IsVerified: userData?.IsVerified || userData?.isVerified || false,
-        ...(userData || {})
-      }
-    };
-
-    // لاگ اطلاعات نهایی
-    console.log("Final data structure:", {
-      hasToken: !!data.Token,
-      tokenLength: data.Token?.length,
-      hasUser: !!data.User,
-      userFullName: data.User.FullName,
-      userEmail: data.User.Email
-    });
-
-    // ذخیره در localStorage فقط اگر مقادیر معتبر باشند
-    if (data.Token && data.Token.trim() !== "") {
-      localStorage.setItem("token", data.Token);
-      // console.log("✓ Token saved to localStorage");
-    } else {
-      console.warn("⚠ No valid token to save");
-    }
-
-    if (data.User.FullName && data.User.FullName.trim() !== "") {
-      localStorage.setItem("fullName", data.User.FullName);
-      // console.log("✓ FullName saved:", data.User.FullName);
-    } else {
-      console.warn("⚠ FullName is empty, not saving");
-      // اگر ایمیل داریم، از آن استفاده می‌کنیم
-      if (data.User.Email) {
-        localStorage.setItem("fullName", data.User.Email.split('@')[0]);
-        // console.log("✓ Using email username as fallback");
-      }
-    }
-
-    if (data.User) {
-      localStorage.setItem("user", JSON.stringify(data.User));
-      // console.log("✓ User object saved");
-      
-      if (data.User.UserId) {
-        localStorage.setItem("userId", String(data.User.UserId));
-      }
-      
-      if (data.User.Role) {
-        localStorage.setItem("userRole", data.User.Role);
-      }
-    }
-
-    console.log("✅ Login successful!");
-    return data;
-
-  } catch (error) {
-    console.error("❌ Login failed:", error);
-    
-    // پاک کردن localStorage در صورت خطا
-    localStorage.removeItem("token");
-    localStorage.removeItem("fullName");
-    localStorage.removeItem("user");
-    
-    if (error instanceof Error) {
-      throw error;
-    }
-    
-    throw new Error("خطای ناشناخته در عملیات ورود");
+    return JSON.parse(text);
+  } catch {
+    return null;
   }
 }
 
-// توابع کمکی اضافه
-export function validateLoginResponse(data: any): boolean {
-  if (!data) return false;
-  if (!data.Token || data.Token.trim() === "") return false;
-  if (!data.User || typeof data.User !== 'object') return false;
-  return true;
+function pickUser(responseData: any): any {
+  if (responseData?.User && typeof responseData.User === "object") return responseData.User;
+  if (responseData?.user && typeof responseData.user === "object") return responseData.user;
+  if (responseData?.UserId || responseData?.FullName) return responseData; // sometimes root-level
+  return null;
 }
 
-export function extractUserInfo(data: any): {fullName: string, email: string} {
-  const user = data.User || data.user || data;
-  
+function extractFullName(userData: any): string {
+  return (
+    userData?.FullName ||
+    userData?.fullName ||
+    userData?.Fullname ||
+    userData?.fullname ||
+    userData?.name ||
+    ""
+  );
+}
+
+function buildAuthResponse(raw: any): AuthResponseDto {
+  const userData = pickUser(raw);
+  const fullName = extractFullName(userData);
+
+  const token = raw?.Token ?? raw?.token ?? "";
+  const refreshToken = raw?.RefreshToken ?? raw?.refreshToken ?? "";
+
+  const email = userData?.Email ?? userData?.email ?? "";
+  const fallbackName = email ? String(email).split("@")[0] : "";
+
   return {
-    fullName: user.FullName || user.fullName || user.Email?.split('@')[0] || "کاربر",
-    email: user.Email || user.email || ""
+    Success: raw?.Success ?? raw?.success ?? true,
+    Message: raw?.Message ?? raw?.message ?? "",
+    Token: token,
+    RefreshToken: refreshToken,
+    User: {
+      UserId: userData?.UserId ?? userData?.userId ?? "",
+      FullName: fullName || fallbackName,
+      Email: email,
+      Role: userData?.Role ?? userData?.role ?? "",
+      IsVerified: userData?.IsVerified ?? userData?.isVerified ?? false,
+      ...(userData || {}),
+    },
+    ...(raw || {}),
   };
 }
+
+async function request<T>(path: string, options: { method: HttpMethod; body?: any; auth?: boolean } ): Promise<T> {
+  const url = `${BASE_URL}${path}`;
+
+  const headers: Record<string, string> = {
+    Accept: "application/json",
+  };
+
+  let body: string | undefined;
+  if (options.body !== undefined) {
+    headers["Content-Type"] = "application/json";
+    body = JSON.stringify(options.body);
+  }
+
+  // اگر خواستی Bearer هم بفرستی (برای logout یا endpoint های محافظت شده)
+  if (options.auth) {
+    const token = localStorage.getItem("token") || "";
+    if (token.trim()) headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  const res = await fetch(url, {
+    method: options.method,
+    headers,
+    credentials: "include",
+    body,
+  });
+
+  const text = await res.text();
+  const json = text ? safeJsonParse(text) : null;
+
+  if (!res.ok) {
+    const msg =
+      (json && (json.Message || json.message)) ||
+      (text && text.length < 200 ? text : "") ||
+      `خطای سرور: ${res.status} ${res.statusText}`;
+    throw new Error(msg);
+  }
+
+  // اگر پاسخ خالی بود
+  if (!text) return undefined as T;
+
+  // اگر JSON نبود ولی ok بود
+  if (!json) return text as unknown as T;
+
+  return json as T;
+}
+
+/** ---------------- API ---------------- */
+export async function loginUser(credentials: LoginRequest): Promise<AuthResponseDto> {
+  const raw = await request<any>("/api/Auth/login", {
+    method: "POST",
+    body: credentials,
+  });
+
+  const data = buildAuthResponse(raw);
+
+  if (!data.Token?.trim()) {
+    throw new Error("توکن معتبر از سرور دریافت نشد");
+  }
+
+  return data;
+}
+
+export async function logoutUser(): Promise<void> {
+  // اگر بک‌اندت با کوکی کار می‌کنه، همون credentials:include کافیه
+  // اگر با Bearer کار می‌کنه، auth:true هم می‌فرستیم
+  await request<void>("/api/Auth/logout", {
+    method: "POST",
+    auth: true,
+  });
+}
+
 
 
 

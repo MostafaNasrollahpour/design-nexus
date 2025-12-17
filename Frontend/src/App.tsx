@@ -6,7 +6,7 @@ import VerifyCodePage from "./features/auth/pages/verify_email_page";
 import VerifyToChangePassword from "./features/auth/pages/verify_to_change_password";
 import ChangePasswordPage from "./features/auth/pages/change_password";
 import HomePage from "./features/auth/pages/home_page";
-
+import UserPanelPage from "./features/auth/pages/user_panel_page"; // ✅ اضافه کن
 
 function App() {
   return (
@@ -16,16 +16,23 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<PasswordResetPage />} />
         <Route path="/verify" element={<VerifyCodePage />} />
-        {/* <Route path="/dashboard" element={<HomePage />} /> */}
         <Route path="/verify-change-password" element={<VerifyToChangePassword />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
+
         <Route path="/" element={<HomePage />} />
+
+        {/* ✅ بعد لاگین همینجا میاد (بدون تغییر HomePage) */}
+        <Route path="/dashboard" element={<HomePage />} />
+
+        {/* ✅ پنل کاربری */}
+        <Route path="/panel" element={<UserPanelPage />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
 //---------------------------------------------------------------------------------
 // import React from 'react';
 // import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";

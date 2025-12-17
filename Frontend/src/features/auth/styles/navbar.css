@@ -150,3 +150,26 @@
     justify-content: space-between;
   }
 }
+
+.nav-logout-btn {
+  border: none;
+  background: transparent;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mobile-logout {
+  border: none;
+  background: transparent;
+  text-align: right;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.mobile-logout:hover {
+  background: #f3f3f3;
+}
+
+

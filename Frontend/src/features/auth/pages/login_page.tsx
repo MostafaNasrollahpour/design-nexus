@@ -1,8 +1,9 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, type ChangeEvent, type FormEvent, useEffect } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import "../styles/login_page.css";
 import design_img from "../assets/design_img.png";
 import { loginUser } from "../API/authAPI";
+import { isLoggedIn, persistAuth } from "../utils/authStorage";
 
 interface LoginFormState {
   email: string;
@@ -16,16 +17,22 @@ interface FieldErrors {
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [form, setForm] = useState<LoginFormState>({ email: "", password: "" });
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({ email: false, password: false });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // اگر لاگین هست، نبرش توی لاگین
+  useEffect(() => {
+    if (isLoggedIn()) navigate("/", { replace: true });
+  }, [navigate]);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
-    setFieldErrors(prev => ({ ...prev, [name]: false }));
+    setForm((prev) => ({ ...prev, [name]: value }));
+    setFieldErrors((prev) => ({ ...prev, [name]: false }));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -45,13 +52,19 @@ export default function LoginPage() {
 
     setLoading(true);
     try {
-      const data = await loginUser({
-        email: form.email,
-        password: form.password,
+      const data = await loginUser({ email: form.email, password: form.password });
+
+      // ✅ ذخیره استاندارد + event
+      persistAuth({
+        token: data.Token,
+        refreshToken: data.RefreshToken,
+        user: data.User,
+        fullName: data.User.FullName,
       });
 
-      console.log("Login success:", data);
-      navigate("/dashboard");
+      // ✅ برگشت به مقصد قبلی (مثلا /panel) یا پیش‌فرض /
+      const from = (location.state as any)?.from?.pathname || "/";
+      navigate(from, { replace: true });
     } catch (err) {
       if (err instanceof Error) setError(err.message || "خطایی رخ داده است");
       else setError("خطای ناشناخته‌ای رخ داده است");
