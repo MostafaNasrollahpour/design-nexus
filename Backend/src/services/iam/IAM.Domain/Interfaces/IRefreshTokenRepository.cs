@@ -11,5 +11,6 @@ namespace IAM.Domain.Interfaces
         Task RemoveByUserAsync(int userId);
         Task SaveChangesAsync();
         Task<RefreshToken?> GetValidByUserAsync(int userId);
+        Task<User?> GetByRefreshTokenAsync(string refreshToken);
     }
 }

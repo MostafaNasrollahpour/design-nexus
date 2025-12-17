@@ -54,5 +54,16 @@ namespace IAM.Infrastructure.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<User?> GetByRefreshTokenAsync(string refreshToken)
+        {
+            var tokenEntity = await _context.RefreshTokens
+                .Include(rt => rt.User)
+                .FirstOrDefaultAsync(rt => 
+                    rt.Token == refreshToken && 
+                    rt.ExpiresAt > DateTime.UtcNow && 
+                    !rt.IsRevoked);
+            
+            return tokenEntity?.User;
+        }
     }
 }

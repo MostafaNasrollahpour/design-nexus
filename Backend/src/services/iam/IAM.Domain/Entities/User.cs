@@ -41,5 +41,11 @@ namespace IAM.Domain.Entities
             PasswordHash = newPasswordHash;
             UpdatedAt = DateTime.UtcNow;
         }
+
+        public void UpdateFullName(string fullName)
+        {
+            FullName = fullName;
+            UpdatedAt = DateTime.UtcNow;
+        }
     }
 }

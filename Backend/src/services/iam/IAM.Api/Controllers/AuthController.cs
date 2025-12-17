@@ -12,6 +12,7 @@ using IAM.Application.Commands.VerifyChangePassword;
 using IAM.Application.Commands.ChangePassword;
 using IAM.Application.Commands.Refresh;
 using IAM.Application.Commands.Logout;
+using IAM.Application.Commands.UpdateUser;
 
 namespace IAM.Api.Controllers
 {
@@ -198,5 +199,45 @@ namespace IAM.Api.Controllers
             return Ok(result);
         }
 
+        [HttpPut("update-profile")]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserRequestDto request)
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+             if (string.IsNullOrEmpty(refreshToken))
+                return Unauthorized(new { message = "No refresh token" });
+
+            var command = new UpdateUserCommand(request, refreshToken);
+            var result = await _mediator.Send(command);
+
+            if (!result.Success)
+            {
+                return Unauthorized(result);
+            }
+
+            Response.Cookies.Delete("refreshToken", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
+
+            if (!string.IsNullOrEmpty(result.RefreshToken))
+            {
+                Response.Cookies.Append("refreshToken", result.RefreshToken!, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = DateTime.UtcNow.AddDays(
+                        Convert.ToDouble(_configuration["Jwt:RefreshTokenDays"] ?? "7")
+                    )
+                });
+
+                result.RefreshToken = null;
+            }
+
+            return Ok(result);
+        }
+        
     }
 }
