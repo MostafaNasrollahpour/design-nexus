@@ -173,4 +173,99 @@
   background: #f3f3f3;
 }
 
+/* ---------------------- Logout Modal (ADD ONLY) ---------------------- */
+.logout-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 16px;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+}
+
+.logout-modal {
+  width: min(420px, 92vw);
+  border-radius: 16px;
+
+  background: #fff;
+  padding: 16px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+  direction: rtl;
+  text-align: right;
+}
+
+.logout-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logout-modal-title {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.logout-modal-close {
+  margin-right: auto;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  font-size: 18px;
+  line-height: 1;
+
+  padding: 6px;
+}
+
+.logout-modal-text {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.logout-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  margin-top: 16px;
+}
+
+.logout-cancel-btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+
+  border: 1px solid #ddd;
+  background: #fff;
+
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.logout-confirm-btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+
+  border: none;
+  background: #111;
+  color: #fff;
+
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.logout-cancel-btn:disabled,
+.logout-confirm-btn:disabled,
+.logout-modal-close:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 

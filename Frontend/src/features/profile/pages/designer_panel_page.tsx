@@ -57,10 +57,10 @@ export default function DesignerPanelPage() {
 
   const readLatestFromStorage = (): Pick<ProfileSettingsPayload, "fullName"> => {
     const latestFullName = localStorage.getItem("fullName") || "";
-    let latestEmail = "";
+    // let latestEmail = "";
     try {
-      const u = JSON.parse(localStorage.getItem("user") || "null");
-      latestEmail = u?.Email || "";
+      // const u = JSON.parse(localStorage.getItem("user") || "null");
+      // latestEmail = u?.Email || "";
     } catch {}
     return { fullName: latestFullName };
   };
