@@ -1,0 +1,49 @@
+.chatpage-layout {
+  width: min(1200px, calc(100% - 24px));
+  margin: 20px auto;
+  direction: rtl;
+}
+
+.chatpage-content {
+  min-width: 0;
+}
+
+.chatpage-card {
+  background: #C6E7FF;
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.chatpage-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #989797;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+
+.chatpage-title {
+  font-weight: 900;
+}
+
+.chatpage-back {
+  border: 1px solid #e5e5e5;
+  background: #fff;
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.chatpage-back:hover {
+  background: #f3f3f3;
+}
+
+.chatpage-warn {
+  color: #d10;
+  font-weight: 800;
+}
