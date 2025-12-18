@@ -100,9 +100,9 @@ const logout = async () => {
         <li className="nav-item">
           <Demo />
         </li>
-        <li className="nav-item">طراح ها</li>
-        <li className="nav-item">پربازدیدها</li>
-        <li className="nav-item">مشاوره و پشتیبانی</li>
+        <li className="nav-item"> <Link to="/designers" className="login_signup mobile-hidden">طراح ها</Link></li>
+        <li className="nav-item"><Link to="/favorites" className="login_signup mobile-hidden">پربازدیدها</Link></li>
+        <li className="nav-item"><Link to="/support" className="login_signup mobile-hidden">مشاوره و پشتیبانی</Link></li>
       </ul>
 
       <div className="nav-right mobile-hidden">
