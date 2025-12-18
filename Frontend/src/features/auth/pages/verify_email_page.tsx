@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/verify_email_page.css";
-import design_img from "../assets/design_img.png";
+import design_img from "../../../shared/assets/design_img.png";
+
 
 import {
   verifyCode,

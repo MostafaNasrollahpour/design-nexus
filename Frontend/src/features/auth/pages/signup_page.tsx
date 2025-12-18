@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type MouseEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/signup_page.css";
-import design_img from "../assets/design_img.png";
+import design_img from "../../../shared/assets/design_img.png";
 
 import {
   registerUser,

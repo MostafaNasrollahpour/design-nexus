@@ -4,7 +4,7 @@ import Navbar from "../../../shared/components/navbar";
 import Footer from "../../../shared/components/footer";
 import "../styles/user_panel_page.css";
 
-import { saveProfileSettings, type ProfileSettingsPayload } from "../../auth/API/authAPI";
+import { saveProfileSettings, type ProfileSettingsPayload } from "../../profile/API/profileAPI";
 
 type PanelTab = "profile" | "orders" | "favorites" | "settings";
 type EditableField = "fullName" | "email" | "currentPassword" | "newPassword" | "confirmNewPassword";

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../../shared/components/navbar";
 // import Footer from "../components/footer";
 
-import "../styles/user_panel_page.css";
+import "../../profile/styles/user_panel_page.css";
 import "../styles/support_page.css";
 
 type SupportCategory = "support" | "consulting" | "order";
