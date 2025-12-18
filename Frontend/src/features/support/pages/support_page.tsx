@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/navbar";
-import Footer from "../components/footer";
+import Navbar from "../../../shared/components/navbar";
+// import Footer from "../components/footer";
 
 import "../styles/user_panel_page.css";
 import "../styles/support_page.css";
@@ -284,9 +284,10 @@ export default function SupportConsultPage() {
                   <div className="support-contact">
                     <div><b>ایمیل:</b> support@example.com</div>
                     <div><b>تلفن:</b> 021-xxxxxxx</div>
-                    <div className="support-note">
+                    <div><b>اینستاگرام:</b> @design_nexus</div>
+                    {/* <div className="support-note">
                       (این‌ها نمونه است؛ با اطلاعات خودتان جایگزین کنید.)
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -295,7 +296,7 @@ export default function SupportConsultPage() {
         </main>
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

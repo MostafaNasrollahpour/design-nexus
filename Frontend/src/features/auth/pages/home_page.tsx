@@ -1,8 +1,8 @@
 import "../styles/home_page.css";
 
-import Navbar from "../components/navbar";
+import Navbar from "../../../shared/components/navbar";
 import Slider, { type Slide } from "../components/slider";
-import Footer from "../components/footer";
+import Footer from "../../../shared/components/footer";
 
 import bedroom from "../assets/bedroom.jpg";
 import hall from "../assets/hall.jpg";

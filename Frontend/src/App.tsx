@@ -6,8 +6,8 @@ import VerifyCodePage from "./features/auth/pages/verify_email_page";
 import VerifyToChangePassword from "./features/auth/pages/verify_to_change_password";
 import ChangePasswordPage from "./features/auth/pages/change_password";
 import HomePage from "./features/auth/pages/home_page";
-import PanelPage from "./features/auth/pages/panel_page";
-import SupportConsultPage from "./features/auth/pages/support_page";
+// import PanelPage from "./features/auth/pages/panel_page";
+import SupportConsultPage from "./features/support/pages/support_page";
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
         <Route path="/dashboard" element={<HomePage />} />
 
         {/* ✅ پنل کاربری */}
-        <Route path="/panel" element={<PanelPage />} />
+        {/* <Route path="/panel" element={<PanelPage />} /> */}
         <Route path="/support" element={<SupportConsultPage />} />
 
       </Routes>

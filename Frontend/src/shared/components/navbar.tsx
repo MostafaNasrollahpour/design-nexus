@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import logoImage from "../assets/logo.jpg";
 import DesignNexus from "../assets/design_img.png";
 import "../styles/navbar.css";
-import Demo from "./demo";
-import {readFullName, isLoggedIn } from "../utils/authStorage";
-import { logoutUser } from "../API/authAPI";
+import Demo from "../../features/auth/components/demo";
+import {readFullName, isLoggedIn } from "../../features/auth/utils/authStorage";
+import { logoutUser } from "../../features/auth/API/authAPI";
 
 
 const Navbar = () => {

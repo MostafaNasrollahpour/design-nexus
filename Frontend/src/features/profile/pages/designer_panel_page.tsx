@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
-import Navbar from "../components/navbar";
-import Footer from "../components/footer";
+import Navbar from "../../../shared/components/navbar";
+import Footer from "../../../shared/components/footer";
 import "../styles/user_panel_page.css";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
-import { saveProfileSettings, type ProfileSettingsPayload } from "../API/authAPI";
+
+import { saveProfileSettings, type ProfileSettingsPayload } from "../API/profileAPI";
 
 type DesignerTab = "profile" | "projects" | "requests" | "wallet" | "settings";
 type EditableField =
