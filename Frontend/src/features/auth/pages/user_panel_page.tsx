@@ -200,6 +200,10 @@ export default function UserPanelPage() {
           >
             ویرایش اطلاعات
           </button>
+
+          <button className="sidebar-item" onClick={() => navigate("/support", { replace: true })} type="button">
+            مشاوره و پشتیبانی
+          </button>
         </aside>
 
         <main className="panel-content">

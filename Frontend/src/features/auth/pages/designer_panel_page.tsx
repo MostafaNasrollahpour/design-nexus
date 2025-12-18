@@ -3,6 +3,7 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import "../styles/user_panel_page.css";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { saveProfileSettings, type ProfileSettingsPayload } from "../API/authAPI";
 
@@ -231,6 +232,10 @@ export default function DesignerPanelPage() {
           >
             ویرایش اطلاعات
           </button>
+
+          <button className="sidebar-item" onClick={() => navigate("/support", { replace: true })} type="button">
+            مشاوره و پشتیبانی
+          </button>
         </aside>
 
         {/* محتوا */}
@@ -279,7 +284,7 @@ export default function DesignerPanelPage() {
 
           {activeTab === "settings" && (
             <div className="panel-card">
-              <h2>تنظیمات</h2>
+              <h2>ویرایش اطلاعات</h2>
 
               {settingsError && <p className="settings-error">{settingsError}</p>}
 
@@ -433,6 +438,7 @@ export default function DesignerPanelPage() {
               </div>
             </div>
           )}
+          
         </main>
       </div>
 
