@@ -19,7 +19,7 @@ namespace IAM.Application.Commands.UpdateUser
             IUserRepository userRepository,
             ITokenService tokenService,
             ILogger<UpdateUserCommandHandler> logger
-            )
+        )
         {
             _refreshRepo = refreshRepo;
             _userRepository = userRepository;
@@ -30,6 +30,14 @@ namespace IAM.Application.Commands.UpdateUser
         public async Task<AuthResponseDto> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
         {
             var request = command.Request;
+
+            if (string.IsNullOrWhiteSpace(request.FullName) &&
+                string.IsNullOrWhiteSpace(request.NewPassword) &&
+                string.IsNullOrWhiteSpace(request.CurrentPassword) &&
+                string.IsNullOrWhiteSpace(request.ConfirmNewPassword))
+            {
+                return AuthResponseDto.FailureResponse("حداقل یک فیلد باید برای به‌روزرسانی وارد شود");
+            }
 
             var user = await _refreshRepo.GetByRefreshTokenAsync(command.RefreshToken);
 
@@ -47,37 +55,67 @@ namespace IAM.Application.Commands.UpdateUser
                 return AuthResponseDto.FailureResponse("رفرش توکن نامعتبر یا منقضی شده است");
             }
 
-            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.CurrentPassword, user.PasswordHash);
-            if (!isPasswordValid)
+            var hasChanges = false;
+
+            if (!string.IsNullOrWhiteSpace(request.FullName))
             {
-                _logger.LogWarning($"Wrong current password for email: {user.Email}");
-                return AuthResponseDto.FailureResponse("رمز شما اشتباه است.");
+                user.UpdateFullName(request.FullName);
+                hasChanges = true;
+                _logger.LogInformation($"FullName updated for user: {user.Email}");
             }
 
-            if (request.CurrentPassword == request.NewPassword)
+            if (!string.IsNullOrWhiteSpace(request.CurrentPassword) ||
+                !string.IsNullOrWhiteSpace(request.NewPassword) ||
+                !string.IsNullOrWhiteSpace(request.ConfirmNewPassword))
             {
-                _logger.LogWarning($"Same password for email: {user.Email}");
-                return AuthResponseDto.FailureResponse("رمز عبور جدید نباید با رمز عبور فعلی یکسان باشد");
+                // Validate that all password fields are provided for password change
+                if (string.IsNullOrWhiteSpace(request.CurrentPassword) ||
+                    string.IsNullOrWhiteSpace(request.NewPassword) ||
+                    string.IsNullOrWhiteSpace(request.ConfirmNewPassword))
+                {
+                    return AuthResponseDto.FailureResponse("برای تغییر رمز عبور، همه فیلدهای مربوط به رمز عبور باید وارد شوند");
+                }
+
+                // Validate current password
+                bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.CurrentPassword, user.PasswordHash);
+                if (!isPasswordValid)
+                {
+                    _logger.LogWarning($"Wrong current password for email: {user.Email}");
+                    return AuthResponseDto.FailureResponse("رمز عبور فعلی اشتباه است.");
+                }
+
+                // Check if new password is different from current
+                if (request.CurrentPassword == request.NewPassword)
+                {
+                    _logger.LogWarning($"Same password for email: {user.Email}");
+                    return AuthResponseDto.FailureResponse("رمز عبور جدید نباید با رمز عبور فعلی یکسان باشد");
+                }
+
+                // Validate password confirmation
+                if (request.NewPassword != request.ConfirmNewPassword)
+                {
+                    _logger.LogWarning($"Password and Confirm password do not match for email: {user.Email}");
+                    return AuthResponseDto.FailureResponse("رمز عبور جدید و تکرار آن مطابقت ندارند");
+                }
+
+                // Hash and update new password
+                var newPasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+                user.UpdatePassword(newPasswordHash);
+                hasChanges = true;
+
+                // Remove all refresh tokens when password changes
+                await _refreshRepo.RemoveByUserAsync(user.UserId);
+                _logger.LogInformation($"Password updated for user: {user.Email}");
             }
 
-            if (command.Request.NewPassword != command.Request.ConfirmNewPassword)
+            if (!hasChanges)
             {
-                _logger.LogWarning($"Password and Confirm password are not same for  email: {user.Email}");
-                return AuthResponseDto.FailureResponse("رمز عبور جدید و تکرار آن مطابقت ندارند");
+                return AuthResponseDto.FailureResponse("هیچ تغییری اعمال نشد");
             }
-
-            user.UpdateFullName(request.FullName);
-            var newPasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
-            
-            user.UpdatePassword(newPasswordHash);
-
-            await _refreshRepo.RemoveByUserAsync(user.UserId);
 
             await _userRepository.UpdateAsync(user);
-
             var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
             var refreshToken = await _tokenService.GenerateAndSaveRefreshTokenAsync(user);
-
 
             return AuthResponseDto.SuccessResponse(
                 "اطلاعات کاربر با موفقیت بروزرسانی شد",
