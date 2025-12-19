@@ -1,0 +1,77 @@
+/* pretty-alert.css */
+.pa-wrap{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483647;
+}
+
+.pa-toast{
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  max-width: min(420px, calc(100vw - 40px));
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(20,20,22,.92);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.12);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  gap: 10px;
+  align-items: start;
+  transform: translateY(-10px);
+  opacity: 0;
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.pa-toast.pa-show{
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.pa-bar{
+  width: 10px;
+  border-radius: 999px;
+  margin-top: 2px;
+  height: calc(100% - 4px);
+  background: #22c55e;
+}
+
+.pa-toast.pa-error .pa-bar{ background: #ef4444; }
+
+.pa-title{
+  font-size: 12px;
+  opacity: .75;
+  margin-bottom: 4px;
+  line-height: 1.1;
+}
+
+.pa-msg{
+  font-size: 13.5px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.pa-x{
+  all: unset;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 10px;
+  line-height: 1;
+  opacity: .75;
+}
+
+.pa-x:hover{
+  opacity: 1;
+  background: rgba(255,255,255,.08);
+}
+
+@media (max-width: 520px){
+  .pa-toast{ left: 20px; right: 20px; top: 16px; }
+}
