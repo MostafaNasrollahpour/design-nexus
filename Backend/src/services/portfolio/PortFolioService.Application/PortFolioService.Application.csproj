@@ -10,7 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
+    <Folder Include="Queries\" />
+    <Folder Include="Queries\GetRecentPortfolio\" />
   </ItemGroup>
 
   <PropertyGroup>
