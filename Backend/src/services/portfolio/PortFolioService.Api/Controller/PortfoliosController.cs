@@ -3,8 +3,8 @@ using PortFolioService.Application.DTOs;
 using PortFolioService.Application.Commands.CreatePortfolio;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using PortFolioService.Application.Queries.GetRecentPortfolio;
 
 namespace PortFolioService.Api.Controllers
 {
@@ -29,6 +29,19 @@ namespace PortFolioService.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("recent")]
+        public async Task<IActionResult> GetRecent(
+            [FromQuery] int count = 50,
+            CancellationToken ct = default)
+        {
+            var query = new GetRecentPortfoliosQuery(count);
+            var result = await _mediator.Send(query, ct);
+
+            return Ok(result);
+        }
+
+
     }
 
 }
