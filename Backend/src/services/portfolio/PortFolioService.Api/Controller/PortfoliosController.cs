@@ -4,7 +4,10 @@ using PortFolioService.Application.Commands.CreatePortfolio;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+
 using PortFolioService.Application.Queries.GetRecentPortfolio;
+using PortFolioService.Application.Queries.GetPortfolioByCategory;
+using PortFolioService.Application.Queries.GetPortfolioByDesigner;
 
 namespace PortFolioService.Api.Controllers
 {
@@ -36,6 +39,29 @@ namespace PortFolioService.Api.Controllers
             CancellationToken ct = default)
         {
             var query = new GetRecentPortfoliosQuery(count);
+            var result = await _mediator.Send(query, ct);
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("category/{categoryId:int}")]
+        public async Task<IActionResult> GetByCategory(
+            int categoryId,
+            CancellationToken ct)
+        {
+            var query = new GetPortfolioByCategoryQuery(categoryId);
+            var result = await _mediator.Send(query, ct);
+
+            return Ok(result);
+        }
+
+        [HttpGet("designer/{designerId:int}")]
+        public async Task<IActionResult> GetByDesigner(
+            int designerId,
+            CancellationToken ct)
+        {
+            var query = new GetPortfolioByDesignerQuery(designerId);
             var result = await _mediator.Send(query, ct);
 
             return Ok(result);

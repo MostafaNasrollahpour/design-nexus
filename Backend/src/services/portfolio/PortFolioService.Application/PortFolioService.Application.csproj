@@ -11,7 +11,10 @@
 
   <ItemGroup>
     <Folder Include="Queries\" />
+    <Folder Include="Queries\GetPortfolioByCategory\" />
+    <Folder Include="Queries\GetPortfolioByDesigner\" />
     <Folder Include="Queries\GetRecentPortfolio\" />
+    <Folder Include="Validators\" />
   </ItemGroup>
 
   <PropertyGroup>

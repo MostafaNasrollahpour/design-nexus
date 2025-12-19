@@ -4,6 +4,7 @@ using PortFolioService.Domain.Interfaces;
 using PortFolioService.Application.DTOs;
 using PortFolioService.Domain.Entities;
 using Microsoft.Extensions.Logging;
+using PortFolioService.Application.Validators;
 
 namespace PortFolioService.Application.Commands.CreatePortfolio;
 
@@ -51,6 +52,21 @@ public class CreatePortfolioCommandHandler
             request.Request.CategoryId,
             imageUrl,
             request.Request.Image.Length);
+
+        var file = request.Request.Image;
+
+        if (file == null || file.Length == 0) 
+            throw new ArgumentException("Image is required");
+
+        if (file.Length > FileSignatureValidator.MaxImageSize) 
+            throw new ArgumentException("Image size must be less than 2MB");
+
+        if (!FileSignatureValidator.AllowedMimeTypes.Contains(file.ContentType))
+            throw new ArgumentException("Invalid image format.");
+        
+        using var stream = file.OpenReadStream();
+        if (!FileSignatureValidator.IsValid(stream, file.ContentType))
+            throw new ArgumentException("Invalid image content.");
 
         await _repository.AddAsync(portfolio, ct);
 
