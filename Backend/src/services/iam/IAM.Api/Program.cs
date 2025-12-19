@@ -33,32 +33,6 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
     
-    // افزودن پشتیبانی از JWT در Swagger
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT"
-    });
-    
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-    
     // تنظیمات XML Documentation
     var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -69,18 +43,14 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddScoped<IEmailService, EmailService>();
-// سپس RedisOtpService که اکنون به EmailService نیاز دارد را نگه دار
 builder.Services.AddScoped<IOtpService, OtpService>();
 
-
-// افزودن DbContext
 var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured in appsettings.json");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(dbConnectionString));
 
-// افزودن Redis - با بررسی null بودن connection string
 var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
 if (!string.IsNullOrEmpty(redisConnectionString))
 {
@@ -90,23 +60,14 @@ if (!string.IsNullOrEmpty(redisConnectionString))
         options.InstanceName = "IAM_";
     });
 }
-else
-{
-    // اگر Redis تنظیم نشده، از MemoryCache استفاده کن
-    builder.Services.AddDistributedMemoryCache();
-    Console.WriteLine("Redis connection string is not configured. Using in-memory cache instead.");
-}
 
-// ثبت Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
-
-// ثبت Services
 builder.Services.AddScoped<IOtpService, OtpService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
-// ثبت MediatR
+
 builder.Services.AddMediatR(cfg => 
 {
     cfg.RegisterServicesFromAssembly(typeof(RegisterCommandHandler).Assembly);

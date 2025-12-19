@@ -38,11 +38,6 @@ namespace IAM.Infrastructure.Services
                 new Claim("IsVerified", user.IsVerified.ToString())
             };
 
-            if (user.Role == "Designer")
-            {
-                claims.Add(new Claim("permission", "upload:file"));
-            }
-
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
