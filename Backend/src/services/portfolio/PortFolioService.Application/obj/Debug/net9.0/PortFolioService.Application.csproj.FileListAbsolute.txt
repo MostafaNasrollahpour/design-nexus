@@ -1,0 +1,16 @@
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\bin\Debug\net9.0\PortFolioService.Application.deps.json
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\bin\Debug\net9.0\PortFolioService.Application.dll
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\bin\Debug\net9.0\PortFolioService.Application.pdb
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\bin\Debug\net9.0\PortFolioService.Domain.dll
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\bin\Debug\net9.0\PortFolioService.Domain.pdb
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\obj\Debug\net9.0\PortFolioService.Application.csproj.AssemblyReference.cache
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\obj\Debug\net9.0\PortFolioService.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\obj\Debug\net9.0\PortFolioService.Application.AssemblyInfoInputs.cache
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\obj\Debug\net9.0\PortFolioService.Application.AssemblyInfo.cs
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\obj\Debug\net9.0\PortFolioService.Application.csproj.CoreCompileInputs.cache
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\obj\Debug\net9.0\PortFolioService.Application.sourcelink.json
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\obj\Debug\net9.0\PortFoli.5FBE40F3.Up2Date
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\obj\Debug\net9.0\PortFolioService.Application.dll
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\obj\Debug\net9.0\refint\PortFolioService.Application.dll
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\obj\Debug\net9.0\PortFolioService.Application.pdb
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Application\obj\Debug\net9.0\ref\PortFolioService.Application.dll
