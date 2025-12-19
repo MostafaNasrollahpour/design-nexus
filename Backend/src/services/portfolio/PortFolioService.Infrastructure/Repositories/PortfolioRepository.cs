@@ -40,5 +40,17 @@ public class PortfolioRepository : IPortfolioRepository
             .Take(count)
             .ToListAsync(ct);
     }
+
+    public async Task<List<Portfolio>> GetByCategoryIdAsync(
+        int categoryId,
+        CancellationToken ct)
+    {
+        return await _dbContext.Portfolios
+            .Where(x => x.CategoryId == categoryId)
+            .OrderByDescending(x => x.CreatedAt)
+            .AsNoTracking()
+            .ToListAsync(ct);
+    }
+
 }
 
