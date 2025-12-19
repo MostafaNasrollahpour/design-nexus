@@ -4,8 +4,8 @@ const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5157/iam";
 
 
 // 🔧 مطابق بک‌اندت تنظیم کن
-const USER_UPDATE_PROFILE_PATH = "/api/User/update-profile";
-const AUTH_REFRESH_TOKEN_PATH = "/api/Auth/refresh-token";
+const USER_UPDATE_PROFILE_PATH = "/api/Auth/update-profile";
+const AUTH_REFRESH_TOKEN_PATH = "/api/Auth/refresh";
 
 export type ProfileSettingsPayload = {
   fullName: string;
