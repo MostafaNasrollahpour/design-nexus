@@ -3,7 +3,8 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f4efc0;
+  background-color: #ffffff;
+
 }
 
 .signup-card {
@@ -11,7 +12,7 @@
   background-color: #FAFAFA;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 20px rgba(198, 198, 65, 0.8);
   width: 400px;
   height: auto; 
   max-height: 90vh; 
@@ -29,7 +30,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("../assets/logo.jpg");
+  background-image: url("../../../shared/assets/logo.jpg");
   background-size: cover;
   background-position: center;
   opacity: 0.2;
