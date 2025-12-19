@@ -112,6 +112,28 @@ builder.Services.AddAuthorization();
 var app = builder.Build();
 
 // --------------------
+// Migration و Database Initialization
+// --------------------
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        // اجرای مایگریشن‌ها به صورت خودکار
+        context.Database.Migrate();
+        
+        // اگر می‌خواهید لاگ بزنید که مایگریشن اجرا شده
+        Console.WriteLine("Database migration completed successfully.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred while migrating the database: {ex.Message}");
+        throw;
+    }
+}
+
+// --------------------
 // Swagger middleware
 // --------------------
 if (app.Environment.IsDevelopment())
