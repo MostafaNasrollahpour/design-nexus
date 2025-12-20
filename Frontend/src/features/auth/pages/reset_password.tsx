@@ -13,7 +13,7 @@ export default function PasswordResetPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const navigate = useNavigate(); // 👈 اینجا
+  const navigate = useNavigate(); 
 
   const validateEmail = (value: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
