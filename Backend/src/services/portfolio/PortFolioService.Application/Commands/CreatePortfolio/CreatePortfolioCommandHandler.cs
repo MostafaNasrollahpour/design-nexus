@@ -44,6 +44,11 @@ public class CreatePortfolioCommandHandler
             request.Request.ImageFile,
             $"designer-{_currentUser.UserId}",
             ct);
+        
+        if (request.Request.CategoryId > 7 && request.Request.CategoryId < 1)
+        {
+            return PortfolioResponse.FailureResult("دسته بندی موجود نیست");
+        }
 
         var portfolio = new Portfolio(
             _currentUser.UserId,
