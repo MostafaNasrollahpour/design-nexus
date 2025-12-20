@@ -9,7 +9,7 @@ using PortFolioService.Application.Validators;
 namespace PortFolioService.Application.Commands.CreatePortfolio;
 
 public class CreatePortfolioCommandHandler
-    : IRequestHandler<CreatePortfolioCommand, PortfolioResponseDto>
+    : IRequestHandler<CreatePortfolioCommand, PortfolioResponse>
 {
     private readonly IPortfolioRepository _repository;
     private readonly IFileStorage _fileStorage;
@@ -28,7 +28,7 @@ public class CreatePortfolioCommandHandler
         _logger = logger;
     }
 
-    public async Task<PortfolioResponseDto> Handle(CreatePortfolioCommand request, CancellationToken ct)
+    public async Task<PortfolioResponse> Handle(CreatePortfolioCommand request, CancellationToken ct)
     {
         _logger?.LogInformation($"User Role: {_currentUser.Role}, UserId: {_currentUser.UserId}");
         
@@ -37,7 +37,7 @@ public class CreatePortfolioCommandHandler
         if (allowedRole != _currentUser.Role)
         {
             _logger?.LogWarning($"Access denied. User role '{_currentUser.Role}' is not allowed.");
-            throw new UnauthorizedAccessException($"Access denied. Role '{_currentUser.Role}' is not allowed.");
+            return PortfolioResponse.FailureResult("شما اجازه آپلود ندارید.");
         }
 
         var imageUrl = await _fileStorage.SaveAsync(
@@ -56,31 +56,34 @@ public class CreatePortfolioCommandHandler
         var file = request.Request.Image;
 
         if (file == null || file.Length == 0) 
-            throw new ArgumentException("Image is required");
+            return PortfolioResponse.FailureResult("عکستان را آپلود کنید.");
 
         if (file.Length > FileSignatureValidator.MaxImageSize) 
-            throw new ArgumentException("Image size must be less than 2MB");
+            return PortfolioResponse.FailureResult("اندازه عکس بیش از حد مجاز است.");
 
         if (!FileSignatureValidator.AllowedMimeTypes.Contains(file.ContentType))
-            throw new ArgumentException("Invalid image format.");
+            return PortfolioResponse.FailureResult("فرمت عکس پشتیبانی نمیشود.");
         
         using var stream = file.OpenReadStream();
         if (!FileSignatureValidator.IsValid(stream, file.ContentType))
-            throw new ArgumentException("Invalid image content.");
+            return PortfolioResponse.FailureResult("محتوای عکس درست نیست.");
 
         await _repository.AddAsync(portfolio, ct);
 
-        return new PortfolioResponseDto
-        {
-            Id = portfolio.Id,
-            DesignerId = portfolio.DesignerId,
-            Title = portfolio.Title,
-            Description = portfolio.Description,
-            CategoryId = portfolio.CategoryId,
-            ImageUrl = portfolio.ImageUrl,
-            ImageSize = portfolio.ImageSize,
-            CreatedAt = portfolio.CreatedAt
-        };
+
+        return PortfolioResponse.SuccessResult(
+            new PortfolioResponseDto
+            {
+                Id = portfolio.Id,
+                DesignerId = portfolio.DesignerId,
+                Title = portfolio.Title,
+                Description = portfolio.Description,
+                CategoryId = portfolio.CategoryId,
+                ImageUrl = portfolio.ImageUrl,
+                ImageSize = portfolio.ImageSize,
+                CreatedAt = portfolio.CreatedAt
+            }
+        );
     }
 }
 

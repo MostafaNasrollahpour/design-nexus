@@ -30,6 +30,10 @@ namespace PortFolioService.Api.Controllers
             var command = new CreatePortfolioCommand(request);
             var result = await _mediator.Send(command);
 
+            if (!result.Success)
+            {
+                Unauthorized(result);
+            }
             return Ok(result);
         }
 

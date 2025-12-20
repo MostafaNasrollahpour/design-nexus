@@ -3,7 +3,7 @@ using MediatR;
 
 namespace PortFolioService.Application.Commands.CreatePortfolio
 {
-    public class CreatePortfolioCommand : IRequest<PortfolioResponseDto>
+    public class CreatePortfolioCommand : IRequest<PortfolioResponse>
     {
         public CreatePortfolioRequestDto Request { get; }
 
