@@ -1,15 +1,20 @@
 using System;
 using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace PortFolioService.Application.DTOs;
 
 
 public class CreatePortfolioRequestDto
 {
-    public string Title { get; set; } = null!;
+    [Required(ErrorMessage = "نام مناسب انتخاب کنید")]
+    public required string Title { get; set; } = null!;
     public string? Description { get; set; }
-    public int? CategoryId { get; set; }
+    
+    [Required(ErrorMessage = "دسته بندی مناسب انتخاب کنید")]
+    public required int CategoryId { get; set; }
 
-    public IFormFile ImageFile { get; set; } = null!;
+    [Required(ErrorMessage = "فایل مناسب انتخاب کنید")]
+    public required IFormFile ImageFile { get; set; } = null!;
 }
 

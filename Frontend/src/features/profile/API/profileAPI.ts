@@ -266,27 +266,23 @@ export async function saveProfileSettings(
 //------------------------------------------------------
 export type UploadDesignPayload = {
   title: string;
-  categoryId: number;      // ✅ تغییر اصلی
-  description: string;
-  imageFile: File | null;
+  description: string | null;
+  categoryId: number;
+  imageFile: File;
 };
 
 export async function uploadDesignerDesign(payload: UploadDesignPayload) {
   const token = localStorage.getItem("token") || "";
 
   const fd = new FormData();
-  fd.append("title", payload.title);
-
-  // ✅ اگر بک‌اند هنوز "category" می‌گیره:
-  fd.append("category", String(payload.categoryId));
-
-  // ✅ اگر بک‌اند "categoryId" می‌گیره، اینو جایگزین خط بالا کن:
-  // fd.append("categoryId", String(payload.categoryId));
-
-  fd.append("description", payload.description || "");
+  
+  // ✅ نام فیلدها باید دقیقاً با DTO در C# مطابقت داشته باشند
+  fd.append("Title", payload.title); // حرف بزرگ اول مهم است!
+  fd.append("CategoryId", String(payload.categoryId)); // از "category" به "CategoryId" تغییر دادم
+  fd.append("Description", payload.description || "");
 
   if (payload.imageFile) {
-    fd.append("image", payload.imageFile);
+    fd.append("ImageFile", payload.imageFile); // از "image" به "ImageFile" تغییر دادم
   }
 
   const res = await fetch("http://localhost:5118/api/portfolios", {
@@ -316,5 +312,3 @@ export async function uploadDesignerDesign(payload: UploadDesignPayload) {
     return null;
   }
 }
-
-
