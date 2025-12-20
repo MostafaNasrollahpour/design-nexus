@@ -10,6 +10,6 @@ public class CreatePortfolioRequestDto
     public string? Description { get; set; }
     public int? CategoryId { get; set; }
 
-    public IFormFile Image { get; set; } = null!;
+    public IFormFile ImageFile { get; set; } = null!;
 }
 

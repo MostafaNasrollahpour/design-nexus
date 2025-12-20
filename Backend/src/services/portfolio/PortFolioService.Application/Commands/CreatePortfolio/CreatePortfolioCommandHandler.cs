@@ -41,7 +41,7 @@ public class CreatePortfolioCommandHandler
         }
 
         var imageUrl = await _fileStorage.SaveAsync(
-            request.Request.Image,
+            request.Request.ImageFile,
             $"designer-{_currentUser.UserId}",
             ct);
 
@@ -51,9 +51,9 @@ public class CreatePortfolioCommandHandler
             request.Request.Description,
             request.Request.CategoryId,
             imageUrl,
-            request.Request.Image.Length);
+            request.Request.ImageFile.Length);
 
-        var file = request.Request.Image;
+        var file = request.Request.ImageFile;
 
         if (file == null || file.Length == 0) 
             return PortfolioResponse.FailureResult("عکستان را آپلود کنید.");

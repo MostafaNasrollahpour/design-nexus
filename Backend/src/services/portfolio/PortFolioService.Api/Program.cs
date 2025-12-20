@@ -14,6 +14,7 @@ JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // --------------------
 // CORS Configuration
 // --------------------
@@ -168,5 +169,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(corsPolicyName);
 
 app.Run();
