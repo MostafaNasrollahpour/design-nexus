@@ -1,55 +1,76 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Navbar from "../../../shared/components/navbar";
 import Footer from "../../../shared/components/footer";
 import "../styles/user_panel_page.css";
-import { useNavigate } from "react-router-dom";
 
 import { Menu, UnstyledButton } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 
-import { saveProfileSettings, type ProfileSettingsPayload } from "../API/profileAPI";
-import { uploadDesignerDesign, type UploadDesignPayload } from "../API/profileAPI";
+import {
+  saveProfileSettings,
+  uploadDesignerDesign,
+  type ProfileSettingsPayload,
+  type UploadDesignPayload,
+} from "../API/profileAPI";
 
+/** ---------------------- ثابت‌ها ---------------------- */
 type DesignerTab = "profile" | "upload" | "projects" | "requests" | "wallet" | "settings";
-type EditableField =
-  | "fullName"
-  | "email"
-  | "currentPassword"
-  | "newPassword"
-  | "confirmNewPassword";
+
+type EditableField = "fullName" | "currentPassword" | "newPassword" | "confirmNewPassword";
+
+const CATEGORIES = [
+  { id: 1, title: "اتاق خواب" },
+  { id: 2, title: "پذیرایی" },
+  { id: 3, title: "آشپزخانه" },
+  { id: 4, title: "اتاق کار" },
+  { id: 5, title: "عروسی و نامزدی" },
+  { id: 6, title: "جشن تولد" },
+  { id: 7, title: "کافی شاپ و رستوران" },
+] as const;
 
 function notifyAuthChanged() {
   window.dispatchEvent(new Event("authChanged"));
 }
 
+function safeJsonParse<T>(raw: string | null): T | null {
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
+}
+
+/** ---------------------- کامپوننت ---------------------- */
 export default function DesignerPanelPage() {
   const navigate = useNavigate();
 
   const userRaw = localStorage.getItem("user");
-  const fullNameLS = localStorage.getItem("fullName") || "";
+  const user = useMemo(() => safeJsonParse<any>(userRaw), [userRaw]);
 
-  const user = useMemo(() => {
-    try {
-      return userRaw ? JSON.parse(userRaw) : null;
-    } catch {
-      return null;
-    }
-  }, [userRaw]);
+  // بعضی جاها FullName / Email با حروف بزرگ ذخیره میشه، بعضی جاها fullName
+  const fullNameLS = localStorage.getItem("fullName") || user?.FullName || user?.fullName || "";
+  const emailLS = user?.Email || user?.email || "";
 
-  const emailLS = user?.Email || "";
   const [activeTab, setActiveTab] = useState<DesignerTab>("profile");
 
-  /* ---------------- Settings state ---------------- */
+  /** ---------------- Settings ---------------- */
   const [settingsError, setSettingsError] = useState("");
   const [saving, setSaving] = useState(false);
 
   const [editing, setEditing] = useState<Record<EditableField, boolean>>({
     fullName: false,
-    email: false,
     currentPassword: false,
     newPassword: false,
     confirmNewPassword: false,
   });
+
+  const readLatestFromStorage = useCallback(() => {
+    const latestFullName = localStorage.getItem("fullName") || "";
+    return { fullName: latestFullName };
+  }, []);
 
   const [draft, setDraft] = useState<ProfileSettingsPayload>(() => ({
     fullName: fullNameLS,
@@ -59,18 +80,13 @@ export default function DesignerPanelPage() {
     confirmNewPassword: "",
   }));
 
-  const readLatestFromStorage = (): Pick<ProfileSettingsPayload, "fullName"> => {
-    const latestFullName = localStorage.getItem("fullName") || "";
-    return { fullName: latestFullName };
-  };
-
-  const refreshDraft = () => {
+  const refreshDraft = useCallback(() => {
     const latest = readLatestFromStorage();
     setDraft((d) => ({
       ...d,
       fullName: latest.fullName,
     }));
-  };
+  }, [readLatestFromStorage]);
 
   const startEdit = (field: EditableField) => {
     setSettingsError("");
@@ -84,7 +100,6 @@ export default function DesignerPanelPage() {
 
   const isDirty = () => {
     const current = readLatestFromStorage();
-
     const profileChanged = draft.fullName.trim() !== current.fullName.trim();
 
     const passwordTouched =
@@ -110,14 +125,22 @@ export default function DesignerPanelPage() {
       return;
     }
 
+    if (payload.newPassword || payload.confirmNewPassword) {
+      if (payload.newPassword !== payload.confirmNewPassword) {
+        setSettingsError("رمز عبور جدید با تکرار آن یکسان نیست.");
+        return;
+      }
+    }
+
     setSaving(true);
     try {
       await saveProfileSettings(payload);
 
+      // ذخیره در لوکال
       localStorage.setItem("fullName", payload.fullName);
 
       try {
-        const u = JSON.parse(localStorage.getItem("user") || "null") || {};
+        const u = safeJsonParse<any>(localStorage.getItem("user")) || {};
         localStorage.setItem(
           "user",
           JSON.stringify({
@@ -129,6 +152,7 @@ export default function DesignerPanelPage() {
 
       notifyAuthChanged();
 
+      // ریست پسوردها
       setDraft((d) => ({
         ...d,
         currentPassword: "",
@@ -138,7 +162,6 @@ export default function DesignerPanelPage() {
 
       setEditing({
         fullName: false,
-        email: false,
         currentPassword: false,
         newPassword: false,
         confirmNewPassword: false,
@@ -158,58 +181,56 @@ export default function DesignerPanelPage() {
       currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
+      // @ts-expect-error اگر در تایپ شما email وجود دارد، این خط مشکلی ندارد؛ اگر ندارد، حذفش کنید
+      email: emailLS,
     });
     setEditing({
       fullName: false,
-      email: false,
       currentPassword: false,
       newPassword: false,
       confirmNewPassword: false,
     });
   };
 
-  /* ---------------- Upload state ---------------- */
+  /** ---------------- Upload ---------------- */
   const [uploadError, setUploadError] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState("");
 
+  // این کامپوننت فرض می‌گیرد UploadDesignPayload شما با categoryId است (مثل اصلاحی که گفتیم)
   const [uploadForm, setUploadForm] = useState<UploadDesignPayload>(() => ({
-    designerName: fullNameLS || localStorage.getItem("fullName") || "",
     title: "",
-    category: "",
-    price: "",
+    categoryId: 0, // 0 یعنی انتخاب نشده
     description: "",
     imageFile: null,
   }));
 
-  const setUploadField = <K extends keyof UploadDesignPayload>(
-    key: K,
-    value: UploadDesignPayload[K]
-  ) => {
+  const setUploadField = <K extends keyof UploadDesignPayload>(key: K, value: UploadDesignPayload[K]) => {
     setUploadError("");
     setUploadSuccess("");
     setUploadForm((p) => ({ ...p, [key]: value }));
   };
 
+  const selectedCategoryTitle = useMemo(() => {
+    if (!uploadForm.categoryId) return "";
+    return CATEGORIES.find((c) => c.id === uploadForm.categoryId)?.title || "";
+  }, [uploadForm.categoryId]);
+
   const isUploadDirty = () => {
     return (
       !!uploadForm.title.trim() ||
-      !!uploadForm.category.trim() ||
-      // !!uploadForm.price.trim() ||
+      uploadForm.categoryId !== 0 ||
       !!uploadForm.description.trim() ||
       !!uploadForm.imageFile
     );
   };
 
   const resetUploadForm = () => {
-    // const latestName = localStorage.getItem("fullName") || fullNameLS || "";
     setUploadError("");
     setUploadSuccess("");
     setUploadForm({
-      // designerName: latestName,
       title: "",
-      category: "",
-      // price: "",
+      categoryId: 0,
       description: "",
       imageFile: null,
     });
@@ -219,27 +240,18 @@ export default function DesignerPanelPage() {
     setUploadError("");
     setUploadSuccess("");
 
-    // const latestName = localStorage.getItem("fullName") || fullNameLS || "";
-
     const payload: UploadDesignPayload = {
       ...uploadForm,
-      // designerName: latestName,
       title: uploadForm.title.trim(),
-      category: uploadForm.category.trim(),
-      // price: uploadForm.price.trim(),
       description: uploadForm.description.trim(),
-      imageFile: uploadForm.imageFile,
+      // categoryId همون عدد باقی می‌ماند
     };
 
-    // if (!payload.designerName) {
-    //   setUploadError("نام طراح پیدا نشد. لطفاً دوباره وارد شوید.");
-    //   return;
-    // }
     if (!payload.title) {
       setUploadError("عنوان طرح الزامی است.");
       return;
     }
-    if (!payload.category) {
+    if (!payload.categoryId) {
       setUploadError("دسته‌بندی الزامی است.");
       return;
     }
@@ -260,6 +272,28 @@ export default function DesignerPanelPage() {
     }
   };
 
+  /** ---------------- UI Helpers ---------------- */
+  const SidebarButton = ({
+    tab,
+    label,
+    onClick,
+  }: {
+    tab?: DesignerTab;
+    label: string;
+    onClick: () => void;
+  }) => {
+    const active = tab ? activeTab === tab : false;
+    return (
+      <button
+        className={`sidebar-item ${active ? "active" : ""}`}
+        onClick={onClick}
+        type="button"
+      >
+        {label}
+      </button>
+    );
+  };
+
   return (
     <div className="panel-container">
       <Navbar />
@@ -272,64 +306,30 @@ export default function DesignerPanelPage() {
             <div className="sidebar-email">{emailLS}</div>
           </div>
 
-          <button className="sidebar-item" onClick={() => navigate("/", { replace: true })} type="button">
-            صفحه اصلی
-          </button>
+          <SidebarButton
+            label="صفحه اصلی"
+            onClick={() => navigate("/", { replace: true })}
+          />
 
-          <button
-            className={`sidebar-item ${activeTab === "profile" ? "active" : ""}`}
-            onClick={() => setActiveTab("profile")}
-            type="button"
-          >
-            اطلاعات طراح
-          </button>
+          <SidebarButton tab="profile" label="اطلاعات طراح" onClick={() => setActiveTab("profile")} />
+          <SidebarButton tab="upload" label="بارگذاری طرح" onClick={() => setActiveTab("upload")} />
+          <SidebarButton tab="projects" label="پروژه‌ها" onClick={() => setActiveTab("projects")} />
+          <SidebarButton tab="requests" label="درخواست‌ها" onClick={() => setActiveTab("requests")} />
+          <SidebarButton tab="wallet" label="کیف پول / درآمد" onClick={() => setActiveTab("wallet")} />
 
-          <button
-            className={`sidebar-item ${activeTab === "upload" ? "active" : ""}`}
-            onClick={() => setActiveTab("upload")}
-            type="button"
-          >
-            بارگذاری طرح
-          </button>
-
-          <button
-            className={`sidebar-item ${activeTab === "projects" ? "active" : ""}`}
-            onClick={() => setActiveTab("projects")}
-            type="button"
-          >
-            پروژه‌ها
-          </button>
-
-          <button
-            className={`sidebar-item ${activeTab === "requests" ? "active" : ""}`}
-            onClick={() => setActiveTab("requests")}
-            type="button"
-          >
-            درخواست‌ها
-          </button>
-
-          <button
-            className={`sidebar-item ${activeTab === "wallet" ? "active" : ""}`}
-            onClick={() => setActiveTab("wallet")}
-            type="button"
-          >
-            کیف پول / درآمد
-          </button>
-
-          <button
-            className={`sidebar-item ${activeTab === "settings" ? "active" : ""}`}
+          <SidebarButton
+            tab="settings"
+            label="ویرایش اطلاعات"
             onClick={() => {
               setActiveTab("settings");
               refreshDraft();
             }}
-            type="button"
-          >
-            ویرایش اطلاعات
-          </button>
+          />
 
-          <button className="sidebar-item" onClick={() => navigate("/support", { replace: true })} type="button">
-            مشاوره و پشتیبانی
-          </button>
+          <SidebarButton
+            label="مشاوره و پشتیبانی"
+            onClick={() => navigate("/support", { replace: true })}
+          />
         </aside>
 
         {/* محتوا */}
@@ -368,7 +368,7 @@ export default function DesignerPanelPage() {
                 <div className="settings-control">
                   <input
                     className="settings-input"
-                    value={localStorage.getItem("fullName") || fullNameLS || ""}
+                    value={fullNameLS}
                     readOnly
                     placeholder="نام طراح"
                   />
@@ -388,22 +388,15 @@ export default function DesignerPanelPage() {
                   />
                 </div>
 
-                {/* <div className="settings-control" style={{ marginBottom: 10 }}>
-                  <input
-                    className="settings-input"
-                    value={uploadForm.price}
-                    onChange={(e) => setUploadField("price", e.target.value)}
-                    placeholder="قیمت / بودجه (اختیاری)"
-                  />
-                </div> */}
-
                 {/* دسته‌بندی */}
                 <div className="settings-control" style={{ justifyContent: "flex-start" }}>
-                  <Menu shadow="md" width={220} position="bottom-start" withinPortal={false}>
+                  <Menu shadow="md" width={240} position="bottom-start" withinPortal={false}>
                     <Menu.Target>
                       <UnstyledButton className="settings-dropdown-trigger" type="button">
                         <span>
-                          {uploadForm.category ? `دسته‌بندی: ${uploadForm.category}` : "انتخاب دسته‌بندی"}
+                          {uploadForm.categoryId
+                            ? `دسته‌بندی: ${selectedCategoryTitle}`
+                            : "انتخاب دسته‌بندی"}
                         </span>
                         <IconChevronDown size={16} />
                       </UnstyledButton>
@@ -411,23 +404,19 @@ export default function DesignerPanelPage() {
 
                     <Menu.Dropdown dir="rtl">
                       <Menu.Label>دسته بندی‌ها</Menu.Label>
-                      <Menu.Item onClick={() => setUploadField("category", "پذیرایی")}>پذیرایی</Menu.Item>
-                      <Menu.Item onClick={() => setUploadField("category", "آشپزخانه")}>آشپزخانه</Menu.Item>
-                      <Menu.Item onClick={() => setUploadField("category", "اتاق کار")}>اتاق کار</Menu.Item>
-                      <Menu.Item onClick={() => setUploadField("category", "عروسی و نامزدی")}>عروسی و نامزدی</Menu.Item>
-                      <Menu.Item onClick={() => setUploadField("category", "جشن تولد")}>جشن تولد</Menu.Item>
-                      <Menu.Item onClick={() => setUploadField("category", "کافی‌ شاپ و رستوران")}>
-                        کافی‌ شاپ و رستوران
-                      </Menu.Item>
-                      <Menu.Item onClick={() => setUploadField("category", "اتاق خواب")}>اتاق خواب</Menu.Item>
+                      {CATEGORIES.map((c) => (
+                        <Menu.Item key={c.id} onClick={() => setUploadField("categoryId", c.id)}>
+                          {c.title}
+                        </Menu.Item>
+                      ))}
                     </Menu.Dropdown>
                   </Menu>
 
-                  {uploadForm.category && (
+                  {uploadForm.categoryId !== 0 && (
                     <button
                       type="button"
                       className="icon-btn"
-                      onClick={() => setUploadField("category", "")}
+                      onClick={() => setUploadField("categoryId", 0)}
                       title="پاک کردن دسته‌بندی"
                     >
                       ×
@@ -462,7 +451,9 @@ export default function DesignerPanelPage() {
                   />
                 </div>
                 <div className="settings-hint">
-                  {uploadForm.imageFile ? `فایل انتخاب شده: ${uploadForm.imageFile.name}` : "فقط تصاویر (jpg, png, ...)"}
+                  {uploadForm.imageFile
+                    ? `فایل انتخاب شده: ${uploadForm.imageFile.name}`
+                    : "فقط تصاویر (jpg, png, ...)"}
                 </div>
               </div>
 
@@ -517,7 +508,12 @@ export default function DesignerPanelPage() {
                   {!editing.fullName ? (
                     <>
                       <div className="settings-value">{draft.fullName || "—"}</div>
-                      <button type="button" className="icon-btn" onClick={() => startEdit("fullName")} title="ویرایش">
+                      <button
+                        type="button"
+                        className="icon-btn"
+                        onClick={() => startEdit("fullName")}
+                        title="ویرایش"
+                      >
                         ✎
                       </button>
                     </>
@@ -529,7 +525,12 @@ export default function DesignerPanelPage() {
                         onChange={(e) => setDraft((d) => ({ ...d, fullName: e.target.value }))}
                         placeholder="نام و نام خانوادگی"
                       />
-                      <button type="button" className="icon-btn" onClick={() => stopEdit("fullName")} title="تمام">
+                      <button
+                        type="button"
+                        className="icon-btn"
+                        onClick={() => stopEdit("fullName")}
+                        title="تمام"
+                      >
                         ✓
                       </button>
                     </>
@@ -582,7 +583,12 @@ export default function DesignerPanelPage() {
                   {!editing.newPassword ? (
                     <>
                       <div className="settings-value">{draft.newPassword ? "********" : "—"}</div>
-                      <button type="button" className="icon-btn" onClick={() => startEdit("newPassword")} title="ویرایش">
+                      <button
+                        type="button"
+                        className="icon-btn"
+                        onClick={() => startEdit("newPassword")}
+                        title="ویرایش"
+                      >
                         ✎
                       </button>
                     </>
@@ -595,7 +601,12 @@ export default function DesignerPanelPage() {
                         onChange={(e) => setDraft((d) => ({ ...d, newPassword: e.target.value }))}
                         placeholder="رمز عبور جدید"
                       />
-                      <button type="button" className="icon-btn" onClick={() => stopEdit("newPassword")} title="تمام">
+                      <button
+                        type="button"
+                        className="icon-btn"
+                        onClick={() => stopEdit("newPassword")}
+                        title="تمام"
+                      >
                         ✓
                       </button>
                     </>

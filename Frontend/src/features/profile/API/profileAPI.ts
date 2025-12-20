@@ -265,10 +265,8 @@ export async function saveProfileSettings(
 
 //------------------------------------------------------
 export type UploadDesignPayload = {
-  // designerName: string;
   title: string;
-  category: string;
-  // price: string;
+  categoryId: number;      // ✅ تغییر اصلی
   description: string;
   imageFile: File | null;
 };
@@ -277,10 +275,14 @@ export async function uploadDesignerDesign(payload: UploadDesignPayload) {
   const token = localStorage.getItem("token") || "";
 
   const fd = new FormData();
-  // fd.append("designerName", payload.designerName);
   fd.append("title", payload.title);
-  fd.append("category", payload.category);
-  // fd.append("price", payload.price || "");
+
+  // ✅ اگر بک‌اند هنوز "category" می‌گیره:
+  fd.append("category", String(payload.categoryId));
+
+  // ✅ اگر بک‌اند "categoryId" می‌گیره، اینو جایگزین خط بالا کن:
+  // fd.append("categoryId", String(payload.categoryId));
+
   fd.append("description", payload.description || "");
 
   if (payload.imageFile) {
@@ -314,4 +316,5 @@ export async function uploadDesignerDesign(payload: UploadDesignPayload) {
     return null;
   }
 }
+
 
