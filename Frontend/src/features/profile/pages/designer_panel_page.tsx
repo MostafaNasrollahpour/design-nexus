@@ -7,13 +7,14 @@ import "../styles/user_panel_page.css";
 
 import { Menu, UnstyledButton } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
+// import "../API/testapi"
 
 import {
   saveProfileSettings,
   uploadDesignerDesign,
   type ProfileSettingsPayload,
   type UploadDesignPayload,
-} from "../API/profileAPI";
+} from "../API/testapi";
 
 /** ---------------------- ثابت‌ها ---------------------- */
 type DesignerTab = "profile" | "upload" | "projects" | "requests" | "wallet" | "settings";

@@ -1,10 +1,22 @@
 //------------------------------------------------------------
-const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5157/iam";
+// profileAPI.ts  ✅ نسخه جایگزین کامل
+// - update-profile: مثل قبل Bearer + refresh روی 401
+// - uploadDesignerDesign: ✅ همیشه قبل از آپلود refresh می‌زند، بعد آپلود می‌کند
+//------------------------------------------------------------
+
+const BASE_URL = (import.meta.env.VITE_API_URL ?? "http://localhost:5157/iam").replace(/\/+$/, "");
+
+// اگر سرویس پورتفولیو جداست می‌تونی تو .env ست کنی: VITE_PORTFOLIO_URL=http://localhost:5118
+const PORTFOLIO_BASE_URL = (import.meta.env.VITE_PORTFOLIO_URL ?? "http://localhost:5118").replace(/\/+$/, "");
 
 // 🔧 مطابق بک‌اندت تنظیم کن
 const USER_UPDATE_PROFILE_PATH = "/api/Auth/update-profile";
 const AUTH_REFRESH_TOKEN_PATH = "/api/Auth/refresh";
 
+// 🔧 مطابق بک‌اند پورتفولیو
+const PORTFOLIOS_PATH = "/api/portfolios";
+
+/* ---------------- Types ---------------- */
 export type ProfileSettingsPayload = {
   fullName: string;
   currentPassword?: string;
@@ -16,6 +28,20 @@ export type ProfileSettingsResult = {
   success?: boolean;
   message?: string;
   user?: any;
+  [key: string]: any;
+};
+
+//------------------------------------------------------
+export type UploadDesignPayload = {
+  title: string;
+  description: string | null;
+  categoryId: number;
+  imageFile: File;
+};
+
+export type UploadDesignResult = {
+  success?: boolean;
+  message?: string;
   [key: string]: any;
 };
 
@@ -111,12 +137,7 @@ async function readResponseBody(res: Response): Promise<{ text: string; data: an
 
 /** استخراج پیام خطا از ساختارهای رایج بک‌اندها */
 function extractApiMessage(data: any, fallbackText: string): string {
-  const direct =
-    data?.Message ||
-    data?.message ||
-    data?.error?.message ||
-    data?.error?.Message;
-
+  const direct = data?.Message || data?.message || data?.error?.message || data?.error?.Message;
   if (typeof direct === "string" && direct.trim()) return direct.trim();
 
   const errors = data?.errors || data?.Errors;
@@ -127,13 +148,9 @@ function extractApiMessage(data: any, fallbackText: string): string {
     }
 
     const firstKey = Object.keys(errors)[0];
-    const val = errors[firstKey];
-    if (Array.isArray(val) && val.length && typeof val[0] === "string") {
-      return val[0];
-    }
-    if (typeof val === "string" && val.trim()) {
-      return val.trim();
-    }
+    const val = (errors as any)[firstKey];
+    if (Array.isArray(val) && val.length && typeof val[0] === "string") return val[0];
+    if (typeof val === "string" && val.trim()) return val.trim();
   }
 
   if (fallbackText && fallbackText.trim()) return fallbackText.slice(0, 200);
@@ -150,6 +167,7 @@ function makeApiError(message: string, status?: number, data?: any) {
 
 /**
  * ✅ refresh-token فقط با Cookie
+ * نکته: این تابع از سرویس IAM توکن جدید می‌گیرد و داخل localStorage می‌نویسد.
  */
 async function refreshAccessTokenFromCookie(): Promise<string> {
   const res = await fetch(`${BASE_URL}${AUTH_REFRESH_TOKEN_PATH}`, {
@@ -166,13 +184,7 @@ async function refreshAccessTokenFromCookie(): Promise<string> {
     throw makeApiError(msg, res.status, data);
   }
 
-  const newToken =
-    data?.accessToken ||
-    data?.AccessToken ||
-    data?.token ||
-    data?.Token ||
-    "";
-
+  const newToken = data?.accessToken || data?.AccessToken || data?.token || data?.Token || "";
   if (!newToken) {
     clearClientAuth();
     throw makeApiError("توکن جدید از سرور دریافت نشد", res.status, data);
@@ -199,6 +211,7 @@ async function apiJsonWithBearer<T>(path: string, init: RequestInit): Promise<T>
   let token = readAccessTokenLS();
   let res = await doFetch(token);
 
+  // ✅ فقط اگر 401 شد refresh می‌کنیم
   if (res.status === 401) {
     token = await refreshAccessTokenFromCookie();
     res = await doFetch(token);
@@ -211,30 +224,21 @@ async function apiJsonWithBearer<T>(path: string, init: RequestInit): Promise<T>
     throw makeApiError(msg, res.status, data);
   }
 
-  // ✅ موفقیت: چاپ + Toast شیک (CSS جدا)
+  // ✅ موفقیت: Toast شیک (اگر success/message داشت)
   if (data?.success === true && typeof data?.message === "string" && data.message.trim()) {
-    const msg = data.message.trim();
-    console.log(msg);
-    prettyAlert(msg, "success");
+    prettyAlert(data.message.trim(), "success");
   }
 
   return data as T;
 }
 
-export async function saveProfileSettings(
-  payload: ProfileSettingsPayload
-): Promise<ProfileSettingsResult> {
+/* ---------------- API: Profile Settings ---------------- */
+export async function saveProfileSettings(payload: ProfileSettingsPayload): Promise<ProfileSettingsResult> {
   const hasPasswordChange =
-    !!payload.currentPassword?.trim() ||
-    !!payload.newPassword?.trim() ||
-    !!payload.confirmNewPassword?.trim();
+    !!payload.currentPassword?.trim() || !!payload.newPassword?.trim() || !!payload.confirmNewPassword?.trim();
 
   if (hasPasswordChange) {
-    if (
-      !payload.currentPassword?.trim() ||
-      !payload.newPassword?.trim() ||
-      !payload.confirmNewPassword?.trim()
-    ) {
+    if (!payload.currentPassword?.trim() || !payload.newPassword?.trim() || !payload.confirmNewPassword?.trim()) {
       throw new Error("برای تغییر رمز عبور، هر سه فیلد رمز را کامل پر کنید.");
     }
     if (payload.newPassword !== payload.confirmNewPassword) {
@@ -263,109 +267,65 @@ export async function saveProfileSettings(
   });
 }
 
-//------------------------------------------------------
-// export type UploadDesignPayload = {
-//   title: string;
-//   description: string | null;
-//   categoryId: number;
-//   imageFile: File;
-// };
+/* ---------------- API: Upload Design ---------------- */
+/**
+ * ✅ خواسته شما:
+ * هر بار که می‌خواهیم طرح آپلود کنیم، اول refresh می‌زنیم و توکن جدید می‌گیریم،
+ * بعد آپلود را انجام می‌دهیم.
+ */
+export async function uploadDesignerDesign(payload: UploadDesignPayload): Promise<UploadDesignResult | null> {
+  const url = `${PORTFOLIO_BASE_URL}${PORTFOLIOS_PATH}`;
 
-// export async function uploadDesignerDesign(payload: UploadDesignPayload) {
-//   const token = localStorage.getItem("token") || "";
+  // ✅ برای retry امن‌تر: هر بار FormData از نو ساخته میشه
+  const buildFormData = () => {
+    const fd = new FormData();
 
-//   const fd = new FormData();
-  
-//   // ✅ نام فیلدها باید دقیقاً با DTO در C# مطابقت داشته باشند
-//   fd.append("Title", payload.title); // حرف بزرگ اول مهم است!
-//   fd.append("CategoryId", String(payload.categoryId)); // از "category" به "CategoryId" تغییر دادم
-//   fd.append("Description", payload.description || "");
+    // ✅ نام فیلدها باید دقیقاً با DTO در C# مطابقت داشته باشند
+    fd.append("Title", payload.title);
+    fd.append("CategoryId", String(payload.categoryId));
+    fd.append("Description", payload.description || "");
+    fd.append("ImageFile", payload.imageFile); // باینری
 
-//   if (payload.imageFile) {
-//     fd.append("ImageFile", payload.imageFile); // از "image" به "ImageFile" تغییر دادم
-//   }
+    return fd;
+  };
 
-//   const res = await fetch("http://localhost:5118/api/portfolios", {
-//     method: "POST",
-//     body: fd,
-//     credentials: "include",
-//     headers: token.trim() ? { Authorization: `Bearer ${token}` } : undefined,
-//   });
+  const doFetch = (token: string) => {
+    const headers: Record<string, string> = {
+      Accept: "application/json",
+      ...(token.trim() ? { Authorization: `Bearer ${token}` } : {}),
+    };
 
-//   if (!res.ok) {
-//     let msg = "خطا در ارسال اطلاعات";
-//     try {
-//       const data = await res.json();
-//       msg = data?.Message || data?.message || msg;
-//     } catch {
-//       try {
-//         const t = await res.text();
-//         if (t && t.length < 200) msg = t;
-//       } catch {}
-//     }
-//     throw new Error(msg);
-//   }
+    return fetch(url, {
+      method: "POST",
+      body: buildFormData(),
+      credentials: "include",
+      headers,
+    });
+  };
 
-//   try {
-//     return await res.json();
-//   } catch {
-//     return null;
-//   }
-// }
+  // ✅ 1) همیشه قبل از آپلود refresh بزن (حتی اگر فکر می‌کنی توکن معتبره)
+  let token = await refreshAccessTokenFromCookie();
 
-// export async function uploadDesignerDesign(payload: UploadDesignPayload) {
-//   const url = "http://localhost:5118/api/portfolios";
+  // ✅ 2) با توکن جدید آپلود کن
+  let res = await doFetch(token);
 
-//   // ✅ برای اطمینان، هر بار FormData رو از نو می‌سازیم (برای retry امن‌تره)
-//   const buildFormData = () => {
-//     const fd = new FormData();
+  // ✅ 3) اگر به هر دلیل هنوز 401 بود (مثلاً race condition)، یک بار دیگر refresh + retry
+  if (res.status === 401) {
+    token = await refreshAccessTokenFromCookie();
+    res = await doFetch(token);
+  }
 
-//     // ✅ نام فیلدها مطابق DTO در C#
-//     fd.append("Title", payload.title);
-//     fd.append("CategoryId", String(payload.categoryId));
-//     fd.append("Description", payload.description || "");
+  const { text, data } = await readResponseBody(res);
 
-//     // ✅ File (binary) داخل multipart/form-data
-//     fd.append("ImageFile", payload.imageFile);
+  if (!res.ok) {
+    const msg = extractApiMessage(data, text) || "خطا در ارسال اطلاعات";
+    throw makeApiError(msg, res.status, data);
+  }
 
-//     return fd;
-//   };
+  // ✅ اگر بک‌اند success/message داشته باشد
+  if (data?.success === true && typeof data?.message === "string" && data.message.trim()) {
+    prettyAlert(data.message.trim(), "success");
+  }
 
-//   const doFetch = (token: string) => {
-//     const headers: Record<string, string> = {
-//       Accept: "application/json",
-//       ...(token.trim() ? { Authorization: `Bearer ${token}` } : {}),
-//     };
-
-//     return fetch(url, {
-//       method: "POST",
-//       body: buildFormData(),
-//       credentials: "include",
-//       headers,
-//     });
-//   };
-
-//   let token = readAccessTokenLS();
-//   let res = await doFetch(token);
-
-//   // ✅ اگر توکن منقضی بود، رفرش کن و دوباره تلاش کن
-//   if (res.status === 401) {
-//     token = await refreshAccessTokenFromCookie();
-//     res = await doFetch(token);
-//   }
-
-//   const { text, data } = await readResponseBody(res);
-
-//   if (!res.ok) {
-//     const msg = extractApiMessage(data, text) || "خطا در ارسال اطلاعات";
-//     throw makeApiError(msg, res.status, data);
-//   }
-
-//   // ✅ اگر بک‌اند مثل بقیه‌ی APIها success/message برگردونه، Toast هم بده
-//   if (data?.success === true && typeof data?.message === "string" && data.message.trim()) {
-//     prettyAlert(data.message.trim(), "success");
-//   }
-
-//   // مثل قبل: اگر JSON نبود null
-//   return data ?? null;
-// }
+  return (data as UploadDesignResult) ?? null;
+}
