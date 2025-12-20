@@ -43,12 +43,11 @@ function safeJsonParse<T>(raw: string | null): T | null {
 }
 
 /**
- * ✅ چون در API تایپ UploadDesignPayload، imageFile اجباری (File) است،
- * ما برای فرم، state جدا می‌گیریم که imageFile بتواند null باشد.
+ * ✅ چون UploadDesignPayload.imageFile اجباریه، برای فرم state جدا می‌گیریم که null هم بشه.
  */
 type UploadFormState = Omit<UploadDesignPayload, "imageFile" | "description"> & {
   imageFile: File | null;
-  description: string; // در فرم string نگه می‌داریم، موقع ارسال تبدیل می‌کنیم به string | null
+  description: string;
 };
 
 export default function DesignerPanelPage() {
@@ -78,10 +77,6 @@ export default function DesignerPanelPage() {
     return { fullName: latestFullName };
   }, []);
 
-  /**
-   * ✅ برای اینکه با هر نوع ProfileSettingsPayload سازگار باشیم،
-   * draft را به شکلی نگه می‌داریم که email هم اگر بود مشکلی نداشته باشد.
-   */
   type ProfileDraft = Omit<ProfileSettingsPayload, "email"> & { email?: string };
 
   const [draft, setDraft] = useState<ProfileDraft>(() => ({
@@ -192,7 +187,6 @@ export default function DesignerPanelPage() {
       currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
-      // email اگر وجود داشته باشد نگه می‌داریم (منطق بهم نمی‌ریزد)
       email: emailLS,
     }));
 
@@ -211,12 +205,13 @@ export default function DesignerPanelPage() {
 
   const [uploadForm, setUploadForm] = useState<UploadFormState>(() => ({
     title: "",
-    categoryId: 0, // 0 یعنی انتخاب نشده
+    categoryId: 0,
     description: "",
     imageFile: null,
   }));
 
   const setUploadField = <K extends keyof UploadFormState>(key: K, value: UploadFormState[K]) => {
+    // ✅ وقتی کاربر چیزی تغییر میده، پیام قبلی پاک بشه
     setUploadError("");
     setUploadSuccess("");
     setUploadForm((p) => ({ ...p, [key]: value }));
@@ -236,7 +231,19 @@ export default function DesignerPanelPage() {
     );
   };
 
-  const resetUploadForm = () => {
+  // ✅ بعد از موفقیت: فقط فیلدها ریست شوند، پیام موفقیت باقی بماند
+  const resetUploadFieldsAfterSuccess = () => {
+    setUploadError("");
+    setUploadForm({
+      title: "",
+      categoryId: 0,
+      description: "",
+      imageFile: null,
+    });
+  };
+
+  // ✅ دکمه "پاک کردن": هم فیلدها هم پیام‌ها پاک شود
+  const clearUploadForm = () => {
     setUploadError("");
     setUploadSuccess("");
     setUploadForm({
@@ -267,19 +274,22 @@ export default function DesignerPanelPage() {
       return;
     }
 
-    // ✅ این payload دقیقاً با UploadDesignPayload (فایل API) منطبق است
     const payload: UploadDesignPayload = {
       title,
       categoryId: uploadForm.categoryId,
       description: descriptionTrimmed ? descriptionTrimmed : null,
-      imageFile: uploadForm.imageFile, // اینجا دیگر null نیست
+      imageFile: uploadForm.imageFile,
     };
 
     setUploading(true);
     try {
       await uploadDesignerDesign(payload);
+
+      // ✅ پیام موفقیت نمایش داده میشه و پاک نمیشه
       setUploadSuccess("طرح با موفقیت ارسال شد ✅");
-      resetUploadForm();
+
+      // ✅ فقط فرم پاک میشه
+      resetUploadFieldsAfterSuccess();
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : "خطای ناشناخته");
     } finally {
@@ -318,7 +328,6 @@ export default function DesignerPanelPage() {
           </div>
 
           <SidebarButton label="صفحه اصلی" onClick={() => navigate("/", { replace: true })} />
-
           <SidebarButton tab="profile" label="اطلاعات طراح" onClick={() => setActiveTab("profile")} />
           <SidebarButton tab="upload" label="بارگذاری طرح" onClick={() => setActiveTab("upload")} />
           <SidebarButton tab="projects" label="پروژه‌ها" onClick={() => setActiveTab("projects")} />
@@ -454,7 +463,7 @@ export default function DesignerPanelPage() {
               </div>
 
               <div className="settings-footer">
-                <button type="button" className="btn-ghost" onClick={resetUploadForm} disabled={uploading}>
+                <button type="button" className="btn-ghost" onClick={clearUploadForm} disabled={uploading}>
                   پاک کردن
                 </button>
 
