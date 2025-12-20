@@ -264,55 +264,54 @@ export async function saveProfileSettings(
 }
 
 //------------------------------------------------------
-
 export type UploadDesignPayload = {
-  designerName: string;
+  // designerName: string;
   title: string;
   category: string;
-  price: string;
+  // price: string;
   description: string;
   imageFile: File | null;
 };
 
 export async function uploadDesignerDesign(payload: UploadDesignPayload) {
-  // اگر بک‌اندت JSON می‌خواد و فایل جدا آپلود میشه، باید تغییر بدی.
-  // این نسخه برای آپلود فایل + فیلدها با FormData هست (رایج‌ترین حالت).
+  const token = localStorage.getItem("token") || "";
+
   const fd = new FormData();
-  fd.append("designerName", payload.designerName);
+  // fd.append("designerName", payload.designerName);
   fd.append("title", payload.title);
   fd.append("category", payload.category);
-  fd.append("price", payload.price || "");
+  // fd.append("price", payload.price || "");
   fd.append("description", payload.description || "");
 
   if (payload.imageFile) {
-    fd.append("image", payload.imageFile); // نام فیلد فایل: image
+    fd.append("image", payload.imageFile);
   }
 
-  const res = await fetch("/api/designer/designs", {
+  const res = await fetch("http://localhost:5118/api/portfolios", {
     method: "POST",
     body: fd,
-    // نکته: برای FormData هدر Content-Type رو دستی نذار
-    // headers: { ... }
+    credentials: "include",
+    headers: token.trim() ? { Authorization: `Bearer ${token}` } : undefined,
   });
 
   if (!res.ok) {
-    // سعی می‌کنیم پیام خطا رو از بک‌اند بخونیم
     let msg = "خطا در ارسال اطلاعات";
     try {
       const data = await res.json();
-      msg = data?.message || msg;
+      msg = data?.Message || data?.message || msg;
     } catch {
       try {
-        msg = await res.text();
+        const t = await res.text();
+        if (t && t.length < 200) msg = t;
       } catch {}
     }
     throw new Error(msg);
   }
 
-  // اگر بک‌اند خروجی JSON میده:
   try {
     return await res.json();
   } catch {
     return null;
   }
 }
+

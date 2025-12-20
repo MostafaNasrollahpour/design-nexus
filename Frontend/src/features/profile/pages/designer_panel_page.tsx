@@ -195,21 +195,21 @@ export default function DesignerPanelPage() {
     return (
       !!uploadForm.title.trim() ||
       !!uploadForm.category.trim() ||
-      !!uploadForm.price.trim() ||
+      // !!uploadForm.price.trim() ||
       !!uploadForm.description.trim() ||
       !!uploadForm.imageFile
     );
   };
 
   const resetUploadForm = () => {
-    const latestName = localStorage.getItem("fullName") || fullNameLS || "";
+    // const latestName = localStorage.getItem("fullName") || fullNameLS || "";
     setUploadError("");
     setUploadSuccess("");
     setUploadForm({
-      designerName: latestName,
+      // designerName: latestName,
       title: "",
       category: "",
-      price: "",
+      // price: "",
       description: "",
       imageFile: null,
     });
@@ -219,22 +219,22 @@ export default function DesignerPanelPage() {
     setUploadError("");
     setUploadSuccess("");
 
-    const latestName = localStorage.getItem("fullName") || fullNameLS || "";
+    // const latestName = localStorage.getItem("fullName") || fullNameLS || "";
 
     const payload: UploadDesignPayload = {
       ...uploadForm,
-      designerName: latestName,
+      // designerName: latestName,
       title: uploadForm.title.trim(),
       category: uploadForm.category.trim(),
-      price: uploadForm.price.trim(),
+      // price: uploadForm.price.trim(),
       description: uploadForm.description.trim(),
       imageFile: uploadForm.imageFile,
     };
 
-    if (!payload.designerName) {
-      setUploadError("نام طراح پیدا نشد. لطفاً دوباره وارد شوید.");
-      return;
-    }
+    // if (!payload.designerName) {
+    //   setUploadError("نام طراح پیدا نشد. لطفاً دوباره وارد شوید.");
+    //   return;
+    // }
     if (!payload.title) {
       setUploadError("عنوان طرح الزامی است.");
       return;
@@ -388,14 +388,14 @@ export default function DesignerPanelPage() {
                   />
                 </div>
 
-                <div className="settings-control" style={{ marginBottom: 10 }}>
+                {/* <div className="settings-control" style={{ marginBottom: 10 }}>
                   <input
                     className="settings-input"
                     value={uploadForm.price}
                     onChange={(e) => setUploadField("price", e.target.value)}
                     placeholder="قیمت / بودجه (اختیاری)"
                   />
-                </div>
+                </div> */}
 
                 {/* دسته‌بندی */}
                 <div className="settings-control" style={{ justifyContent: "flex-start" }}>
