@@ -17,7 +17,6 @@ import {
 
 /** ---------------------- ثابت‌ها ---------------------- */
 type DesignerTab = "profile" | "upload" | "projects" | "requests" | "wallet" | "settings";
-
 type EditableField = "fullName" | "currentPassword" | "newPassword" | "confirmNewPassword";
 
 const CATEGORIES = [
@@ -43,20 +42,27 @@ function safeJsonParse<T>(raw: string | null): T | null {
   }
 }
 
-/** ---------------------- کامپوننت ---------------------- */
+/**
+ * ✅ چون در API تایپ UploadDesignPayload، imageFile اجباری (File) است،
+ * ما برای فرم، state جدا می‌گیریم که imageFile بتواند null باشد.
+ */
+type UploadFormState = Omit<UploadDesignPayload, "imageFile" | "description"> & {
+  imageFile: File | null;
+  description: string; // در فرم string نگه می‌داریم، موقع ارسال تبدیل می‌کنیم به string | null
+};
+
 export default function DesignerPanelPage() {
   const navigate = useNavigate();
 
   const userRaw = localStorage.getItem("user");
   const user = useMemo(() => safeJsonParse<any>(userRaw), [userRaw]);
 
-  // بعضی جاها FullName / Email با حروف بزرگ ذخیره میشه، بعضی جاها fullName
   const fullNameLS = localStorage.getItem("fullName") || user?.FullName || user?.fullName || "";
   const emailLS = user?.Email || user?.email || "";
 
   const [activeTab, setActiveTab] = useState<DesignerTab>("profile");
 
-  /** ---------------- Settings ---------------- */
+  /* ---------------- Settings state ---------------- */
   const [settingsError, setSettingsError] = useState("");
   const [saving, setSaving] = useState(false);
 
@@ -67,12 +73,18 @@ export default function DesignerPanelPage() {
     confirmNewPassword: false,
   });
 
-  const readLatestFromStorage = useCallback(() => {
+  const readLatestFromStorage = useCallback((): Pick<ProfileSettingsPayload, "fullName"> => {
     const latestFullName = localStorage.getItem("fullName") || "";
     return { fullName: latestFullName };
   }, []);
 
-  const [draft, setDraft] = useState<ProfileSettingsPayload>(() => ({
+  /**
+   * ✅ برای اینکه با هر نوع ProfileSettingsPayload سازگار باشیم،
+   * draft را به شکلی نگه می‌داریم که email هم اگر بود مشکلی نداشته باشد.
+   */
+  type ProfileDraft = Omit<ProfileSettingsPayload, "email"> & { email?: string };
+
+  const [draft, setDraft] = useState<ProfileDraft>(() => ({
     fullName: fullNameLS,
     email: emailLS,
     currentPassword: "",
@@ -100,12 +112,11 @@ export default function DesignerPanelPage() {
 
   const isDirty = () => {
     const current = readLatestFromStorage();
-    const profileChanged = draft.fullName.trim() !== current.fullName.trim();
+
+    const profileChanged = (draft.fullName || "").trim() !== (current.fullName || "").trim();
 
     const passwordTouched =
-      !!draft.currentPassword?.trim() ||
-      !!draft.newPassword?.trim() ||
-      !!draft.confirmNewPassword?.trim();
+      !!draft.currentPassword?.trim() || !!draft.newPassword?.trim() || !!draft.confirmNewPassword?.trim();
 
     return profileChanged || passwordTouched;
   };
@@ -114,7 +125,7 @@ export default function DesignerPanelPage() {
     setSettingsError("");
 
     const payload: ProfileSettingsPayload = {
-      fullName: draft.fullName.trim(),
+      fullName: (draft.fullName || "").trim(),
       currentPassword: draft.currentPassword?.trim() || "",
       newPassword: draft.newPassword?.trim() || "",
       confirmNewPassword: draft.confirmNewPassword?.trim() || "",
@@ -136,7 +147,6 @@ export default function DesignerPanelPage() {
     try {
       await saveProfileSettings(payload);
 
-      // ذخیره در لوکال
       localStorage.setItem("fullName", payload.fullName);
 
       try {
@@ -152,7 +162,6 @@ export default function DesignerPanelPage() {
 
       notifyAuthChanged();
 
-      // ریست پسوردها
       setDraft((d) => ({
         ...d,
         currentPassword: "",
@@ -176,14 +185,17 @@ export default function DesignerPanelPage() {
   const cancelAll = () => {
     setSettingsError("");
     const latest = readLatestFromStorage();
-    setDraft({
+
+    setDraft((d) => ({
+      ...d,
       fullName: latest.fullName,
       currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
-      // @ts-expect-error اگر در تایپ شما email وجود دارد، این خط مشکلی ندارد؛ اگر ندارد، حذفش کنید
+      // email اگر وجود داشته باشد نگه می‌داریم (منطق بهم نمی‌ریزد)
       email: emailLS,
-    });
+    }));
+
     setEditing({
       fullName: false,
       currentPassword: false,
@@ -192,20 +204,19 @@ export default function DesignerPanelPage() {
     });
   };
 
-  /** ---------------- Upload ---------------- */
+  /* ---------------- Upload state ---------------- */
   const [uploadError, setUploadError] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState("");
 
-  // این کامپوننت فرض می‌گیرد UploadDesignPayload شما با categoryId است (مثل اصلاحی که گفتیم)
-  const [uploadForm, setUploadForm] = useState<UploadDesignPayload>(() => ({
+  const [uploadForm, setUploadForm] = useState<UploadFormState>(() => ({
     title: "",
     categoryId: 0, // 0 یعنی انتخاب نشده
     description: "",
     imageFile: null,
   }));
 
-  const setUploadField = <K extends keyof UploadDesignPayload>(key: K, value: UploadDesignPayload[K]) => {
+  const setUploadField = <K extends keyof UploadFormState>(key: K, value: UploadFormState[K]) => {
     setUploadError("");
     setUploadSuccess("");
     setUploadForm((p) => ({ ...p, [key]: value }));
@@ -240,25 +251,29 @@ export default function DesignerPanelPage() {
     setUploadError("");
     setUploadSuccess("");
 
-    const payload: UploadDesignPayload = {
-      ...uploadForm,
-      title: uploadForm.title.trim(),
-      description: uploadForm.description.trim(),
-      // categoryId همون عدد باقی می‌ماند
-    };
+    const title = uploadForm.title.trim();
+    const descriptionTrimmed = uploadForm.description.trim();
 
-    if (!payload.title) {
+    if (!title) {
       setUploadError("عنوان طرح الزامی است.");
       return;
     }
-    if (!payload.categoryId) {
+    if (!uploadForm.categoryId) {
       setUploadError("دسته‌بندی الزامی است.");
       return;
     }
-    if (!payload.imageFile) {
+    if (!uploadForm.imageFile) {
       setUploadError("لطفاً یک تصویر برای طرح انتخاب کنید.");
       return;
     }
+
+    // ✅ این payload دقیقاً با UploadDesignPayload (فایل API) منطبق است
+    const payload: UploadDesignPayload = {
+      title,
+      categoryId: uploadForm.categoryId,
+      description: descriptionTrimmed ? descriptionTrimmed : null,
+      imageFile: uploadForm.imageFile, // اینجا دیگر null نیست
+    };
 
     setUploading(true);
     try {
@@ -272,7 +287,7 @@ export default function DesignerPanelPage() {
     }
   };
 
-  /** ---------------- UI Helpers ---------------- */
+  /* ---------------- UI Helpers ---------------- */
   const SidebarButton = ({
     tab,
     label,
@@ -284,11 +299,7 @@ export default function DesignerPanelPage() {
   }) => {
     const active = tab ? activeTab === tab : false;
     return (
-      <button
-        className={`sidebar-item ${active ? "active" : ""}`}
-        onClick={onClick}
-        type="button"
-      >
+      <button className={`sidebar-item ${active ? "active" : ""}`} onClick={onClick} type="button">
         {label}
       </button>
     );
@@ -306,10 +317,7 @@ export default function DesignerPanelPage() {
             <div className="sidebar-email">{emailLS}</div>
           </div>
 
-          <SidebarButton
-            label="صفحه اصلی"
-            onClick={() => navigate("/", { replace: true })}
-          />
+          <SidebarButton label="صفحه اصلی" onClick={() => navigate("/", { replace: true })} />
 
           <SidebarButton tab="profile" label="اطلاعات طراح" onClick={() => setActiveTab("profile")} />
           <SidebarButton tab="upload" label="بارگذاری طرح" onClick={() => setActiveTab("upload")} />
@@ -326,10 +334,7 @@ export default function DesignerPanelPage() {
             }}
           />
 
-          <SidebarButton
-            label="مشاوره و پشتیبانی"
-            onClick={() => navigate("/support", { replace: true })}
-          />
+          <SidebarButton label="مشاوره و پشتیبانی" onClick={() => navigate("/support", { replace: true })} />
         </aside>
 
         {/* محتوا */}
@@ -366,12 +371,7 @@ export default function DesignerPanelPage() {
               <div className="settings-row">
                 <div className="settings-label">اطلاعات طراح</div>
                 <div className="settings-control">
-                  <input
-                    className="settings-input"
-                    value={fullNameLS}
-                    readOnly
-                    placeholder="نام طراح"
-                  />
+                  <input className="settings-input" value={fullNameLS} readOnly placeholder="نام طراح" />
                 </div>
               </div>
 
@@ -394,9 +394,7 @@ export default function DesignerPanelPage() {
                     <Menu.Target>
                       <UnstyledButton className="settings-dropdown-trigger" type="button">
                         <span>
-                          {uploadForm.categoryId
-                            ? `دسته‌بندی: ${selectedCategoryTitle}`
-                            : "انتخاب دسته‌بندی"}
+                          {uploadForm.categoryId ? `دسته‌بندی: ${selectedCategoryTitle}` : "انتخاب دسته‌بندی"}
                         </span>
                         <IconChevronDown size={16} />
                       </UnstyledButton>
@@ -451,9 +449,7 @@ export default function DesignerPanelPage() {
                   />
                 </div>
                 <div className="settings-hint">
-                  {uploadForm.imageFile
-                    ? `فایل انتخاب شده: ${uploadForm.imageFile.name}`
-                    : "فقط تصاویر (jpg, png, ...)"}
+                  {uploadForm.imageFile ? `فایل انتخاب شده: ${uploadForm.imageFile.name}` : "فقط تصاویر (jpg, png, ...)"}
                 </div>
               </div>
 
@@ -508,12 +504,7 @@ export default function DesignerPanelPage() {
                   {!editing.fullName ? (
                     <>
                       <div className="settings-value">{draft.fullName || "—"}</div>
-                      <button
-                        type="button"
-                        className="icon-btn"
-                        onClick={() => startEdit("fullName")}
-                        title="ویرایش"
-                      >
+                      <button type="button" className="icon-btn" onClick={() => startEdit("fullName")} title="ویرایش">
                         ✎
                       </button>
                     </>
@@ -521,16 +512,11 @@ export default function DesignerPanelPage() {
                     <>
                       <input
                         className="settings-input"
-                        value={draft.fullName}
+                        value={draft.fullName || ""}
                         onChange={(e) => setDraft((d) => ({ ...d, fullName: e.target.value }))}
                         placeholder="نام و نام خانوادگی"
                       />
-                      <button
-                        type="button"
-                        className="icon-btn"
-                        onClick={() => stopEdit("fullName")}
-                        title="تمام"
-                      >
+                      <button type="button" className="icon-btn" onClick={() => stopEdit("fullName")} title="تمام">
                         ✓
                       </button>
                     </>
@@ -583,12 +569,7 @@ export default function DesignerPanelPage() {
                   {!editing.newPassword ? (
                     <>
                       <div className="settings-value">{draft.newPassword ? "********" : "—"}</div>
-                      <button
-                        type="button"
-                        className="icon-btn"
-                        onClick={() => startEdit("newPassword")}
-                        title="ویرایش"
-                      >
+                      <button type="button" className="icon-btn" onClick={() => startEdit("newPassword")} title="ویرایش">
                         ✎
                       </button>
                     </>
@@ -601,12 +582,7 @@ export default function DesignerPanelPage() {
                         onChange={(e) => setDraft((d) => ({ ...d, newPassword: e.target.value }))}
                         placeholder="رمز عبور جدید"
                       />
-                      <button
-                        type="button"
-                        className="icon-btn"
-                        onClick={() => stopEdit("newPassword")}
-                        title="تمام"
-                      >
+                      <button type="button" className="icon-btn" onClick={() => stopEdit("newPassword")} title="تمام">
                         ✓
                       </button>
                     </>
