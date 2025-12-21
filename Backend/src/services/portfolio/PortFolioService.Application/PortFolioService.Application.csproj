@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Commands\UpdateDesignerProfile\" />
     <Folder Include="Queries\" />
     <Folder Include="Queries\GetPortfolioByCategory\" />
     <Folder Include="Queries\GetPortfolioByDesigner\" />
