@@ -127,11 +127,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj",
       "projectName": "PortFolioService.Domain",
-      "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj",
+      "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj",
       "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\obj\\",
+      "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config"

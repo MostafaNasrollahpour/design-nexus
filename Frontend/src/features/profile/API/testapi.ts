@@ -1,13 +1,8 @@
-//------------------------------------------------------------
-// profileAPI.ts  ✅ نسخه جایگزین کامل
-// - update-profile: مثل قبل Bearer + refresh روی 401
-// - uploadDesignerDesign: ✅ همیشه قبل از آپلود refresh می‌زند، بعد آپلود می‌کند
-//------------------------------------------------------------
-
 const BASE_URL = (import.meta.env.VITE_API_URL ?? "http://localhost:5157/iam").replace(/\/+$/, "");
 
 // اگر سرویس پورتفولیو جداست می‌تونی تو .env ست کنی: VITE_PORTFOLIO_URL=http://localhost:5118
 const PORTFOLIO_BASE_URL = (import.meta.env.VITE_PORTFOLIO_URL ?? "http://localhost:5118").replace(/\/+$/, "");
+const DESIGNER_EXTRA_PROFILE_PATH = "http://localhost:5118/api/portfolios/profile";
 
 // 🔧 مطابق بک‌اندت تنظیم کن
 const USER_UPDATE_PROFILE_PATH = "/api/Auth/update-profile";
@@ -44,6 +39,20 @@ export type UploadDesignResult = {
   message?: string;
   [key: string]: any;
 };
+
+export type DesignerExtraProfilePayload = {
+  bio: string;
+  location: string;
+  specialty: string;
+  avatarFile?: File | null;
+};
+
+export type DesignerExtraProfileResult = {
+  success?: boolean;
+  error?: string;
+  [key: string]: any;
+};
+
 
 /* ---------------- Helpers ---------------- */
 function notifyAuthChanged() {
@@ -165,10 +174,7 @@ function makeApiError(message: string, status?: number, data?: any) {
   return err;
 }
 
-/**
- * ✅ refresh-token فقط با Cookie
- * نکته: این تابع از سرویس IAM توکن جدید می‌گیرد و داخل localStorage می‌نویسد.
- */
+
 async function refreshAccessTokenFromCookie(): Promise<string> {
   const res = await fetch(`${BASE_URL}${AUTH_REFRESH_TOKEN_PATH}`, {
     method: "POST",
@@ -267,12 +273,6 @@ export async function saveProfileSettings(payload: ProfileSettingsPayload): Prom
   });
 }
 
-/* ---------------- API: Upload Design ---------------- */
-/**
- * ✅ خواسته شما:
- * هر بار که می‌خواهیم طرح آپلود کنیم، اول refresh می‌زنیم و توکن جدید می‌گیریم،
- * بعد آپلود را انجام می‌دهیم.
- */
 export async function uploadDesignerDesign(payload: UploadDesignPayload): Promise<UploadDesignResult | null> {
   const url = `${PORTFOLIO_BASE_URL}${PORTFOLIOS_PATH}`;
 
@@ -328,4 +328,58 @@ export async function uploadDesignerDesign(payload: UploadDesignPayload): Promis
   }
 
   return (data as UploadDesignResult) ?? null;
+}
+
+export async function saveDesignerExtraProfile(
+  payload: DesignerExtraProfilePayload
+): Promise<DesignerExtraProfileResult> {
+  const url = DESIGNER_EXTRA_PROFILE_PATH;
+
+  const buildFormData = () => {
+    const fd = new FormData();
+    fd.append("Bio", payload.bio);
+    fd.append("Location", payload.location);
+    fd.append("Specialty", payload.specialty);
+
+    if (payload.avatarFile) {
+      fd.append("AvatarFile", payload.avatarFile);
+    }
+
+    return fd;
+  };
+
+  const doFetch = (token: string) => {
+    const headers: Record<string, string> = {
+      Accept: "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
+
+    return fetch(url, {
+      method: "POST",
+      body: buildFormData(),
+      credentials: "include",
+      headers,
+    });
+  };
+
+  let token = await refreshAccessTokenFromCookie();
+  let res = await doFetch(token);
+
+  if (res.status === 401) {
+    token = await refreshAccessTokenFromCookie();
+    res = await doFetch(token);
+  }
+
+  const { text, data } = await readResponseBody(res);
+
+  if (!res.ok) {
+    const msg = extractApiMessage(data, text);
+    throw makeApiError(msg, res.status, data);
+  }
+
+  if (data?.success && data?.message) {
+    prettyAlert(data.message, "success");
+  }
+
+  return data;
 }

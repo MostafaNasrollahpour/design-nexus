@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cKrZ+BFOus4=",
+  "dgSpecHash": "DUuibHJMLVc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Infrastructure\\PortFolioService.Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Infrastructure\\PortFolioService.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mosta\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\mosta\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",

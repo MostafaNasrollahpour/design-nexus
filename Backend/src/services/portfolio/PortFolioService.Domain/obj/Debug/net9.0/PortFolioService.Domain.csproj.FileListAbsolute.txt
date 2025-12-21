@@ -11,3 +11,16 @@ C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\Por
 C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\refint\PortFolioService.Domain.dll
 C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\PortFolioService.Domain.pdb
 C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\ref\PortFolioService.Domain.dll
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\bin\Debug\net9.0\PortFolioService.Domain.deps.json
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\bin\Debug\net9.0\PortFolioService.Domain.dll
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\bin\Debug\net9.0\PortFolioService.Domain.pdb
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\PortFolioService.Domain.csproj.AssemblyReference.cache
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\PortFolioService.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\PortFolioService.Domain.AssemblyInfoInputs.cache
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\PortFolioService.Domain.AssemblyInfo.cs
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\PortFolioService.Domain.csproj.CoreCompileInputs.cache
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\PortFolioService.Domain.sourcelink.json
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\PortFolioService.Domain.dll
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\refint\PortFolioService.Domain.dll
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\PortFolioService.Domain.pdb
+C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Domain\obj\Debug\net9.0\ref\PortFolioService.Domain.dll

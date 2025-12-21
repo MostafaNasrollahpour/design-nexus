@@ -12,12 +12,13 @@ import { IconChevronDown } from "@tabler/icons-react";
 import {
   saveProfileSettings,
   uploadDesignerDesign,
+  saveDesignerExtraProfile,
   type ProfileSettingsPayload,
   type UploadDesignPayload,
 } from "../API/testapi";
 
 /** ---------------------- ثابت‌ها ---------------------- */
-type DesignerTab = "profile" | "upload" | "projects" | "requests" | "wallet" | "settings";
+type DesignerTab = "profile" | "upload" | "projects" | "requests" | "wallet" | "settings" | "designerProfile";
 type EditableField = "fullName" | "currentPassword" | "newPassword" | "confirmNewPassword";
 
 const CATEGORIES = [
@@ -211,6 +212,17 @@ export default function DesignerPanelPage() {
     imageFile: null,
   }));
 
+  const [designerExtra, setDesignerExtra] = useState({
+    bio: "",
+    location: "",
+    specialty: "",
+    avatarFile: null as File | null,
+  });
+
+  const [designerSaving, setDesignerSaving] = useState(false);
+  const [designerError, setDesignerError] = useState("");
+
+
   const setUploadField = <K extends keyof UploadFormState>(key: K, value: UploadFormState[K]) => {
     // ✅ وقتی کاربر چیزی تغییر میده، پیام قبلی پاک بشه
     setUploadError("");
@@ -343,6 +355,12 @@ export default function DesignerPanelPage() {
               refreshDraft();
             }}
           />
+          <SidebarButton
+            tab="designerProfile"
+            label="اطلاعات تکمیلی طراح"
+            onClick={() => setActiveTab("designerProfile")}
+          />
+
 
           <SidebarButton label="مشاوره و پشتیبانی" onClick={() => navigate("/support", { replace: true })} />
         </aside>
@@ -500,6 +518,92 @@ export default function DesignerPanelPage() {
               <p className="panel-muted">گزارش درآمد و تسویه‌ها اینجا قرار می‌گیرد.</p>
             </div>
           )}
+
+          {activeTab === "designerProfile" && (
+            <div className="panel-card">
+              <h2>اطلاعات تکمیلی طراح</h2>
+
+              {designerError && <p className="settings-error">{designerError}</p>}
+
+              <div className="settings-row">
+                <div className="settings-label">بیوگرافی</div>
+                <div className="settings-control">
+                  <textarea
+                    className="settings-input"
+                    value={designerExtra.bio}
+                    onChange={(e) =>
+                      setDesignerExtra((p) => ({ ...p, bio: e.target.value }))
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="settings-row">
+                <div className="settings-label">لوکیشن</div>
+                <div className="settings-control">
+                  <input
+                    className="settings-input"
+                    value={designerExtra.location}
+                    onChange={(e) =>
+                      setDesignerExtra((p) => ({ ...p, location: e.target.value }))
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="settings-row">
+                <div className="settings-label">تخصص</div>
+                <div className="settings-control">
+                  <input
+                    className="settings-input"
+                    value={designerExtra.specialty}
+                    onChange={(e) =>
+                      setDesignerExtra((p) => ({ ...p, specialty: e.target.value }))
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="settings-row">
+                <div className="settings-label">عکس پروفایل</div>
+                <div className="settings-control">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      setDesignerExtra((p) => ({
+                        ...p,
+                        avatarFile: e.target.files?.[0] || null,
+                      }))
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className="settings-footer">
+                <button
+                  className="btn-primary"
+                  disabled={designerSaving}
+                  onClick={async () => {
+                    setDesignerError("");
+                    setDesignerSaving(true);
+                    try {
+                      await saveDesignerExtraProfile(designerExtra);
+                    } catch (e) {
+                      setDesignerError(
+                        e instanceof Error ? e.message : "خطا"
+                      );
+                    } finally {
+                      setDesignerSaving(false);
+                    }
+                  }}
+                >
+                  {designerSaving ? "در حال ذخیره..." : "ذخیره اطلاعات"}
+                </button>
+              </div>
+            </div>
+          )}
+
 
           {activeTab === "settings" && (
             <div className="panel-card">

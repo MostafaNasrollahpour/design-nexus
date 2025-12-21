@@ -8,5 +8,5 @@ public class UpdateDesignerProfileRequestDto
     public string? Location { get; set; }
     public string? Specialty { get; set; }
 
-    public IFormFile? Profile { get; set; }
+    public IFormFile? AvatarFile { get; set; }
 }

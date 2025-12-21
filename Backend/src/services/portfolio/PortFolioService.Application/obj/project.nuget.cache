@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "v98HLEDi5yo=",
+  "dgSpecHash": "yJowfTkvb8U=",
   "success": true,
-  "projectFilePath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\PortFolioService.Application.csproj",
+  "projectFilePath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\PortFolioService.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mosta\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
     "C:\\Users\\mosta\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",

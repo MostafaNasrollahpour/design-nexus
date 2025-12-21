@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Infrastructure\\PortFolioService.Infrastructure.csproj": {}
+    "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Infrastructure\\PortFolioService.Infrastructure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\PortFolioService.Application.csproj": {
+    "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\PortFolioService.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\PortFolioService.Application.csproj",
+        "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\PortFolioService.Application.csproj",
         "projectName": "PortFolioService.Application",
-        "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\PortFolioService.Application.csproj",
+        "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\PortFolioService.Application.csproj",
         "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\obj\\",
+        "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj": {
-                "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj"
+              "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj": {
+                "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj"
               }
             }
           }
@@ -77,14 +77,14 @@
         }
       }
     },
-    "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj": {
+    "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj",
         "projectName": "PortFolioService.Domain",
-        "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj",
+        "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj",
         "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\obj\\",
+        "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -142,14 +142,14 @@
         }
       }
     },
-    "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Infrastructure\\PortFolioService.Infrastructure.csproj": {
+    "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Infrastructure\\PortFolioService.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Infrastructure\\PortFolioService.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Infrastructure\\PortFolioService.Infrastructure.csproj",
         "projectName": "PortFolioService.Infrastructure",
-        "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Infrastructure\\PortFolioService.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Infrastructure\\PortFolioService.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -164,11 +164,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\PortFolioService.Application.csproj": {
-                "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\PortFolioService.Application.csproj"
+              "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\PortFolioService.Application.csproj": {
+                "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Application\\PortFolioService.Application.csproj"
               },
-              "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj": {
-                "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj"
+              "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj": {
+                "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj"
               }
             }
           }

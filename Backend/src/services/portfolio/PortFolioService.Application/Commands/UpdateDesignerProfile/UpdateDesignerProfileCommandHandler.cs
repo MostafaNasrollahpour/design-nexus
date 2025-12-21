@@ -45,7 +45,7 @@ public class UpdateDesignerProfileCommandHandler
         if (string.IsNullOrWhiteSpace(dto.Bio) &&
             string.IsNullOrWhiteSpace(dto.Location) &&
             string.IsNullOrWhiteSpace(dto.Specialty) &&
-            dto.Profile is null)
+            dto.AvatarFile is null)
         {
             return ResultDto.FailureResult("حداقل یکی از فیلدها باید ارسال شود.");
         }
@@ -68,9 +68,9 @@ public class UpdateDesignerProfileCommandHandler
             profile.UpdateProfile(dto.Bio, dto.Location, dto.Specialty);
         }
 
-        if (dto.Profile is not null)
+        if (dto.AvatarFile is not null)
         {
-            var file = dto.Profile;
+            var file = dto.AvatarFile;
 
             if (file.Length == 0)
                 return ResultDto.FailureResult("فایل تصویر معتبر نیست.");

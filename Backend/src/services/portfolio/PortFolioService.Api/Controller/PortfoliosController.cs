@@ -73,7 +73,7 @@ namespace PortFolioService.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost("profile/image")]
+        [HttpPost("profile")]
         [Authorize(Roles = "طراح")]
         public async Task<IActionResult> UploadProfileImage(
             [FromForm] UpdateDesignerProfileRequestDto request)
