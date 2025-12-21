@@ -48,6 +48,7 @@ builder.Services.AddHttpContextAccessor();
 // --------------------
 // Repositories / Services
 // --------------------
+builder.Services.AddScoped<IDesignerProfileRepository, DesignerProfileRepository>();
 builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 builder.Services.AddScoped<IFileStorage, FileStorage>();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
