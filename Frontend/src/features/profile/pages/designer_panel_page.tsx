@@ -341,7 +341,7 @@ export default function DesignerPanelPage() {
           </div>
 
           <SidebarButton label="صفحه اصلی" onClick={() => navigate("/", { replace: true })} />
-          <SidebarButton tab="profile" label="اطلاعات طراح" onClick={() => setActiveTab("profile")} />
+          {/* <SidebarButton tab="profile" label="اطلاعات طراح" onClick={() => setActiveTab("profile")} /> */}
           <SidebarButton tab="upload" label="بارگذاری طرح" onClick={() => setActiveTab("upload")} />
           <SidebarButton tab="projects" label="پروژه‌ها" onClick={() => setActiveTab("projects")} />
           <SidebarButton tab="requests" label="درخواست‌ها" onClick={() => setActiveTab("requests")} />
@@ -407,14 +407,14 @@ export default function DesignerPanelPage() {
               <div className="settings-row">
                 <div className="settings-label">اطلاعات طرح</div>
 
-                <div className="settings-control" style={{ marginBottom: 10 }}>
+                {/* <div className="settings-control" style={{ marginBottom: 10 }}>
                   <input
                     className="settings-input"
                     value={uploadForm.title}
                     onChange={(e) => setUploadField("title", e.target.value)}
                     placeholder="عنوان طرح (مثلاً: طراحی پذیرایی مدرن)"
                   />
-                </div>
+                </div> */}
 
                 {/* دسته‌بندی */}
                 <div className="settings-control" style={{ justifyContent: "flex-start" }}>

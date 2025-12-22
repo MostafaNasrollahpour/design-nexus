@@ -178,9 +178,9 @@ export default function UserPanelPage() {
             صفحه اصلی
           </button>
 
-          <button className={`sidebar-item ${activeTab === "profile" ? "active" : ""}`} onClick={() => setActiveTab("profile")} type="button">
+          {/* <button className={`sidebar-item ${activeTab === "profile" ? "active" : ""}`} onClick={() => setActiveTab("profile")} type="button">
             اطلاعات حساب
-          </button>
+          </button> */}
 
           <button className={`sidebar-item ${activeTab === "orders" ? "active" : ""}`} onClick={() => setActiveTab("orders")} type="button">
             سفارش‌ها
@@ -207,7 +207,7 @@ export default function UserPanelPage() {
         </aside>
 
         <main className="panel-content">
-          {activeTab === "profile" && (
+          {/* {activeTab === "profile" && (
             <div className="panel-card">
               <h2>اطلاعات حساب</h2>
 
@@ -226,7 +226,7 @@ export default function UserPanelPage() {
                 <b>{user?.Role || localStorage.getItem("userRole") || "—"}</b>
               </div>
             </div>
-          )}
+          )} */}
 
           {activeTab === "orders" && (
             <div className="panel-card">
