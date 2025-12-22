@@ -7,7 +7,6 @@ import "../styles/user_panel_page.css";
 
 import { Menu, UnstyledButton } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
-// import "../API/testapi"
 
 import {
   saveProfileSettings,
@@ -50,6 +49,13 @@ function safeJsonParse<T>(raw: string | null): T | null {
 type UploadFormState = Omit<UploadDesignPayload, "imageFile" | "description"> & {
   imageFile: File | null;
   description: string;
+};
+
+type DesignerExtraState = {
+  bio: string;
+  location: string;
+  specialty: string;
+  avatarFile: File | null;
 };
 
 export default function DesignerPanelPage() {
@@ -212,17 +218,6 @@ export default function DesignerPanelPage() {
     imageFile: null,
   }));
 
-  const [designerExtra, setDesignerExtra] = useState({
-    bio: "",
-    location: "",
-    specialty: "",
-    avatarFile: null as File | null,
-  });
-
-  const [designerSaving, setDesignerSaving] = useState(false);
-  const [designerError, setDesignerError] = useState("");
-
-
   const setUploadField = <K extends keyof UploadFormState>(key: K, value: UploadFormState[K]) => {
     // ✅ وقتی کاربر چیزی تغییر میده، پیام قبلی پاک بشه
     setUploadError("");
@@ -310,6 +305,36 @@ export default function DesignerPanelPage() {
     }
   };
 
+  /* ---------------- Designer Extra Profile state ---------------- */
+  const [designerExtra, setDesignerExtra] = useState<DesignerExtraState>({
+    bio: "",
+    location: "",
+    specialty: "",
+    avatarFile: null,
+  });
+
+  const [designerSaving, setDesignerSaving] = useState(false);
+  const [designerError, setDesignerError] = useState("");
+
+  // ✅ مثل settings: وقتی هیچ چیزی وارد نشده دکمه غیرفعال باشد
+  const isDesignerExtraDirty = useCallback(() => {
+    return (
+      !!designerExtra.bio.trim() ||
+      !!designerExtra.location.trim() ||
+      !!designerExtra.specialty.trim() ||
+      !!designerExtra.avatarFile
+    );
+  }, [designerExtra]);
+
+  // ✅ مثل سایر بخش‌ها: با تغییر فیلدها، خطا پاک شود
+  const setDesignerField = useCallback(
+    <K extends keyof DesignerExtraState>(key: K, value: DesignerExtraState[K]) => {
+      setDesignerError("");
+      setDesignerExtra((p) => ({ ...p, [key]: value }));
+    },
+    []
+  );
+
   /* ---------------- UI Helpers ---------------- */
   const SidebarButton = ({
     tab,
@@ -341,7 +366,6 @@ export default function DesignerPanelPage() {
           </div>
 
           <SidebarButton label="صفحه اصلی" onClick={() => navigate("/", { replace: true })} />
-          {/* <SidebarButton tab="profile" label="اطلاعات طراح" onClick={() => setActiveTab("profile")} /> */}
           <SidebarButton tab="upload" label="بارگذاری طرح" onClick={() => setActiveTab("upload")} />
           <SidebarButton tab="projects" label="پروژه‌ها" onClick={() => setActiveTab("projects")} />
           <SidebarButton tab="requests" label="درخواست‌ها" onClick={() => setActiveTab("requests")} />
@@ -355,12 +379,12 @@ export default function DesignerPanelPage() {
               refreshDraft();
             }}
           />
+
           <SidebarButton
             tab="designerProfile"
             label="اطلاعات تکمیلی طراح"
             onClick={() => setActiveTab("designerProfile")}
           />
-
 
           <SidebarButton label="مشاوره و پشتیبانی" onClick={() => navigate("/support", { replace: true })} />
         </aside>
@@ -531,9 +555,7 @@ export default function DesignerPanelPage() {
                   <textarea
                     className="settings-input"
                     value={designerExtra.bio}
-                    onChange={(e) =>
-                      setDesignerExtra((p) => ({ ...p, bio: e.target.value }))
-                    }
+                    onChange={(e) => setDesignerField("bio", e.target.value)}
                   />
                 </div>
               </div>
@@ -544,9 +566,7 @@ export default function DesignerPanelPage() {
                   <input
                     className="settings-input"
                     value={designerExtra.location}
-                    onChange={(e) =>
-                      setDesignerExtra((p) => ({ ...p, location: e.target.value }))
-                    }
+                    onChange={(e) => setDesignerField("location", e.target.value)}
                   />
                 </div>
               </div>
@@ -557,9 +577,7 @@ export default function DesignerPanelPage() {
                   <input
                     className="settings-input"
                     value={designerExtra.specialty}
-                    onChange={(e) =>
-                      setDesignerExtra((p) => ({ ...p, specialty: e.target.value }))
-                    }
+                    onChange={(e) => setDesignerField("specialty", e.target.value)}
                   />
                 </div>
               </div>
@@ -570,12 +588,7 @@ export default function DesignerPanelPage() {
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) =>
-                      setDesignerExtra((p) => ({
-                        ...p,
-                        avatarFile: e.target.files?.[0] || null,
-                      }))
-                    }
+                    onChange={(e) => setDesignerField("avatarFile", e.target.files?.[0] || null)}
                   />
                 </div>
               </div>
@@ -583,16 +596,27 @@ export default function DesignerPanelPage() {
               <div className="settings-footer">
                 <button
                   className="btn-primary"
-                  disabled={designerSaving}
+                  type="button"
+                  disabled={designerSaving || !isDesignerExtraDirty()}
                   onClick={async () => {
                     setDesignerError("");
+
+                    // ✅ اگر هیچ تغییری نیست، اصلاً درخواست نزن
+                    if (!isDesignerExtraDirty()) return;
+
                     setDesignerSaving(true);
                     try {
                       await saveDesignerExtraProfile(designerExtra);
+
+                      // ✅ بعد از موفقیت: فرم رو ریست کن تا مثل settings دوباره دکمه بلاک بشه
+                      setDesignerExtra({
+                        bio: "",
+                        location: "",
+                        specialty: "",
+                        avatarFile: null,
+                      });
                     } catch (e) {
-                      setDesignerError(
-                        e instanceof Error ? e.message : "خطا"
-                      );
+                      setDesignerError(e instanceof Error ? e.message : "خطا");
                     } finally {
                       setDesignerSaving(false);
                     }
@@ -603,7 +627,6 @@ export default function DesignerPanelPage() {
               </div>
             </div>
           )}
-
 
           {activeTab === "settings" && (
             <div className="panel-card">

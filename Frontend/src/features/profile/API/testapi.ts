@@ -1,3 +1,10 @@
+/* ============================
+   API Client (Auth + Portfolio)
+   - همان منطق قبلی حفظ شده
+   - preRefresh اضافه شده
+   - ✅ برای آپدیت اطلاعات تکمیلی (bio/location/...) هم prettyAlert مثل بقیه صدا زده میشه
+   ============================ */
+
 const BASE_URL = (import.meta.env.VITE_API_URL ?? "http://localhost:5157/iam").replace(/\/+$/, "");
 
 // اگر سرویس پورتفولیو جداست می‌تونی تو .env ست کنی: VITE_PORTFOLIO_URL=http://localhost:5118
@@ -49,10 +56,10 @@ export type DesignerExtraProfilePayload = {
 
 export type DesignerExtraProfileResult = {
   success?: boolean;
+  message?: string; // ✅ اضافه شد (بیشتر بک‌اندها message میدن)
   error?: string;
   [key: string]: any;
 };
-
 
 /* ---------------- Helpers ---------------- */
 function notifyAuthChanged() {
@@ -174,7 +181,16 @@ function makeApiError(message: string, status?: number, data?: any) {
   return err;
 }
 
+/** ✅ Toast موفقیت اگر بک‌اند success/message داشته باشد */
+function toastIfApiSuccess(data: any) {
+  const success = data?.success === true || data?.Success === true;
+  const msg = data?.message || data?.Message;
+  if (success && typeof msg === "string" && msg.trim()) {
+    prettyAlert(msg.trim(), "success");
+  }
+}
 
+/* ---------------- Auth: Refresh ---------------- */
 async function refreshAccessTokenFromCookie(): Promise<string> {
   const res = await fetch(`${BASE_URL}${AUTH_REFRESH_TOKEN_PATH}`, {
     method: "POST",
@@ -200,7 +216,17 @@ async function refreshAccessTokenFromCookie(): Promise<string> {
   return newToken;
 }
 
-async function apiJsonWithBearer<T>(path: string, init: RequestInit): Promise<T> {
+/* ---------------- Core JSON API ---------------- */
+/**
+ * apiJsonWithBearer
+ * - منطق قبلی حفظ شده: اگر 401 شد => refresh + retry
+ * - قابلیت جدید: opts.preRefresh => قبل از درخواست اصلی refresh می‌زند
+ */
+async function apiJsonWithBearer<T>(
+  path: string,
+  init: RequestInit,
+  opts?: { preRefresh?: boolean }
+): Promise<T> {
   const url = `${BASE_URL}${path}`;
 
   const doFetch = (token: string) => {
@@ -214,10 +240,15 @@ async function apiJsonWithBearer<T>(path: string, init: RequestInit): Promise<T>
     return fetch(url, { ...init, headers, credentials: "include" });
   };
 
+  // ✅ افزوده شده: اگر لازم بود قبل از درخواست refresh بزن
   let token = readAccessTokenLS();
+  if (opts?.preRefresh) {
+    token = await refreshAccessTokenFromCookie();
+  }
+
   let res = await doFetch(token);
 
-  // ✅ فقط اگر 401 شد refresh می‌کنیم
+  // ✅ منطق قبلی: فقط اگر 401 شد refresh می‌کنیم
   if (res.status === 401) {
     token = await refreshAccessTokenFromCookie();
     res = await doFetch(token);
@@ -231,9 +262,7 @@ async function apiJsonWithBearer<T>(path: string, init: RequestInit): Promise<T>
   }
 
   // ✅ موفقیت: Toast شیک (اگر success/message داشت)
-  if (data?.success === true && typeof data?.message === "string" && data.message.trim()) {
-    prettyAlert(data.message.trim(), "success");
-  }
+  toastIfApiSuccess(data);
 
   return data as T;
 }
@@ -267,12 +296,18 @@ export async function saveProfileSettings(payload: ProfileSettingsPayload): Prom
     body.confirmNewPassword = payload.confirmNewPassword;
   }
 
-  return apiJsonWithBearer<ProfileSettingsResult>(USER_UPDATE_PROFILE_PATH, {
-    method: "PUT",
-    body: JSON.stringify(body),
-  });
+  // ✅ قبل از ارسال آپدیت پروفایل، یک refresh انجام شود
+  return apiJsonWithBearer<ProfileSettingsResult>(
+    USER_UPDATE_PROFILE_PATH,
+    {
+      method: "PUT",
+      body: JSON.stringify(body),
+    },
+    { preRefresh: true }
+  );
 }
 
+/* ---------------- API: Upload Design (Portfolio) ---------------- */
 export async function uploadDesignerDesign(payload: UploadDesignPayload): Promise<UploadDesignResult | null> {
   const url = `${PORTFOLIO_BASE_URL}${PORTFOLIOS_PATH}`;
 
@@ -303,13 +338,13 @@ export async function uploadDesignerDesign(payload: UploadDesignPayload): Promis
     });
   };
 
-  // ✅ 1) همیشه قبل از آپلود refresh بزن (حتی اگر فکر می‌کنی توکن معتبره)
+  // ✅ 1) همیشه قبل از آپلود refresh بزن (همان منطق قبلی شما)
   let token = await refreshAccessTokenFromCookie();
 
   // ✅ 2) با توکن جدید آپلود کن
   let res = await doFetch(token);
 
-  // ✅ 3) اگر به هر دلیل هنوز 401 بود (مثلاً race condition)، یک بار دیگر refresh + retry
+  // ✅ 3) اگر به هر دلیل هنوز 401 بود، یک بار دیگر refresh + retry
   if (res.status === 401) {
     token = await refreshAccessTokenFromCookie();
     res = await doFetch(token);
@@ -322,14 +357,13 @@ export async function uploadDesignerDesign(payload: UploadDesignPayload): Promis
     throw makeApiError(msg, res.status, data);
   }
 
-  // ✅ اگر بک‌اند success/message داشته باشد
-  if (data?.success === true && typeof data?.message === "string" && data.message.trim()) {
-    prettyAlert(data.message.trim(), "success");
-  }
+  // ✅ toast
+  toastIfApiSuccess(data);
 
   return (data as UploadDesignResult) ?? null;
 }
 
+/* ---------------- API: Designer Extra Profile (Portfolio) ---------------- */
 export async function saveDesignerExtraProfile(
   payload: DesignerExtraProfilePayload
 ): Promise<DesignerExtraProfileResult> {
@@ -377,9 +411,17 @@ export async function saveDesignerExtraProfile(
     throw makeApiError(msg, res.status, data);
   }
 
-  if (data?.success && data?.message) {
-    prettyAlert(data.message, "success");
+  // ✅ 1) اگر بک‌اند success/message داد، همون رو نمایش بده
+  const success = data?.success === true || data?.Success === true;
+  const msg = (data?.message || data?.Message) as string | undefined;
+
+  if (success && typeof msg === "string" && msg.trim()) {
+    prettyAlert(msg.trim(), "success");
+  } else {
+    // ✅ 2) اگر body خالی بود یا message نداشت، پیام پیش‌فرض بده
+    prettyAlert("اطلاعات تکمیلی با موفقیت بروزرسانی شد ✅", "success");
   }
 
-  return data;
+  return (data ?? { success: true }) as DesignerExtraProfileResult;
 }
+
