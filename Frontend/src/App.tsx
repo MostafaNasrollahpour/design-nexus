@@ -13,6 +13,7 @@ import DesignerCardsPage from "./features/view/pages/designer_cards_page";
 import UserChatPage from "./features/chat/user_chat_page";
 import AdminChatPage from "./features/chat/admin_chat_page";
 import CategoryPortfoliosPage from "./features/view/pages/category_view";
+import PortfolioDetailsPage from "./features/view/pages/profile_details";
 
 export default function App() {
   return (
@@ -46,6 +47,8 @@ export default function App() {
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/portfolio/:id" element={<PortfolioDetailsPage />} />
+
       </Routes>
     </BrowserRouter>
   );
