@@ -3,6 +3,16 @@ import { Menu, UnstyledButton } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { IconChevronDown } from "@tabler/icons-react";
 
+const CATEGORIES = [
+  { id: 1, title: "اتاق خواب" },
+  { id: 2, title: "پذیرایی" },
+  { id: 3, title: "آشپزخانه" },
+  { id: 4, title: "اتاق کار" },
+  { id: 5, title: "عروسی و نامزدی" },
+  { id: 6, title: "جشن تولد" },
+  { id: 7, title: "کافی‌ شاپ و رستوران" },
+];
+
 function Demo() {
   return (
     <Menu shadow="md" width={220} position="bottom-start" withinPortal={false}>
@@ -16,33 +26,11 @@ function Demo() {
       <Menu.Dropdown dir="rtl">
         <Menu.Label>دسته بندی‌ها</Menu.Label>
 
-        <Menu.Item component={Link} to="/2">
-          پذیرایی
-        </Menu.Item>
-
-        <Menu.Item component={Link} to="/3">
-          آشپزخانه
-        </Menu.Item>
-
-        <Menu.Item component={Link} to="/4">
-          اتاق کار
-        </Menu.Item>
-
-        <Menu.Item component={Link} to="/5">
-          عروسی و نامزدی
-        </Menu.Item>
-
-        <Menu.Item component={Link} to="/6">
-          جشن تولد
-        </Menu.Item>
-
-        <Menu.Item component={Link} to="/7">
-          کافی‌ شاپ و رستوران
-        </Menu.Item>
-
-        <Menu.Item component={Link} to="/1">
-          اتاق خواب
-        </Menu.Item>
+        {CATEGORIES.map((c) => (
+          <Menu.Item key={c.id} component={Link} to={`/category/${c.id}`}>
+            {c.title}
+          </Menu.Item>
+        ))}
       </Menu.Dropdown>
     </Menu>
   );
