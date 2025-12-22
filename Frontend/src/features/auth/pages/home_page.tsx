@@ -13,9 +13,21 @@ import birthday from "../assets/birthday.jpg";
 import caffee from "../assets/caffee.jpg";
 
 import { useNavigate } from "react-router-dom";
-import { resolveSlide } from "../API/authAPI"; // مسیر همون فایل API خودت
 
-type PageData = any;
+// ✅ اضافه شد: API مربوط به دسته‌بندی‌ها
+import { getPortfoliosByCategoryId } from "../../view/API/category_view_API";
+import type { PortfolioListItem } from "../../view/API/category_view_API";
+
+// ✅ اضافه شد: مپ slug های اسلایدر به categoryId های بک‌اند/صفحه
+const CATEGORY_SLUG_TO_ID: Record<string, number> = {
+  bedroom: 1,
+  hall: 2,
+  kitchen: 3,
+  workroom: 4,
+  wedding: 5,
+  birthday: 6,
+  caffee: 7,
+};
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -30,10 +42,24 @@ export default function HomePage() {
     { src: caffee, buttonText: "کافی‌شاپ و رستوران", actionKey: "caffee" },
   ];
 
-  // ✅ حالا کاملاً با resolveSlide مچ شد
   const onSlideAction = async (slide: Slide, _index: number) => {
-    const { route, pageData } = await resolveSlide<PageData>(slide.actionKey);
-    navigate(route, { state: { pageData } });
+    const categoryId = CATEGORY_SLUG_TO_ID[slide.actionKey];
+
+    if (!categoryId) {
+      alert("دسته‌بندی ناشناخته است.");
+      return;
+    }
+
+    const items: PortfolioListItem[] = await getPortfoliosByCategoryId(categoryId);
+
+    navigate(`/category/${categoryId}`, {
+      state: {
+        pageData: {
+          categoryId,
+          items,
+        },
+      },
+    });
   };
 
   return (

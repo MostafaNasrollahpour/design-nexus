@@ -29,8 +29,14 @@ export default function App() {
         <Route path="/verify" element={<VerifyCodePage />} />
         <Route path="/verify-change-password" element={<VerifyToChangePassword />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
+
+        {/* View */}
         <Route path="/designers" element={<DesignerCardsPage />} />
 
+        {/* ✅ Category Portfolios */}
+        <Route path="/category/:categoryId" element={<CategoryPortfoliosPage />} />
+
+        {/* Chat */}
         <Route path="/chat/:designerId?" element={<UserChatPage />} />
         <Route path="/admin/chat/:userId" element={<AdminChatPage />} />
 
@@ -38,12 +44,7 @@ export default function App() {
         <Route path="/panel" element={<PanelPage />} />
         <Route path="/support" element={<SupportConsultPage />} />
 
-        {/* ✅ Category Portfolios (مثل /hall /kitchen /work-room و ...) */}
-        {/* <Route path="/:categorySlug" element={<CategoryPortfoliosPage />} /> */}
-        <Route path="/:categoryId" element={<CategoryPortfoliosPage />} />
-
-
-        {/* Fallback (جلوگیری از صفحه خالی) */}
+        {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
