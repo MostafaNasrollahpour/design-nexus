@@ -8,6 +8,8 @@ import "../styles/user_panel_page.css";
 import { Menu, UnstyledButton } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 
+import Cropper from "react-easy-crop";
+
 import {
   saveProfileSettings,
   uploadDesignerDesign,
@@ -17,7 +19,14 @@ import {
 } from "../API/testapi";
 
 /** ---------------------- ثابت‌ها ---------------------- */
-type DesignerTab = "profile" | "upload" | "projects" | "requests" | "wallet" | "settings" | "designerProfile";
+type DesignerTab =
+  | "profile"
+  | "upload"
+  | "projects"
+  | "requests"
+  | "wallet"
+  | "settings"
+  | "designerProfile";
 type EditableField = "fullName" | "currentPassword" | "newPassword" | "confirmNewPassword";
 
 const CATEGORIES = [
@@ -51,12 +60,87 @@ type UploadFormState = Omit<UploadDesignPayload, "imageFile" | "description"> & 
   description: string;
 };
 
-type DesignerExtraState = {
-  bio: string;
-  location: string;
-  specialty: string;
-  avatarFile: File | null;
-};
+/** ---------------------- Crop Helpers ---------------------- */
+type Area = { x: number; y: number; width: number; height: number };
+
+function createImage(url: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.addEventListener("load", () => resolve(img));
+    img.addEventListener("error", (e) => reject(e));
+    img.setAttribute("crossOrigin", "anonymous");
+    img.src = url;
+  });
+}
+
+function getRadianAngle(degreeValue: number) {
+  return (degreeValue * Math.PI) / 180;
+}
+
+async function getCroppedImageBlob(imageSrc: string, pixelCrop: Area, rotation = 0): Promise<Blob> {
+  const image = await createImage(imageSrc);
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  if (!ctx) throw new Error("Canvas not supported");
+
+  const rotRad = getRadianAngle(rotation);
+
+  // محاسبه باندینگ باکس بعد از چرخش (اینجا rotation رو 0 گذاشتیم، ولی کد رو کامل نگه داشتیم)
+  const { width: bBoxW, height: bBoxH } = (() => {
+    const w = image.width;
+    const h = image.height;
+    const cos = Math.abs(Math.cos(rotRad));
+    const sin = Math.abs(Math.sin(rotRad));
+    return { width: w * cos + h * sin, height: w * sin + h * cos };
+  })();
+
+  // برای کیفیت بهتر روی دستگاه‌های ریتینا
+  const dpr = window.devicePixelRatio || 1;
+
+  canvas.width = Math.round(pixelCrop.width * dpr);
+  canvas.height = Math.round(pixelCrop.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.imageSmoothingQuality = "high";
+
+  // انتقال برای چرخش
+  ctx.translate(bBoxW / 2, bBoxH / 2);
+  ctx.rotate(rotRad);
+  ctx.translate(-image.width / 2, -image.height / 2);
+
+  // تصویر کامل روی یک canvas موقت
+  const tempCanvas = document.createElement("canvas");
+  const tctx = tempCanvas.getContext("2d");
+  if (!tctx) throw new Error("Canvas not supported");
+
+  tempCanvas.width = Math.ceil(bBoxW);
+  tempCanvas.height = Math.ceil(bBoxH);
+
+  tctx.translate(bBoxW / 2, bBoxH / 2);
+  tctx.rotate(rotRad);
+  tctx.translate(-image.width / 2, -image.height / 2);
+  tctx.drawImage(image, 0, 0);
+
+  // برش نهایی
+  ctx.drawImage(
+    tempCanvas,
+    pixelCrop.x,
+    pixelCrop.y,
+    pixelCrop.width,
+    pixelCrop.height,
+    0,
+    0,
+    pixelCrop.width,
+    pixelCrop.height
+  );
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) return reject(new Error("خطا در ساخت فایل تصویر"));
+      resolve(blob);
+    }, "image/jpeg", 0.92);
+  });
+}
 
 export default function DesignerPanelPage() {
   const navigate = useNavigate();
@@ -218,8 +302,26 @@ export default function DesignerPanelPage() {
     imageFile: null,
   }));
 
+  const [designerExtra, setDesignerExtra] = useState({
+    bio: "",
+    location: "",
+    specialty: "",
+    avatarFile: null as File | null,
+  });
+
+  const [designerSaving, setDesignerSaving] = useState(false);
+  const [designerError, setDesignerError] = useState("");
+
+  // ✅ Crop state فقط برای avatar
+  const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
+  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
+  const [isCropOpen, setIsCropOpen] = useState(false);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+  const [avatarCropError, setAvatarCropError] = useState("");
+
   const setUploadField = <K extends keyof UploadFormState>(key: K, value: UploadFormState[K]) => {
-    // ✅ وقتی کاربر چیزی تغییر میده، پیام قبلی پاک بشه
     setUploadError("");
     setUploadSuccess("");
     setUploadForm((p) => ({ ...p, [key]: value }));
@@ -239,7 +341,6 @@ export default function DesignerPanelPage() {
     );
   };
 
-  // ✅ بعد از موفقیت: فقط فیلدها ریست شوند، پیام موفقیت باقی بماند
   const resetUploadFieldsAfterSuccess = () => {
     setUploadError("");
     setUploadForm({
@@ -250,7 +351,6 @@ export default function DesignerPanelPage() {
     });
   };
 
-  // ✅ دکمه "پاک کردن": هم فیلدها هم پیام‌ها پاک شود
   const clearUploadForm = () => {
     setUploadError("");
     setUploadSuccess("");
@@ -292,11 +392,7 @@ export default function DesignerPanelPage() {
     setUploading(true);
     try {
       await uploadDesignerDesign(payload);
-
-      // ✅ پیام موفقیت نمایش داده میشه و پاک نمیشه
       setUploadSuccess("طرح با موفقیت ارسال شد ✅");
-
-      // ✅ فقط فرم پاک میشه
       resetUploadFieldsAfterSuccess();
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : "خطای ناشناخته");
@@ -305,35 +401,66 @@ export default function DesignerPanelPage() {
     }
   };
 
-  /* ---------------- Designer Extra Profile state ---------------- */
-  const [designerExtra, setDesignerExtra] = useState<DesignerExtraState>({
-    bio: "",
-    location: "",
-    specialty: "",
-    avatarFile: null,
-  });
+  /* ---------------- Avatar handlers ---------------- */
+  const onAvatarFilePicked = async (file: File | null) => {
+    setAvatarCropError("");
+    if (!file) return;
 
-  const [designerSaving, setDesignerSaving] = useState(false);
-  const [designerError, setDesignerError] = useState("");
+    if (!file.type.startsWith("image/")) {
+      setAvatarCropError("فقط فایل تصویری قابل قبول است.");
+      return;
+    }
 
-  // ✅ مثل settings: وقتی هیچ چیزی وارد نشده دکمه غیرفعال باشد
-  const isDesignerExtraDirty = useCallback(() => {
-    return (
-      !!designerExtra.bio.trim() ||
-      !!designerExtra.location.trim() ||
-      !!designerExtra.specialty.trim() ||
-      !!designerExtra.avatarFile
-    );
-  }, [designerExtra]);
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result || "");
+      setAvatarSrc(result);
+      setCrop({ x: 0, y: 0 });
+      setZoom(1);
+      setCroppedAreaPixels(null);
+      setIsCropOpen(true);
+    };
+    reader.onerror = () => setAvatarCropError("خطا در خواندن فایل تصویر.");
+    reader.readAsDataURL(file);
+  };
 
-  // ✅ مثل سایر بخش‌ها: با تغییر فیلدها، خطا پاک شود
-  const setDesignerField = useCallback(
-    <K extends keyof DesignerExtraState>(key: K, value: DesignerExtraState[K]) => {
-      setDesignerError("");
-      setDesignerExtra((p) => ({ ...p, [key]: value }));
-    },
-    []
-  );
+  const onCropComplete = useCallback((_croppedArea: any, croppedAreaPixelsValue: Area) => {
+    setCroppedAreaPixels(croppedAreaPixelsValue);
+  }, []);
+
+  const closeCropper = () => {
+    setIsCropOpen(false);
+    setAvatarSrc(null);
+    setCroppedAreaPixels(null);
+    setAvatarCropError("");
+  };
+
+  const confirmCroppedAvatar = async () => {
+    setAvatarCropError("");
+
+    if (!avatarSrc || !croppedAreaPixels) {
+      setAvatarCropError("لطفاً ابتدا محدوده برش را مشخص کنید.");
+      return;
+    }
+
+    try {
+      const blob = await getCroppedImageBlob(avatarSrc, croppedAreaPixels, 0);
+      const file = new File([blob], `avatar_${Date.now()}.jpg`, { type: "image/jpeg" });
+
+      // preview (اختیاری)
+      const previewUrl = URL.createObjectURL(blob);
+      setAvatarPreviewUrl(previewUrl);
+
+      setDesignerExtra((p) => ({
+        ...p,
+        avatarFile: file,
+      }));
+
+      closeCropper();
+    } catch (e) {
+      setAvatarCropError(e instanceof Error ? e.message : "خطا در برش تصویر");
+    }
+  };
 
   /* ---------------- UI Helpers ---------------- */
   const SidebarButton = ({
@@ -379,12 +506,7 @@ export default function DesignerPanelPage() {
               refreshDraft();
             }}
           />
-
-          <SidebarButton
-            tab="designerProfile"
-            label="اطلاعات تکمیلی طراح"
-            onClick={() => setActiveTab("designerProfile")}
-          />
+          <SidebarButton tab="designerProfile" label="اطلاعات تکمیلی طراح" onClick={() => setActiveTab("designerProfile")} />
 
           <SidebarButton label="مشاوره و پشتیبانی" onClick={() => navigate("/support", { replace: true })} />
         </aside>
@@ -445,9 +567,7 @@ export default function DesignerPanelPage() {
                   <Menu shadow="md" width={240} position="bottom-start" withinPortal={false}>
                     <Menu.Target>
                       <UnstyledButton className="settings-dropdown-trigger" type="button">
-                        <span>
-                          {uploadForm.categoryId ? `دسته‌بندی: ${selectedCategoryTitle}` : "انتخاب دسته‌بندی"}
-                        </span>
+                        <span>{uploadForm.categoryId ? `دسته‌بندی: ${selectedCategoryTitle}` : "انتخاب دسته‌بندی"}</span>
                         <IconChevronDown size={16} />
                       </UnstyledButton>
                     </Menu.Target>
@@ -510,12 +630,7 @@ export default function DesignerPanelPage() {
                   پاک کردن
                 </button>
 
-                <button
-                  type="button"
-                  className="btn-primary"
-                  onClick={submitUpload}
-                  disabled={uploading || !isUploadDirty()}
-                >
+                <button type="button" className="btn-primary" onClick={submitUpload} disabled={uploading || !isUploadDirty()}>
                   {uploading ? "در حال ارسال..." : "بارگذاری"}
                 </button>
               </div>
@@ -548,6 +663,7 @@ export default function DesignerPanelPage() {
               <h2>اطلاعات تکمیلی طراح</h2>
 
               {designerError && <p className="settings-error">{designerError}</p>}
+              {avatarCropError && <p className="settings-error">{avatarCropError}</p>}
 
               <div className="settings-row">
                 <div className="settings-label">بیوگرافی</div>
@@ -555,7 +671,7 @@ export default function DesignerPanelPage() {
                   <textarea
                     className="settings-input"
                     value={designerExtra.bio}
-                    onChange={(e) => setDesignerField("bio", e.target.value)}
+                    onChange={(e) => setDesignerExtra((p) => ({ ...p, bio: e.target.value }))}
                   />
                 </div>
               </div>
@@ -566,7 +682,7 @@ export default function DesignerPanelPage() {
                   <input
                     className="settings-input"
                     value={designerExtra.location}
-                    onChange={(e) => setDesignerField("location", e.target.value)}
+                    onChange={(e) => setDesignerExtra((p) => ({ ...p, location: e.target.value }))}
                   />
                 </div>
               </div>
@@ -577,44 +693,50 @@ export default function DesignerPanelPage() {
                   <input
                     className="settings-input"
                     value={designerExtra.specialty}
-                    onChange={(e) => setDesignerField("specialty", e.target.value)}
+                    onChange={(e) => setDesignerExtra((p) => ({ ...p, specialty: e.target.value }))}
                   />
                 </div>
               </div>
 
+              {/* ✅ عکس پروفایل + کراپ */}
               <div className="settings-row">
                 <div className="settings-label">عکس پروفایل</div>
+
                 <div className="settings-control">
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) => setDesignerField("avatarFile", e.target.files?.[0] || null)}
+                    onChange={(e) => onAvatarFilePicked(e.target.files?.[0] || null)}
                   />
                 </div>
+
+                <div className="settings-hint">
+                  {designerExtra.avatarFile
+                    ? `آماده‌ی ارسال: ${designerExtra.avatarFile.name}`
+                    : "یک تصویر انتخاب کنید، سپس در پنجره کراپ برش بزنید."}
+                </div>
+
+                {avatarPreviewUrl && (
+                  <div className="settings-hint" style={{ marginTop: 12 }}>
+                    <div style={{ fontWeight: 800, marginBottom: 6 }}>پیش‌نمایش:</div>
+                    <img
+                      src={avatarPreviewUrl}
+                      alt="avatar preview"
+                      className="avatar-preview"
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="settings-footer">
                 <button
                   className="btn-primary"
-                  type="button"
-                  disabled={designerSaving || !isDesignerExtraDirty()}
+                  disabled={designerSaving}
                   onClick={async () => {
                     setDesignerError("");
-
-                    // ✅ اگر هیچ تغییری نیست، اصلاً درخواست نزن
-                    if (!isDesignerExtraDirty()) return;
-
                     setDesignerSaving(true);
                     try {
                       await saveDesignerExtraProfile(designerExtra);
-
-                      // ✅ بعد از موفقیت: فرم رو ریست کن تا مثل settings دوباره دکمه بلاک بشه
-                      setDesignerExtra({
-                        bio: "",
-                        location: "",
-                        specialty: "",
-                        avatarFile: null,
-                      });
                     } catch (e) {
                       setDesignerError(e instanceof Error ? e.message : "خطا");
                     } finally {
@@ -625,6 +747,58 @@ export default function DesignerPanelPage() {
                   {designerSaving ? "در حال ذخیره..." : "ذخیره اطلاعات"}
                 </button>
               </div>
+
+              {/* ✅ مودال کراپ (استایل جدا - بدون دست‌زدن به استایل‌های موجود) */}
+              {isCropOpen && avatarSrc && (
+                <div className="crop-modal-overlay" role="dialog" aria-modal="true">
+                  <div className="crop-modal">
+                    <div className="crop-modal-header">
+                      <div className="crop-title">برش عکس پروفایل</div>
+                      <button type="button" className="icon-btn" onClick={closeCropper} title="بستن">
+                        ×
+                      </button>
+                    </div>
+
+                    <div className="crop-container">
+                      <Cropper
+                        image={avatarSrc}
+                        crop={crop}
+                        zoom={zoom}
+                        aspect={1}
+                        cropShape="round"
+                        showGrid={false}
+                        onCropChange={setCrop}
+                        onZoomChange={setZoom}
+                        onCropComplete={onCropComplete}
+                      />
+                    </div>
+
+                    <div className="crop-controls">
+                      <div className="crop-zoom-row">
+                        <span style={{ fontWeight: 800 }}>زوم</span>
+                        <input
+                          className="crop-zoom"
+                          type="range"
+                          min={1}
+                          max={3}
+                          step={0.01}
+                          value={zoom}
+                          onChange={(e) => setZoom(Number(e.target.value))}
+                        />
+                      </div>
+
+                      <div className="crop-actions">
+                        <button type="button" className="btn-ghost" onClick={closeCropper}>
+                          انصراف
+                        </button>
+                        <button type="button" className="btn-primary" onClick={confirmCroppedAvatar}>
+                          تایید برش
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -668,12 +842,7 @@ export default function DesignerPanelPage() {
                   {!editing.currentPassword ? (
                     <>
                       <div className="settings-value">{draft.currentPassword ? "********" : "—"}</div>
-                      <button
-                        type="button"
-                        className="icon-btn"
-                        onClick={() => startEdit("currentPassword")}
-                        title="ویرایش"
-                      >
+                      <button type="button" className="icon-btn" onClick={() => startEdit("currentPassword")} title="ویرایش">
                         ✎
                       </button>
                     </>
@@ -686,12 +855,7 @@ export default function DesignerPanelPage() {
                         onChange={(e) => setDraft((d) => ({ ...d, currentPassword: e.target.value }))}
                         placeholder="رمز عبور قبلی"
                       />
-                      <button
-                        type="button"
-                        className="icon-btn"
-                        onClick={() => stopEdit("currentPassword")}
-                        title="تمام"
-                      >
+                      <button type="button" className="icon-btn" onClick={() => stopEdit("currentPassword")} title="تمام">
                         ✓
                       </button>
                     </>
@@ -752,12 +916,7 @@ export default function DesignerPanelPage() {
                         onChange={(e) => setDraft((d) => ({ ...d, confirmNewPassword: e.target.value }))}
                         placeholder="تکرار رمز عبور جدید"
                       />
-                      <button
-                        type="button"
-                        className="icon-btn"
-                        onClick={() => stopEdit("confirmNewPassword")}
-                        title="تمام"
-                      >
+                      <button type="button" className="icon-btn" onClick={() => stopEdit("confirmNewPassword")} title="تمام">
                         ✓
                       </button>
                     </>
