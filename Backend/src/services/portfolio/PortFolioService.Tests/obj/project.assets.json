@@ -943,19 +943,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Raziyeh\\.nuget\\packages\\": {}
+    "C:\\Users\\mosta\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Tests\\PortFolioService.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Tests\\PortFolioService.Tests.csproj",
       "projectName": "PortFolioService.Tests",
-      "projectPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Tests\\PortFolioService.Tests.csproj",
-      "packagesPath": "C:\\Users\\Raziyeh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Tests\\obj\\",
+      "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Tests\\PortFolioService.Tests.csproj",
+      "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Raziyeh\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -1018,7 +1018,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

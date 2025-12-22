@@ -11,6 +11,7 @@ using PortFolioService.Application.Commands.DeletePortfolio;
 using PortFolioService.Application.Queries.GetRecentPortfolio;
 using PortFolioService.Application.Queries.GetPortfolioByCategory;
 using PortFolioService.Application.Queries.GetPortfolioByDesigner;
+using PortFolioService.Application.Queries.GetPortfolioById;
 
 namespace PortFolioService.Api.Controllers
 {
@@ -99,6 +100,17 @@ namespace PortFolioService.Api.Controllers
 
             if (!result.Success)
                 return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(
+            int id,
+            CancellationToken ct)
+        {
+            var query = new GetPortfolioByIdQuery(id);
+            var result = await _mediator.Send(query, ct);
 
             return Ok(result);
         }
