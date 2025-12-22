@@ -14,6 +14,8 @@ using IAM.Application.Commands.Refresh;
 using IAM.Application.Commands.Logout;
 using IAM.Application.Commands.UpdateUser;
 
+using IAM.Application.Queries;
+
 namespace IAM.Api.Controllers
 {
     [ApiController]
@@ -238,6 +240,16 @@ namespace IAM.Api.Controllers
 
             return Ok(result);
         }
+
+
+
+        [HttpPut("get-name/{designerId:int}")]
+        public async Task<IActionResult> GetName(int designerId)
+        {
+            var fullName = await _mediator.Send(new GetDesignerNameQuery(designerId));
+            return Ok(new { FullName = fullName });
+        }
+
         
     }
 }
