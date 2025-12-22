@@ -109,13 +109,13 @@
   height: 170px;
 
   /* ✅ کل تصویر دیده می‌شود (بدون برش) */
-  object-fit: contain;
+  /* object-fit: contain; */
 
   /* ✅ تصویر وسط کادر */
   object-position: center;
 
   display: block;
-  padding: 8px;
+  /* padding: 0; */
   box-sizing: border-box;
 }
 

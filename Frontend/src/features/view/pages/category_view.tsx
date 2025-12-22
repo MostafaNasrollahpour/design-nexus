@@ -1,6 +1,8 @@
+// src/features/view/components/CategoryPortfoliosPage.tsx
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { getPortfoliosByCategoryId } from "../API/category_view_API";
+import { getDesignersByIds } from "../API/designerAPI";
 import type { PortfolioListItem } from "../API/category_view_API";
 import "../styles/category_view.css";
 
@@ -21,6 +23,8 @@ type LocationState = {
   };
 };
 
+type DesignerNamesMap = Map<number, string>;
+
 export default function CategoryPortfoliosPage() {
   const { categoryId: categoryIdParam } = useParams<{ categoryId: string }>();
   const location = useLocation();
@@ -33,8 +37,30 @@ export default function CategoryPortfoliosPage() {
   const title = CATEGORY_TITLES[categoryId] ?? "دسته‌بندی";
 
   const [items, setItems] = useState<PortfolioListItem[]>([]);
+  const [designerNames, setDesignerNames] = useState<DesignerNamesMap>(new Map());
   const [loading, setLoading] = useState(true);
+  const [loadingDesigners, setLoadingDesigners] = useState(false);
   const [error, setError] = useState("");
+
+  // تابع برای دریافت نام طراحان
+  const fetchDesignerNames = async (designerIds: number[], signal?: AbortSignal) => {
+    if (designerIds.length === 0) return;
+    
+    setLoadingDesigners(true);
+    try {
+      const namesMap = await getDesignersByIds(designerIds, signal);
+      setDesignerNames(namesMap);
+    } catch (err) {
+      console.error("Error fetching designer names:", err);
+    } finally {
+      setLoadingDesigners(false);
+    }
+  };
+
+  // تابع کمکی برای دریافت نام طراح
+  const getDesignerName = (designerId: number): string => {
+    return designerNames.get(designerId) || "در حال دریافت...";
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -54,6 +80,11 @@ export default function CategoryPortfoliosPage() {
 
     if (prefetched && prefetched.categoryId === categoryId) {
       setItems(prefetched.items);
+      
+      // دریافت نام طراحان برای داده‌های prefetch شده
+      const designerIds = prefetched.items.map(item => item.designerId);
+      fetchDesignerNames(designerIds, controller.signal);
+      
       setLoading(false);
       return () => controller.abort();
     }
@@ -61,7 +92,13 @@ export default function CategoryPortfoliosPage() {
     // ✅ حالت عادی: صفحه خودش API را صدا می‌زند
     setLoading(true);
     getPortfoliosByCategoryId(categoryId, controller.signal)
-      .then((data) => setItems(data))
+      .then((data) => {
+        setItems(data);
+        
+        // دریافت نام طراحان برای داده‌های جدید
+        const designerIds = data.map(item => item.designerId);
+        return fetchDesignerNames(designerIds, controller.signal);
+      })
       .catch((err: any) => {
         if (err?.name === "AbortError") return;
         setItems([]);
@@ -144,7 +181,9 @@ export default function CategoryPortfoliosPage() {
                       </div>
 
                       <div className="designer-meta">
-                        <div className="designer-chip">طراح: {p.designerId}</div>
+                        <div className="designer-chip">
+                          طراح: {loadingDesigners ? "در حال دریافت..." : getDesignerName(p.designerId)}
+                        </div>
                       </div>
 
                       <p className="designer-desc">

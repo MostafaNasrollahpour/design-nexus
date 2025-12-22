@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Tests\\IAM.Tests.csproj": {}
+    "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Tests\\IAM.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj": {
+    "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj",
+        "projectUniqueName": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj",
         "projectName": "IAM.Application",
-        "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj",
-        "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\obj\\",
+        "projectPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj",
+        "packagesPath": "C:\\Users\\Raziyeh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Raziyeh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -26,8 +26,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj": {
-                "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj"
+              "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj": {
+                "projectPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj"
               }
             }
           }
@@ -81,21 +81,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj": {
+    "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj",
         "projectName": "IAM.Domain",
-        "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj",
-        "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\obj\\",
+        "projectPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj",
+        "packagesPath": "C:\\Users\\Raziyeh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Raziyeh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -140,21 +140,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\IAM.Infrastructure.csproj": {
+    "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\IAM.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\IAM.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\IAM.Infrastructure.csproj",
         "projectName": "IAM.Infrastructure",
-        "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\IAM.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\IAM.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Raziyeh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Raziyeh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -166,11 +166,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj": {
-                "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj"
+              "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj": {
+                "projectPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj"
               },
-              "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj": {
-                "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj"
+              "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj": {
+                "projectPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj"
               }
             }
           }
@@ -238,21 +238,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Tests\\IAM.Tests.csproj": {
+    "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Tests\\IAM.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Tests\\IAM.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Tests\\IAM.Tests.csproj",
         "projectName": "IAM.Tests",
-        "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Tests\\IAM.Tests.csproj",
-        "packagesPath": "C:\\Users\\mosta\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Tests\\obj\\",
+        "projectPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Tests\\IAM.Tests.csproj",
+        "packagesPath": "C:\\Users\\Raziyeh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mosta\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Raziyeh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -264,14 +264,14 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj": {
-                "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj"
+              "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj": {
+                "projectPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Application\\IAM.Application.csproj"
               },
-              "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj": {
-                "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj"
+              "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj": {
+                "projectPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj"
               },
-              "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\IAM.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\IAM.Infrastructure.csproj"
+              "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\IAM.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\IAM.Infrastructure.csproj"
               }
             }
           }
@@ -337,7 +337,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

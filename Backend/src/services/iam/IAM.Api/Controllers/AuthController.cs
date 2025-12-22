@@ -243,11 +243,13 @@ namespace IAM.Api.Controllers
 
 
 
-        [HttpPut("get-name/{designerId:int}")]
+        [HttpGet("get-name/{designerId:int}")]
         public async Task<IActionResult> GetName(int designerId)
         {
             var fullName = await _mediator.Send(new GetDesignerNameQuery(designerId));
-            return Ok(new { FullName = fullName });
+            return Ok(new { 
+                Id = designerId,
+                Name = fullName });
         }
 
         
