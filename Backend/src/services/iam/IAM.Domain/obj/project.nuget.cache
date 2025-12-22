@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "03ODMQUY3VU=",
+  "dgSpecHash": "stwldaZlv98=",
   "success": true,
-  "projectFilePath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj",
+  "projectFilePath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Domain\\IAM.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

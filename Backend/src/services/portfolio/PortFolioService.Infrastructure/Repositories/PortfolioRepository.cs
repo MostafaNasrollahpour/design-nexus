@@ -52,5 +52,17 @@ public class PortfolioRepository : IPortfolioRepository
             .ToListAsync(ct);
     }
 
+    public async Task<Portfolio?> GetByIdAsync(int id, CancellationToken ct)
+    {
+        return await _dbContext.Portfolios
+            .FirstOrDefaultAsync(p => p.Id == id, ct);
+    }
+
+    public async Task DeleteAsync(Portfolio portfolio, CancellationToken ct)
+    {
+        _dbContext.Portfolios.Remove(portfolio);
+        await _dbContext.SaveChangesAsync(ct);
+    }
+
 }
 

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "aoHhGSDZ4vs=",
+  "dgSpecHash": "ff1Oq8ra4ik=",
   "success": true,
-  "projectFilePath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\IAM.Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\iam\\IAM.Infrastructure\\IAM.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mosta\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\mosta\\.nuget\\packages\\bouncycastle.cryptography\\2.6.1\\bouncycastle.cryptography.2.6.1.nupkg.sha512",

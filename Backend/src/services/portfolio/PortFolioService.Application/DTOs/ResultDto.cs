@@ -1,4 +1,4 @@
-namespace PortFolioService.Application.Common;
+namespace PortFolioService.Application.DTOs;
 
 public class ResultDto
 {

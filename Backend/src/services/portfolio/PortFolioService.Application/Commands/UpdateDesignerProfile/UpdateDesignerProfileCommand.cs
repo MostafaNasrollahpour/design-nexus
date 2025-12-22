@@ -1,5 +1,4 @@
 using MediatR;
-using PortFolioService.Application.Common;
 using PortFolioService.Application.DTOs;
 
 namespace PortFolioService.Application.Commands.UpdateDesignerProfile;

@@ -4,7 +4,6 @@ using PortFolioService.Domain.Entities;
 using PortFolioService.Domain.Interfaces;
 using PortFolioService.Application.DTOs;
 using PortFolioService.Application.Validators;
-using PortFolioService.Application.Common;
 
 namespace PortFolioService.Application.Commands.UpdateDesignerProfile;
 

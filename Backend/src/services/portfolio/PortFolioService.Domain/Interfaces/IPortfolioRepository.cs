@@ -10,6 +10,8 @@ public interface IPortfolioRepository
     Task<List<Portfolio>> GetByDesignerIdAsync(int designerId, CancellationToken ct);
     Task<List<Portfolio>> GetRecentAsync(int count, CancellationToken ct);
     Task<List<Portfolio>> GetByCategoryIdAsync(int categoryId, CancellationToken ct);
+    Task<Portfolio?> GetByIdAsync(int id, CancellationToken ct);
+    Task DeleteAsync(Portfolio portfolio, CancellationToken ct);
 
 }
 

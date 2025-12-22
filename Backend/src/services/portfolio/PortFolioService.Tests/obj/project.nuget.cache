@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Hwny9DpcH34=",
+  "dgSpecHash": "8PTmSqDb7KU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\mosta\\Desktop\\MyProjects\\copy\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Tests\\PortFolioService.Tests.csproj",
+  "projectFilePath": "C:\\Users\\mosta\\Desktop\\MyProjects\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Tests\\PortFolioService.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mosta\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",
     "C:\\Users\\mosta\\.nuget\\packages\\microsoft.codecoverage\\17.12.0\\microsoft.codecoverage.17.12.0.nupkg.sha512",
