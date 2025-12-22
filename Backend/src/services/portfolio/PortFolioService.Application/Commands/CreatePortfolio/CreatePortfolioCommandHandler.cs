@@ -45,7 +45,7 @@ public class CreatePortfolioCommandHandler
             $"designer-{_currentUser.UserId}",
             ct);
         
-        if (request.Request.CategoryId > 7 && request.Request.CategoryId < 1)
+        if (request.Request.CategoryId > 7 || request.Request.CategoryId < 1)
         {
             return PortfolioResponse.FailureResult("دسته بندی موجود نیست");
         }

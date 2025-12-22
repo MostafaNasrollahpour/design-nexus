@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.FileProviders;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using PortFolioService.Application.Commands.CreatePortfolio;
@@ -14,7 +15,6 @@ JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // --------------------
 // CORS Configuration
 // --------------------
@@ -24,7 +24,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: corsPolicyName,
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173", // React/Vite dev server
+            policy.WithOrigins(
+                               "http://localhost:5173", // React/Vite dev server
                                "https://localhost:5173",
                                "http://localhost:3000", // Next.js or other React
                                "https://localhost:3000")
@@ -133,6 +134,21 @@ builder.Services.AddAuthorization();
 var app = builder.Build();
 
 // --------------------
+// Serve Static Files (uploads) from wwwroot/uploads
+// --------------------
+var uploadsPath = Path.Combine(builder.Environment.WebRootPath ?? Path.Combine(builder.Environment.ContentRootPath, "wwwroot"), "uploads");
+
+// Ensure directory exists
+Directory.CreateDirectory(uploadsPath);
+
+// Use static files middleware
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath ?? Path.Combine(builder.Environment.ContentRootPath, "wwwroot"), "uploads")),
+    RequestPath = "/uploads"
+});
+
+// --------------------
 // Migration و Database Initialization
 // --------------------
 using (var scope = app.Services.CreateScope())
@@ -141,10 +157,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<AppDbContext>();
-        // اجرای مایگریشن‌ها به صورت خودکار
         context.Database.Migrate();
-        
-        // اگر می‌خواهید لاگ بزنید که مایگریشن اجرا شده
         Console.WriteLine("Database migration completed successfully.");
     }
     catch (Exception ex)
@@ -164,13 +177,13 @@ if (app.Environment.IsDevelopment())
 }
 
 // --------------------
-// Middleware
+// Middleware Order
 // --------------------
+app.UseCors(corsPolicyName);
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseCors(corsPolicyName);
 
 app.Run();

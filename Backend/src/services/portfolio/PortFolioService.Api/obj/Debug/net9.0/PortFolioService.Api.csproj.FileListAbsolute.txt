@@ -308,3 +308,4 @@ C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfoli
 C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Api\obj\Debug\net9.0\PortFolioService.Api.pdb
 C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Api\obj\Debug\net9.0\PortFolioService.Api.genruntimeconfig.cache
 C:\Users\mosta\Desktop\MyProjects\copy\DesignNexus\Backend\src\services\portfolio\PortFolioService.Api\obj\Debug\net9.0\ref\PortFolioService.Api.dll
+C:\Users\mosta\Desktop\MyProjects\DesignNexus\Backend\src\services\portfolio\PortFolioService.Api\bin\Debug\net9.0\PortFolioService.Api.staticwebassets.runtime.json
