@@ -407,14 +407,14 @@ export default function DesignerPanelPage() {
               <div className="settings-row">
                 <div className="settings-label">اطلاعات طرح</div>
 
-                {/* <div className="settings-control" style={{ marginBottom: 10 }}>
+                <div className="settings-control" style={{ marginBottom: 10 }}>
                   <input
                     className="settings-input"
                     value={uploadForm.title}
                     onChange={(e) => setUploadField("title", e.target.value)}
                     placeholder="عنوان طرح (مثلاً: طراحی پذیرایی مدرن)"
                   />
-                </div> */}
+                </div>
 
                 {/* دسته‌بندی */}
                 <div className="settings-control" style={{ justifyContent: "flex-start" }}>

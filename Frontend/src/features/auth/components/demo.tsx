@@ -16,31 +16,31 @@ function Demo() {
       <Menu.Dropdown dir="rtl">
         <Menu.Label>دسته بندی‌ها</Menu.Label>
 
-        <Menu.Item component={Link} to="/hall">
+        <Menu.Item component={Link} to="/2">
           پذیرایی
         </Menu.Item>
 
-        <Menu.Item component={Link} to="/kitchen">
+        <Menu.Item component={Link} to="/3">
           آشپزخانه
         </Menu.Item>
 
-        <Menu.Item component={Link} to="/work-room">
+        <Menu.Item component={Link} to="/4">
           اتاق کار
         </Menu.Item>
 
-        <Menu.Item component={Link} to="/wedding">
+        <Menu.Item component={Link} to="/5">
           عروسی و نامزدی
         </Menu.Item>
 
-        <Menu.Item component={Link} to="/birthday">
+        <Menu.Item component={Link} to="/6">
           جشن تولد
         </Menu.Item>
 
-        <Menu.Item component={Link} to="/caffee">
+        <Menu.Item component={Link} to="/7">
           کافی‌ شاپ و رستوران
         </Menu.Item>
 
-        <Menu.Item component={Link} to="/bedroom">
+        <Menu.Item component={Link} to="/1">
           اتاق خواب
         </Menu.Item>
       </Menu.Dropdown>

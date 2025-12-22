@@ -1,4 +1,3 @@
-// App.tsx
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./features/auth/pages/login_page";
@@ -11,8 +10,9 @@ import HomePage from "./features/auth/pages/home_page";
 import PanelPage from "./features/profile/pages/panel_page";
 import SupportConsultPage from "./features/support/pages/support_page";
 import DesignerCardsPage from "./features/view/pages/designer_cards_page";
- import UserChatPage from "./features/chat/user_chat_page";
+import UserChatPage from "./features/chat/user_chat_page";
 import AdminChatPage from "./features/chat/admin_chat_page";
+import CategoryPortfoliosPage from "./features/view/pages/category_view";
 
 export default function App() {
   return (
@@ -31,14 +31,17 @@ export default function App() {
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/designers" element={<DesignerCardsPage />} />
 
-  
-
-<Route path="/chat/:designerId?" element={<UserChatPage />} />
-<Route path="/admin/chat/:userId" element={<AdminChatPage />} />
+        <Route path="/chat/:designerId?" element={<UserChatPage />} />
+        <Route path="/admin/chat/:userId" element={<AdminChatPage />} />
 
         {/* User Panel */}
         <Route path="/panel" element={<PanelPage />} />
         <Route path="/support" element={<SupportConsultPage />} />
+
+        {/* ✅ Category Portfolios (مثل /hall /kitchen /work-room و ...) */}
+        {/* <Route path="/:categorySlug" element={<CategoryPortfoliosPage />} /> */}
+        <Route path="/:categoryId" element={<CategoryPortfoliosPage />} />
+
 
         {/* Fallback (جلوگیری از صفحه خالی) */}
         <Route path="*" element={<Navigate to="/" replace />} />

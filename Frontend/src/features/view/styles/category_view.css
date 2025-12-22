@@ -1,0 +1,258 @@
+/* src/pages/CategoryPortfoliosPage.css */
+
+/* هم‌خانواده با استایل پنل شما، ولی مخصوص این صفحه */
+
+.designer-panel-layout {
+  width: min(1200px, calc(100% - 24px));
+  margin: 20px auto;
+  direction: rtl;
+}
+
+.designer-panel-content {
+  min-width: 0;
+}
+
+.designer-panel-card {
+  background: #C6E7FF;
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.designer-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #989797;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.designer-title {
+  margin: 0;
+}
+
+.designer-subtitle {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.designer-path {
+  font-weight: 900;
+}
+
+.designer-headerActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.designer-backBtn {
+  text-decoration: none;
+  border: 1px solid #e5e5e5;
+  background: rgba(255,255,255,0.6);
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-weight: 900;
+  color: #000;
+}
+
+.designer-backBtn:hover {
+  background: rgba(255,255,255,0.8);
+}
+
+/* پیام‌ها */
+.designer-alert {
+  border-radius: 14px;
+  padding: 12px 12px;
+  margin: 10px 0 14px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.55);
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.designer-alert--error {
+  background: rgba(255, 220, 220, 0.65);
+}
+
+.designer-alert--empty {
+  background: rgba(255, 245, 138, 0.55);
+}
+
+/* Grid */
+.designer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+/* Card */
+.designer-card {
+  position: relative;
+  background: rgba(255,255,255,0.35);
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+  min-height: 340px;
+}
+
+.designer-imageWrap {
+  position: relative;
+}
+
+.designer-image {
+  width: 100%;
+  height: 170px;
+
+  /* ✅ کل تصویر دیده می‌شود (بدون برش) */
+  object-fit: contain;
+
+  /* ✅ تصویر وسط کادر */
+  object-position: center;
+
+  display: block;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+
+.designer-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(17,17,17,0.85);
+  color: #fff;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* Body */
+.designer-body {
+  padding: 12px 12px 52px; /* جا برای اکشن‌های پایین */
+}
+
+.designer-nameRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+  border-bottom: 1px solid #989797;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.designer-name {
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.designer-role {
+  font-weight: 800;
+  font-size: 12px;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.designer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.designer-chip {
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.55);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.designer-desc {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.8;
+  opacity: 0.85;
+}
+
+/* Actions (bottom-left) */
+.designer-actions {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.designer-iconBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+  background: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  color: #000;
+}
+
+.designer-iconBtn:hover {
+  background: #f3f3f3;
+}
+
+.designer-viewBtn {
+  border: none;
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-weight: 900;
+  background: #FFF58A;
+  color: #000;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.designer-viewBtn:hover {
+  filter: brightness(0.98);
+}
+
+/* Skeleton */
+.designer-card--skeleton {
+  background: rgba(255,255,255,0.25);
+}
+
+.skeleton-box {
+  background: rgba(0,0,0,0.08);
+}
+
+.skeleton-line {
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.08);
+  margin: 10px 0;
+}
+
+.w-60 { width: 60%; }
+.w-70 { width: 70%; }
+.w-80 { width: 80%; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .designer-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
