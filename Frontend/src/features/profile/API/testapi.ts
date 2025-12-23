@@ -425,3 +425,67 @@ export async function saveDesignerExtraProfile(
   return (data ?? { success: true }) as DesignerExtraProfileResult;
 }
 
+
+
+//--------------------------------------------------------------------
+export type DesignerProjectDto = {
+  id: number;
+  title: string;
+  categoryId: number;
+  imageUrl: string | null;
+  description: string | null;
+  [key: string]: any;
+};
+
+const API_BASE_URL = "http://localhost:5118";
+
+function normalizeErrorMessage(res: Response, data: any) {
+  if (data && typeof data === "object") {
+    return data.message || data.error || `خطا (${res.status})`;
+  }
+  return `خطا (${res.status})`;
+}
+
+function normalizeImageUrl(imageUrl: string | null): string | null {
+  if (!imageUrl) return null;
+  if (imageUrl.startsWith("http")) return imageUrl;
+  return `${API_BASE_URL}${imageUrl.startsWith("/") ? "" : "/"}${imageUrl}`;
+}
+
+export async function getDesignerProjects(
+  token: string
+): Promise<DesignerProjectDto[]> {
+  const res = await fetch(
+    `${API_BASE_URL}/api/portfolios/designer/me`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  let data: any = null;
+  try {
+    data = await res.json();
+  } catch {
+    // پاسخ خالی یا غیر JSON
+  }
+
+  if (!res.ok) {
+    throw new Error(normalizeErrorMessage(res, data));
+  }
+
+  const projects: DesignerProjectDto[] = Array.isArray(data)
+    ? data
+    : Array.isArray(data?.data)
+    ? data.data
+    : [];
+
+  // نرمال‌سازی imageUrl
+  return projects.map((p) => ({
+    ...p,
+    imageUrl: normalizeImageUrl(p.imageUrl),
+  }));
+}

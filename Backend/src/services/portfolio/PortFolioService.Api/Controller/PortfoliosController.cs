@@ -41,6 +41,7 @@ namespace PortFolioService.Api.Controllers
             return Ok(result);
         }
 
+
         [HttpGet("recent")]
         public async Task<IActionResult> GetRecent(
             [FromQuery] int count = 50,
@@ -112,6 +113,15 @@ namespace PortFolioService.Api.Controllers
             var query = new GetPortfolioByIdQuery(id);
             var result = await _mediator.Send(query, ct);
 
+            return Ok(result);
+        }
+
+        [HttpGet("designer/me")]
+        [Authorize(Roles = "طراح")]
+        public async Task<IActionResult> GetMyPortfolios(CancellationToken ct)
+        {
+            var query = new GetMyPortfolioQuery();
+            var result = await _mediator.Send(query, ct);
             return Ok(result);
         }
 

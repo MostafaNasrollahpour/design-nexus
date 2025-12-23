@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Navbar from "../../../shared/components/navbar";
@@ -14,8 +14,10 @@ import {
   saveProfileSettings,
   uploadDesignerDesign,
   saveDesignerExtraProfile,
+  getDesignerProjects,
   type ProfileSettingsPayload,
   type UploadDesignPayload,
+  type DesignerProjectDto,
 } from "../API/testapi";
 
 /** ---------------------- ثابت‌ها ---------------------- */
@@ -38,6 +40,16 @@ const CATEGORIES = [
   { id: 6, title: "جشن تولد" },
   { id: 7, title: "کافی شاپ و رستوران" },
 ] as const;
+
+const CATEGORY_TITLES: Record<number, string> = {
+  1: "اتاق خواب",
+  2: "پذیرایی",
+  3: "آشپزخانه",
+  4: "اتاق کار",
+  5: "عروسی و نامزدی",
+  6: "جشن تولد",
+  7: "کافی‌ شاپ و رستوران",
+};
 
 function notifyAuthChanged() {
   window.dispatchEvent(new Event("authChanged"));
@@ -81,12 +93,10 @@ async function getCroppedImageBlob(imageSrc: string, pixelCrop: Area, rotation =
   const image = await createImage(imageSrc);
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
-
   if (!ctx) throw new Error("Canvas not supported");
 
   const rotRad = getRadianAngle(rotation);
 
-  // محاسبه باندینگ باکس بعد از چرخش (اینجا rotation رو 0 گذاشتیم، ولی کد رو کامل نگه داشتیم)
   const { width: bBoxW, height: bBoxH } = (() => {
     const w = image.width;
     const h = image.height;
@@ -95,7 +105,6 @@ async function getCroppedImageBlob(imageSrc: string, pixelCrop: Area, rotation =
     return { width: w * cos + h * sin, height: w * sin + h * cos };
   })();
 
-  // برای کیفیت بهتر روی دستگاه‌های ریتینا
   const dpr = window.devicePixelRatio || 1;
 
   canvas.width = Math.round(pixelCrop.width * dpr);
@@ -103,12 +112,10 @@ async function getCroppedImageBlob(imageSrc: string, pixelCrop: Area, rotation =
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.imageSmoothingQuality = "high";
 
-  // انتقال برای چرخش
   ctx.translate(bBoxW / 2, bBoxH / 2);
   ctx.rotate(rotRad);
   ctx.translate(-image.width / 2, -image.height / 2);
 
-  // تصویر کامل روی یک canvas موقت
   const tempCanvas = document.createElement("canvas");
   const tctx = tempCanvas.getContext("2d");
   if (!tctx) throw new Error("Canvas not supported");
@@ -121,7 +128,6 @@ async function getCroppedImageBlob(imageSrc: string, pixelCrop: Area, rotation =
   tctx.translate(-image.width / 2, -image.height / 2);
   tctx.drawImage(image, 0, 0);
 
-  // برش نهایی
   ctx.drawImage(
     tempCanvas,
     pixelCrop.x,
@@ -142,6 +148,19 @@ async function getCroppedImageBlob(imageSrc: string, pixelCrop: Area, rotation =
   });
 }
 
+/** ---------------------- Auth helper ---------------------- */
+function getAuthTokenFromStorage() {
+  // چند کلید رایج رو پوشش می‌دیم که هر پروژه‌ای یه چیزی می‌ذاره 😄
+  return (
+    localStorage.getItem("token") ||
+    localStorage.getItem("accessToken") ||
+    localStorage.getItem("authToken") ||
+    localStorage.getItem("jwt") ||
+    ""
+  );
+}
+
+/** ---------------------- Component ---------------------- */
 export default function DesignerPanelPage() {
   const navigate = useNavigate();
 
@@ -199,12 +218,9 @@ export default function DesignerPanelPage() {
 
   const isDirty = () => {
     const current = readLatestFromStorage();
-
     const profileChanged = (draft.fullName || "").trim() !== (current.fullName || "").trim();
-
     const passwordTouched =
       !!draft.currentPassword?.trim() || !!draft.newPassword?.trim() || !!draft.confirmNewPassword?.trim();
-
     return profileChanged || passwordTouched;
   };
 
@@ -447,7 +463,6 @@ export default function DesignerPanelPage() {
       const blob = await getCroppedImageBlob(avatarSrc, croppedAreaPixels, 0);
       const file = new File([blob], `avatar_${Date.now()}.jpg`, { type: "image/jpeg" });
 
-      // preview (اختیاری)
       const previewUrl = URL.createObjectURL(blob);
       setAvatarPreviewUrl(previewUrl);
 
@@ -461,6 +476,37 @@ export default function DesignerPanelPage() {
       setAvatarCropError(e instanceof Error ? e.message : "خطا در برش تصویر");
     }
   };
+
+  /* ---------------- Projects state (✅ تب پروژه‌ها) ---------------- */
+  const [projectsLoading, setProjectsLoading] = useState(false);
+  const [projectsError, setProjectsError] = useState("");
+  const [projects, setProjects] = useState<DesignerProjectDto[]>([]);
+
+  const loadProjects = useCallback(async () => {
+    setProjectsError("");
+    setProjectsLoading(true);
+    try {
+      const token = getAuthTokenFromStorage() || user?.Token || user?.token || "";
+      if (!token) {
+        setProjects([]);
+        setProjectsError("توکن پیدا نشد. لطفاً دوباره وارد شوید.");
+        return;
+      }
+      const data = await getDesignerProjects(token);
+      setProjects(Array.isArray(data) ? data : []);
+    } catch (e) {
+      setProjectsError(e instanceof Error ? e.message : "خطا در دریافت پروژه‌ها");
+      setProjects([]);
+    } finally {
+      setProjectsLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (activeTab === "projects") {
+      loadProjects();
+    }
+  }, [activeTab, loadProjects]);
 
   /* ---------------- UI Helpers ---------------- */
   const SidebarButton = ({
@@ -478,6 +524,17 @@ export default function DesignerPanelPage() {
         {label}
       </button>
     );
+  };
+
+  const toCategoryTitle = (id: number | null | undefined) => {
+    if (!id) return "—";
+    return CATEGORY_TITLES[id] || `دسته‌بندی #${id}`;
+  };
+
+  const openEditProject = (p: DesignerProjectDto) => {
+    // مسیر رو با روت پروژه‌ات تنظیم کن
+    // مثال: /designer/projects/:id/edit
+    navigate(`/designer/projects/${p.id}/edit`, { state: { project: p } });
   };
 
   return (
@@ -637,10 +694,84 @@ export default function DesignerPanelPage() {
             </div>
           )}
 
+          {/* ✅ پروژه‌ها */}
           {activeTab === "projects" && (
             <div className="panel-card">
-              <h2>پروژه‌ها</h2>
-              <p className="panel-muted">اینجا لیست پروژه‌های شما نمایش داده می‌شود.</p>
+              <div className="projects-header">
+                <div>
+                  <h2 style={{ margin: 0 }}>پروژه‌ها</h2>
+                  <div className="panel-muted" style={{ marginTop: 6 }}>
+                    تمام طرح‌های ثبت‌شده‌ی شما اینجا نمایش داده می‌شود.
+                  </div>
+                </div>
+
+                <div className="projects-actions">
+                  <button
+                    type="button"
+                    className="btn-ghost"
+                    onClick={loadProjects}
+                    disabled={projectsLoading}
+                    title="رفرش"
+                  >
+                    {projectsLoading ? "در حال دریافت..." : "رفرش"}
+                  </button>
+                </div>
+              </div>
+
+              {projectsError && <div className="projects-alert projects-alert--error">{projectsError}</div>}
+
+              {projectsLoading ? (
+                <div className="projects-grid">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div className="project-card project-card--skeleton" key={i}>
+                      <div className="project-img skeleton-box" />
+                      <div className="project-body">
+                        <div className="skeleton-line w-80" />
+                        <div className="skeleton-line w-60" />
+                        <div className="skeleton-line w-70" />
+                        <div className="project-footer">
+                          <div className="skeleton-line w-60" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : projects.length === 0 ? (
+                <div className="projects-empty">
+                  <div className="projects-emptyTitle">فعلاً پروژه‌ای ندارید 🧩</div>
+                  <div className="projects-emptyText">از تب «بارگذاری طرح» اولین پروژه‌تون رو اضافه کنید.</div>
+                </div>
+              ) : (
+                <div className="projects-grid">
+                  {projects.map((p) => (
+                    <div className="project-card" key={p.id}>
+                      <div className="project-imgWrap">
+                        {p.imageUrl ? (
+                          <img className="project-img" src={p.imageUrl} alt={p.title || "project"} />
+                        ) : (
+                          <div className="project-img project-img--empty">بدون تصویر</div>
+                        )}
+
+                        <div className="project-badges">
+                          <span className="project-badge">{toCategoryTitle(p.categoryId)}</span>
+                          <span className="project-badge project-badge--light">#{p.id}</span>
+                        </div>
+                      </div>
+
+                      <div className="project-body">
+                        <div className="project-title">{p.title || "—"}</div>
+                        <div className="project-desc">{p.description?.trim() ? p.description : "بدون توضیحات"}</div>
+
+                        <div className="project-footer">
+                          <button type="button" className="project-editBtn" onClick={() => openEditProject(p)}>
+                            ویرایش طرح
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -703,27 +834,17 @@ export default function DesignerPanelPage() {
                 <div className="settings-label">عکس پروفایل</div>
 
                 <div className="settings-control">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => onAvatarFilePicked(e.target.files?.[0] || null)}
-                  />
+                  <input type="file" accept="image/*" onChange={(e) => onAvatarFilePicked(e.target.files?.[0] || null)} />
                 </div>
 
                 <div className="settings-hint">
-                  {designerExtra.avatarFile
-                    ? `آماده‌ی ارسال: ${designerExtra.avatarFile.name}`
-                    : "یک تصویر انتخاب کنید، سپس در پنجره کراپ برش بزنید."}
+                  {designerExtra.avatarFile ? `آماده‌ی ارسال: ${designerExtra.avatarFile.name}` : "یک تصویر انتخاب کنید، سپس در پنجره کراپ برش بزنید."}
                 </div>
 
                 {avatarPreviewUrl && (
                   <div className="settings-hint" style={{ marginTop: 12 }}>
                     <div style={{ fontWeight: 800, marginBottom: 6 }}>پیش‌نمایش:</div>
-                    <img
-                      src={avatarPreviewUrl}
-                      alt="avatar preview"
-                      className="avatar-preview"
-                    />
+                    <img src={avatarPreviewUrl} alt="avatar preview" className="avatar-preview" />
                   </div>
                 )}
               </div>
@@ -748,7 +869,7 @@ export default function DesignerPanelPage() {
                 </button>
               </div>
 
-              {/* ✅ مودال کراپ (استایل جدا - بدون دست‌زدن به استایل‌های موجود) */}
+              {/* ✅ مودال کراپ */}
               {isCropOpen && avatarSrc && (
                 <div className="crop-modal-overlay" role="dialog" aria-modal="true">
                   <div className="crop-modal">
@@ -898,12 +1019,7 @@ export default function DesignerPanelPage() {
                   {!editing.confirmNewPassword ? (
                     <>
                       <div className="settings-value">{draft.confirmNewPassword ? "********" : "—"}</div>
-                      <button
-                        type="button"
-                        className="icon-btn"
-                        onClick={() => startEdit("confirmNewPassword")}
-                        title="ویرایش"
-                      >
+                      <button type="button" className="icon-btn" onClick={() => startEdit("confirmNewPassword")} title="ویرایش">
                         ✎
                       </button>
                     </>
