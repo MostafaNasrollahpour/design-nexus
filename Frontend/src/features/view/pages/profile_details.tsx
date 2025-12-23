@@ -53,7 +53,7 @@ export default function PortfolioDetailsPage() {
   }, [portfolioId]);
 
   const imageSrc =
-    data?.imageUrl || "https://via.placeholder.com/1200x900?text=No+Image";
+    data?.imageUrl || "https://via.placeholder.com/800x600?text=No+Image";
 
   const categoryTitle =
     data?.categoryId != null
@@ -68,9 +68,6 @@ export default function PortfolioDetailsPage() {
             <h2 className="portfolioD-title">
               {loading ? "در حال دریافت..." : data?.title || "جزئیات نمونه‌کار"}
             </h2>
-            <div className="portfolioD-subtitle">
-              نمایش جزئیات کامل نمونه‌کار
-            </div>
           </div>
 
           <div className="portfolioD-headerActions">
@@ -83,7 +80,9 @@ export default function PortfolioDetailsPage() {
           </div>
         </div>
 
-        {error ? <div className="portfolioD-alert portfolioD-alert--error">{error}</div> : null}
+        {error ? (
+          <div className="portfolioD-alert portfolioD-alert--error">{error}</div>
+        ) : null}
 
         {loading ? (
           <div className="portfolioD-grid portfolioD-grid--skeleton">
@@ -100,77 +99,74 @@ export default function PortfolioDetailsPage() {
           </div>
         ) : !error && data ? (
           <div className="portfolioD-grid">
-            {/* RIGHT: BIG IMAGE */}
-            <div className="portfolioD-imageWrap">
-              <img
-                className="portfolioD-image"
-                src={imageSrc}
-                alt={data.title ?? "portfolio"}
-                loading="lazy"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src =
-                    "https://via.placeholder.com/1200x900?text=No+Image";
-                }}
-              />
+            {/* RIGHT: BIG IMAGE - در کادر محدود شده */}
+            <div className="portfolioD-imageContainer">
+              <div className="portfolioD-imageBox">
+                <img
+                  className="portfolioD-image"
+                  src={imageSrc}
+                  alt={data.title ?? "portfolio"}
+                  loading="lazy"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src =
+                      "https://via.placeholder.com/800x600?text=No+Image";
+                  }}
+                />
+              </div>
 
               <div className="portfolioD-badges">
                 <span className="portfolioD-badge">{categoryTitle}</span>
-                {data.designerId != null ? (
+                {data.designerName && (
                   <span className="portfolioD-badge portfolioD-badge--light">
-                    طراح #{data.designerId}
+                    طراح: {data.designerName}
                   </span>
-                ) : null}
+                )}
               </div>
             </div>
 
             {/* LEFT: INFO */}
             <div className="portfolioD-info">
-              <div className="portfolioD-section">
-                <div className="portfolioD-label">توضیحات</div>
-                <div className="portfolioD-value">
-                  {data.description?.trim() ? data.description : "—"}
-                </div>
-              </div>
+              <div className="portfolioD-infoContent">
+                {/* <div className="portfolioD-section">
+                  <div className="portfolioD-label">عنوان طرح</div>
+                  <div className="portfolioD-value">
+                    {data.title?.trim() ? data.title : "—"}
+                  </div>
+                </div> */}
 
-              <div className="portfolioD-row">
-                <div className="portfolioD-chip">
-                  <span className="portfolioD-chipKey">آیدی نمونه‌کار:</span>
-                  <span className="portfolioD-chipVal">{data.id}</span>
-                </div>
-
-                <div className="portfolioD-chip">
-                  <span className="portfolioD-chipKey">آیدی دسته‌بندی:</span>
-                  <span className="portfolioD-chipVal">
-                    {data.categoryId ?? "—"}
-                  </span>
+                <div className="portfolioD-section">
+                  <div className="portfolioD-label">طراح</div>
+                  <div className="portfolioD-value">
+                    {data.designerName?.trim() ? data.designerName : "—"}
+                  </div>
                 </div>
 
-                <div className="portfolioD-chip">
-                  <span className="portfolioD-chipKey">آیدی طراح:</span>
-                  <span className="portfolioD-chipVal">
-                    {data.designerId ?? "—"}
-                  </span>
+                <div className="portfolioD-section">
+                  <div className="portfolioD-label">بیوگرافی</div>
+                  <div className="portfolioD-value">
+                    {data.biography?.trim() ? data.biography : "—"}
+                  </div>
                 </div>
-              </div>
 
-              <div className="portfolioD-section">
-                <div className="portfolioD-label">لوکیشن</div>
-                <div className="portfolioD-value">
-                  {data.location?.trim() ? data.location : "—"}
+                <div className="portfolioD-section">
+                  <div className="portfolioD-label">لوکیشن</div>
+                  <div className="portfolioD-value">
+                    {data.location?.trim() ? data.location : "—"}
+                  </div>
                 </div>
-              </div>
 
-              <div className="portfolioD-section">
-                <div className="portfolioD-label">بیوگرافی</div>
-                <div className="portfolioD-value">
-                  {data.biography?.trim() ? data.biography : "—"}
+                <div className="portfolioD-section">
+                  <div className="portfolioD-label">تخصص</div>
+                  <div className="portfolioD-value">
+                    {data.expertise?.trim() ? data.expertise : "—"}
+                  </div>
                 </div>
-              </div>
 
-              <div className="portfolioD-section">
-                <div className="portfolioD-label">تخصص</div>
-                <div className="portfolioD-value">
-                  {data.expertise?.trim() ? data.expertise : "—"}
+                <div className="portfolioD-section">
+                  <div className="portfolioD-label">درباره طرح</div>
+                  <div className="portfolioD-value">
+                    {data.description?.trim() ? data.description : "—"}
+                  </div>
                 </div>
               </div>
 

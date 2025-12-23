@@ -2,9 +2,10 @@ export type PortfolioDetails = {
   id: number;
   title?: string | null;
   imageUrl: string | null;
-
+  
   categoryId: number | null;
   designerId: number | null;
+  designerName?: string | null;
 
   description: string | null;
   location: string | null;
@@ -12,17 +13,14 @@ export type PortfolioDetails = {
   expertise: string | null;
 };
 
-/**
- * DTO چیزی که از بک میاد (ممکنه دقیقاً همین نباشه)
- * اگر بک شما اسم فیلدهاش فرق داره، همینجا نگاشت کن ✅
- */
 type PortfolioDetailsApiDto = {
   id: number;
   title?: string | null;
   imageUrl?: string | null;
-
+  
   categoryId?: number | null;
   designerId?: number | null;
+  designerName?: string | null;
 
   description?: string | null;
   location?: string | null;
@@ -58,17 +56,6 @@ async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
   return (await res.json()) as T;
 }
 
-/**
- * نکته مهم:
- * اینجا فرض کردیم endpoint جزئیات اینه:
- *   GET /api/portfolios/{id}
- *
- * اگر بک شما مثلا اینه:
- *   GET /api/portfolios/details/{id}
- * یا:
- *   GET /api/portfolios/getById?id=...
- * فقط همین URL رو تغییر بده.
- */
 export async function getPortfolioDetailsById(
   portfolioId: number,
   signal?: AbortSignal
@@ -83,9 +70,10 @@ export async function getPortfolioDetailsById(
     id: x.id,
     title: x.title ?? null,
     imageUrl: normalizeImageUrl(x.imageUrl),
-
+    
     categoryId: x.categoryId ?? null,
     designerId: x.designerId ?? null,
+    designerName: x.designerName ?? null,
 
     description: x.description ?? null,
     location: x.location ?? null,
