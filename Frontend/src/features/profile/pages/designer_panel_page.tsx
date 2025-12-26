@@ -721,20 +721,22 @@ export default function DesignerPanelPage() {
               {projectsError && <div className="projects-alert projects-alert--error">{projectsError}</div>}
 
               {projectsLoading ? (
-                <div className="projects-grid">
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <div className="project-card project-card--skeleton" key={i}>
-                      <div className="project-img skeleton-box" />
-                      <div className="project-body">
-                        <div className="skeleton-line w-80" />
-                        <div className="skeleton-line w-60" />
-                        <div className="skeleton-line w-70" />
-                        <div className="project-footer">
+                <div className="projects-grid-wrapper">
+                  <div className="projects-grid">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <div className="project-card project-card--skeleton" key={i}>
+                        <div className="project-img skeleton-box" />
+                        <div className="project-body">
+                          <div className="skeleton-line w-80" />
                           <div className="skeleton-line w-60" />
+                          <div className="skeleton-line w-70" />
+                          <div className="project-footer">
+                            <div className="skeleton-line w-60" />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               ) : projects.length === 0 ? (
                 <div className="projects-empty">
@@ -742,34 +744,36 @@ export default function DesignerPanelPage() {
                   <div className="projects-emptyText">از تب «بارگذاری طرح» اولین پروژه‌تون رو اضافه کنید.</div>
                 </div>
               ) : (
-                <div className="projects-grid">
-                  {projects.map((p) => (
-                    <div className="project-card" key={p.id}>
-                      <div className="project-imgWrap">
-                        {p.imageUrl ? (
-                          <img className="project-img" src={p.imageUrl} alt={p.title || "project"} />
-                        ) : (
-                          <div className="project-img project-img--empty">بدون تصویر</div>
-                        )}
+                <div className="projects-grid-wrapper">
+                  <div className="projects-grid">
+                    {projects.map((p) => (
+                      <div className="project-card" key={p.id}>
+                        <div className="project-imgWrap">
+                          {p.imageUrl ? (
+                            <img className="project-img" src={p.imageUrl} alt={p.title || "project"} />
+                          ) : (
+                            <div className="project-img project-img--empty">بدون تصویر</div>
+                          )}
 
-                        <div className="project-badges">
-                          <span className="project-badge">{toCategoryTitle(p.categoryId)}</span>
-                          <span className="project-badge project-badge--light">#{p.id}</span>
+                          <div className="project-badges">
+                            <span className="project-badge">{toCategoryTitle(p.categoryId)}</span>
+                            <span className="project-badge project-badge--light">#{p.id}</span>
+                          </div>
+                        </div>
+
+                        <div className="project-body">
+                          <div className="project-title">{p.title || "—"}</div>
+                          <div className="project-desc">{p.description?.trim() ? p.description : "بدون توضیحات"}</div>
+
+                          <div className="project-footer">
+                            <button type="button" className="project-editBtn" onClick={() => openEditProject(p)}>
+                              ویرایش طرح
+                            </button>
+                          </div>
                         </div>
                       </div>
-
-                      <div className="project-body">
-                        <div className="project-title">{p.title || "—"}</div>
-                        <div className="project-desc">{p.description?.trim() ? p.description : "بدون توضیحات"}</div>
-
-                        <div className="project-footer">
-                          <button type="button" className="project-editBtn" onClick={() => openEditProject(p)}>
-                            ویرایش طرح
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               )}
             </div>

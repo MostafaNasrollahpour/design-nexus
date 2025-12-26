@@ -102,6 +102,7 @@
     grid-template-columns: 1fr;
   }
 }
+
 /* ------- Settings (single submit) ------- */
 .settings-row {
   padding: 12px 0;
@@ -110,7 +111,6 @@
 
 .settings-row:last-child {
   border-bottom: none;
- 
 }
 
 .settings-label {
@@ -295,7 +295,6 @@
   background: #fff;
 }
 
-
 /* ===========================
    Projects (Designer Panel)
 =========================== */
@@ -331,10 +330,39 @@
   background: rgba(255, 220, 220, 0.65);
 }
 
+/* تغییرات اصلی اینجا انجام شده - اضافه کردن حداکثر ارتفاع و اسکرول */
+.projects-grid-wrapper {
+  max-height: 600px; /* یا هر ارتفاع مناسب دیگر */
+  overflow-y: auto;
+  border-radius: 14px;
+  padding: 4px; /* فاصله داخلی برای بهتر دیده شدن سایه */
+  margin: 0 -4px; /* جبران padding اضافه */
+}
+
+/* استایل برای اسکرول بار */
+.projects-grid-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.projects-grid-wrapper::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.projects-grid-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+
+.projects-grid-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
+  min-height: min-content; /* اطمینان از اینکه محتوا حداقل ارتفاع لازم را دارد */
 }
 
 .project-card {
@@ -346,6 +374,7 @@
   display: flex;
   flex-direction: column;
   min-height: 320px;
+  height: 100%; /* اطمینان از پر کردن کامل فضای گرید */
 }
 
 .project-imgWrap {
@@ -401,6 +430,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-height: 0; /* مهم برای کنترل overflow در flex children */
 }
 
 .project-title {
@@ -408,6 +438,9 @@
   margin-bottom: 8px;
   color: #000;
   line-height: 1.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .project-desc {
@@ -417,9 +450,10 @@
   line-height: 1.8;
   font-size: 13px;
   white-space: pre-wrap;
-  max-height: 88px;
+  flex: 1;
   overflow: auto;
   padding-right: 4px;
+  max-height: 88px; /* محدودیت ارتفاع توضیحات */
 }
 
 .project-desc::-webkit-scrollbar {
@@ -440,6 +474,7 @@
   border-top: 1px solid rgba(0,0,0,0.10);
   display: flex;
   justify-content: flex-end;
+  flex-shrink: 0; /* جلوگیری از فشرده شدن فوتر */
 }
 
 .project-editBtn {
@@ -460,6 +495,31 @@
 }
 
 /* Skeleton */
+.skeleton-box {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 8px;
+}
+
+.skeleton-line {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  height: 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.skeleton-line.w-80 { width: 80%; }
+.skeleton-line.w-60 { width: 60%; }
+.skeleton-line.w-70 { width: 70%; }
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 .project-card--skeleton {
   background: rgba(198, 231, 255, 0.6);
 }
