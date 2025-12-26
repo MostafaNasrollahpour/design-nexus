@@ -1,0 +1,271 @@
+.portfolioEdit-layout {
+  width: min(1200px, calc(100% - 24px));
+  margin: 20px auto;
+  direction: rtl;
+}
+
+.portfolioEdit-card {
+  background: #C6E7FF;
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.portfolioEdit-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #989797;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.portfolioEdit-title {
+  margin: 0;
+  font-weight: 900;
+}
+
+.portfolioEdit-headerActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.portfolioEdit-backBtn,
+.portfolioEdit-homeBtn {
+  text-decoration: none;
+  border: 1px solid #e5e5e5;
+  background: rgba(255,255,255,0.6);
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-weight: 900;
+  color: #000;
+}
+
+.portfolioEdit-backBtn:hover,
+.portfolioEdit-homeBtn:hover {
+  background: rgba(255,255,255,0.8);
+}
+
+/* فرم و input */
+.portfolioEdit-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 0.9fr;
+  gap: 14px;
+  align-items: stretch;
+  min-height: 520px;
+}
+
+.portfolioEdit-imageContainer {
+  position: relative;
+  background: rgba(255,255,255,0.35);
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+  height: 520px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portfolioEdit-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.portfolioEdit-imageInput {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: rgba(255,255,255,0.9);
+  cursor: pointer;
+}
+
+.portfolioEdit-info {
+  background: rgba(255,255,255,0.35);
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+  height: 520px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.portfolioEdit-section {
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.portfolioEdit-label {
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.portfolioEdit-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: #fff;
+}
+
+.portfolioEdit-input[readonly] {
+  background: rgba(255,255,255,0.7);
+  cursor: not-allowed;
+}
+
+.portfolioEdit-editBtn {
+  position: absolute;
+  top: 30px;
+  left: 8px;
+  background: #FFF58A;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.portfolioEdit-editBtn:hover {
+  background: #ffe645;
+}
+
+.portfolioEdit-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  padding-bottom: 16px; /* فاصله بیشتر از کف */
+}
+
+.portfolioEdit-submitBtn,
+.portfolioEdit-deleteBtn {
+  padding: 8px 14px; /* کوچکتر */
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.portfolioEdit-submitBtn {
+  background: #4CAF50;
+  color: white;
+}
+
+.portfolioEdit-submitBtn:hover {
+  background: #45a049;
+}
+
+.portfolioEdit-deleteBtn {
+  background: #f44336;
+  color: white;
+}
+
+.portfolioEdit-deleteBtn:hover {
+  background: #d32f2f;
+}
+
+/* Modal تایید حذف */
+.portfolioEdit-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portfolioEdit-modalContent {
+  background: #fff;
+  padding: 20px 28px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 160px;
+}
+
+.portfolioEdit-modalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.portfolioEdit-confirmBtn,
+.portfolioEdit-cancelBtn {
+  padding: 6px 12px; /* کوچکتر */
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.portfolioEdit-confirmBtn {
+  background: #f44336;
+  color: white;
+  font-weight: 700;
+}
+
+.portfolioEdit-cancelBtn {
+  background: #ccc;
+  color: #000;
+  font-weight: 700;
+}
+
+
+.portfolioEdit-imageContainer {
+  position: relative;
+  background: rgba(255,255,255,0.35);
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+  height: 520px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portfolioEdit-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Label شیک برای تغییر عکس */
+.portfolioEdit-imageLabel {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background 0.3s;
+}
+
+.portfolioEdit-imageLabel:hover {
+  background: rgba(0,0,0,0.8);
+}

@@ -534,7 +534,7 @@ export default function DesignerPanelPage() {
   const openEditProject = (p: DesignerProjectDto) => {
     // مسیر رو با روت پروژه‌ات تنظیم کن
     // مثال: /designer/projects/:id/edit
-    navigate(`/designer/projects/${p.id}/edit`, { state: { project: p } });
+    navigate(`/portfolio/edit/${p.id}`, { state: { project: p } });
   };
 
   return (

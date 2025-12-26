@@ -15,6 +15,9 @@ import AdminChatPage from "./features/chat/admin_chat_page";
 import CategoryPortfoliosPage from "./features/view/pages/category_view";
 import PortfolioDetailsPage from "./features/view/pages/profile_details";
 import DesignerListPage from "./features/view/pages/designer_list_page";
+import PortfolioEditPage from "./features/view/pages/edit_design";
+
+
 
 export default function App() {
   return (
@@ -49,6 +52,9 @@ export default function App() {
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
         <Route path="/portfolio/:id" element={<PortfolioDetailsPage />} />
+
+        <Route path="/portfolio/edit/:id" element={<PortfolioEditPage />} />
+
 
       </Routes>
     </BrowserRouter>
