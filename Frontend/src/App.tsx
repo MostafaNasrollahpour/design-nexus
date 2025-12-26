@@ -9,11 +9,12 @@ import ChangePasswordPage from "./features/auth/pages/change_password";
 import HomePage from "./features/auth/pages/home_page";
 import PanelPage from "./features/profile/pages/panel_page";
 import SupportConsultPage from "./features/support/pages/support_page";
-import DesignerCardsPage from "./features/view/pages/designer_cards_page";
+// import DesignerCardsPage from "./features/view/pages/designer_cards_page";
 import UserChatPage from "./features/chat/user_chat_page";
 import AdminChatPage from "./features/chat/admin_chat_page";
 import CategoryPortfoliosPage from "./features/view/pages/category_view";
 import PortfolioDetailsPage from "./features/view/pages/profile_details";
+import DesignerListPage from "./features/view/pages/designer_list_page";
 
 export default function App() {
   return (
@@ -32,7 +33,7 @@ export default function App() {
         <Route path="/change-password" element={<ChangePasswordPage />} />
 
         {/* View */}
-        <Route path="/designers" element={<DesignerCardsPage />} />
+        <Route path="/designers" element={<DesignerListPage/>} />
 
         {/* ✅ Category Portfolios */}
         <Route path="/category/:categoryId" element={<CategoryPortfoliosPage />} />
