@@ -428,6 +428,8 @@ export async function saveDesignerExtraProfile(
 
 
 //--------------------------------------------------------------------
+/* ===================== Types ===================== */
+
 export type DesignerProjectDto = {
   id: number;
   title: string;
@@ -437,9 +439,25 @@ export type DesignerProjectDto = {
   [key: string]: any;
 };
 
-const API_BASE_URL = "http://localhost:5118";
+/* ===================== Constants ===================== */
 
-function normalizeErrorMessage(res: Response, data: any) {
+const API_BASE_URL = "http://localhost:5118";
+const AUTH_BASE_URL = "http://localhost:5157";
+const ACCESS_TOKEN_KEY = "token";
+
+/* ===================== Token Storage ===================== */
+
+function setAccessToken(token: string): void {
+  localStorage.setItem(ACCESS_TOKEN_KEY, token);
+}
+
+// function getAccessToken(): string | null {
+//   return localStorage.getItem(ACCESS_TOKEN_KEY);
+// }
+
+/* ===================== Utils ===================== */
+
+function normalizeErrorMessage(res: Response, data: any): string {
   if (data && typeof data === "object") {
     return data.message || data.error || `خطا (${res.status})`;
   }
@@ -452,16 +470,58 @@ function normalizeImageUrl(imageUrl: string | null): string | null {
   return `${API_BASE_URL}${imageUrl.startsWith("/") ? "" : "/"}${imageUrl}`;
 }
 
-export async function getDesignerProjects(
-  token: string
-): Promise<DesignerProjectDto[]> {
+/* ===================== Auth ===================== */
+
+/**
+ * قبل از هر درخواست صدا زده می‌شود
+ * access token جدید را از بک دریافت و ذخیره می‌کند
+ * پاسخ بک: { token: string }
+ */
+async function refreshAccessToken(): Promise<string> {
+  const res = await fetch(`${AUTH_BASE_URL}/iam/api/Auth/refresh`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+    },
+  });
+
+  let data: any = null;
+  try {
+    data = await res.json();
+  } catch {}
+
+  if (!res.ok) {
+    throw new Error(normalizeErrorMessage(res, data));
+  }
+
+  if (!data?.token || typeof data.token !== "string") {
+    console.error("Refresh response:", data);
+    throw new Error("Access token از refresh دریافت نشد");
+  }
+
+  setAccessToken(data.token);
+  return data.token;
+}
+
+/* ===================== API ===================== */
+
+/**
+ * دریافت پروژه‌های طراح
+ * همیشه قبل از درخواست، refresh انجام می‌شود
+ */
+export async function getDesignerProjects(): Promise<DesignerProjectDto[]> {
+  // 1️⃣ refresh و دریافت توکن جدید
+  const accessToken = await refreshAccessToken();
+
+  // 2️⃣ درخواست اصلی
   const res = await fetch(
     `${API_BASE_URL}/api/portfolios/designer/me`,
     {
       method: "GET",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     }
   );
@@ -469,9 +529,7 @@ export async function getDesignerProjects(
   let data: any = null;
   try {
     data = await res.json();
-  } catch {
-    // پاسخ خالی یا غیر JSON
-  }
+  } catch {}
 
   if (!res.ok) {
     throw new Error(normalizeErrorMessage(res, data));
@@ -483,7 +541,6 @@ export async function getDesignerProjects(
     ? data.data
     : [];
 
-  // نرمال‌سازی imageUrl
   return projects.map((p) => ({
     ...p,
     imageUrl: normalizeImageUrl(p.imageUrl),
