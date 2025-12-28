@@ -1,12 +1,8 @@
 {
   "Files": [
     {
-      "Id": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-2/61594862-9fcf-493b-946f-bc9b00db53c5.png",
-      "PackagePath": "staticwebassets/uploads/designer-2/61594862-9fcf-493b-946f-bc9b00db53c5.png"
-    },
-    {
-      "Id": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-2/6e7e190c-ca8f-4ec7-b2f0-2ed246d87586.png",
-      "PackagePath": "staticwebassets/uploads/designer-2/6e7e190c-ca8f-4ec7-b2f0-2ed246d87586.png"
+      "Id": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/testfile.txt",
+      "PackagePath": "staticwebassets/testfile.txt"
     },
     {
       "Id": "obj/Debug/net9.0/staticwebassets/msbuild.PortFolioService.Api.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
