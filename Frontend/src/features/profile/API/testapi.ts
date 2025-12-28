@@ -5,11 +5,8 @@
    - ✅ برای آپدیت اطلاعات تکمیلی (bio/location/...) هم prettyAlert مثل بقیه صدا زده میشه
    ============================ */
 
-const BASE_URL = (import.meta.env.VITE_API_URL ?? "http://localhost:5157/iam").replace(/\/+$/, "");
+const BASE_URL = (import.meta.env.VITE_API_URL ?? "http://localhost:5157").replace(/\/+$/, "");
 
-// اگر سرویس پورتفولیو جداست می‌تونی تو .env ست کنی: VITE_PORTFOLIO_URL=http://localhost:5118
-const PORTFOLIO_BASE_URL = (import.meta.env.VITE_PORTFOLIO_URL ?? "http://localhost:5118").replace(/\/+$/, "");
-const DESIGNER_EXTRA_PROFILE_PATH = "http://localhost:5118/api/portfolios/profile";
 
 // 🔧 مطابق بک‌اندت تنظیم کن
 const USER_UPDATE_PROFILE_PATH = "/api/Auth/update-profile";
@@ -192,7 +189,7 @@ function toastIfApiSuccess(data: any) {
 
 /* ---------------- Auth: Refresh ---------------- */
 async function refreshAccessTokenFromCookie(): Promise<string> {
-  const res = await fetch(`${BASE_URL}${AUTH_REFRESH_TOKEN_PATH}`, {
+  const res = await fetch(`${BASE_URL}/iam${AUTH_REFRESH_TOKEN_PATH}`, {
     method: "POST",
     headers: { Accept: "application/json" },
     credentials: "include",
@@ -227,7 +224,7 @@ async function apiJsonWithBearer<T>(
   init: RequestInit,
   opts?: { preRefresh?: boolean }
 ): Promise<T> {
-  const url = `${BASE_URL}${path}`;
+  const url = `${BASE_URL}/iam${path}`;
 
   const doFetch = (token: string) => {
     const headers: Record<string, string> = {
@@ -309,7 +306,7 @@ export async function saveProfileSettings(payload: ProfileSettingsPayload): Prom
 
 /* ---------------- API: Upload Design (Portfolio) ---------------- */
 export async function uploadDesignerDesign(payload: UploadDesignPayload): Promise<UploadDesignResult | null> {
-  const url = `${PORTFOLIO_BASE_URL}${PORTFOLIOS_PATH}`;
+  const url = `${BASE_URL}/portfolio${PORTFOLIOS_PATH}`;
 
   // ✅ برای retry امن‌تر: هر بار FormData از نو ساخته میشه
   const buildFormData = () => {
@@ -367,7 +364,7 @@ export async function uploadDesignerDesign(payload: UploadDesignPayload): Promis
 export async function saveDesignerExtraProfile(
   payload: DesignerExtraProfilePayload
 ): Promise<DesignerExtraProfileResult> {
-  const url = DESIGNER_EXTRA_PROFILE_PATH;
+  const url = `${BASE_URL}/portfolio/api/portfolios/profile`
 
   const buildFormData = () => {
     const fd = new FormData();

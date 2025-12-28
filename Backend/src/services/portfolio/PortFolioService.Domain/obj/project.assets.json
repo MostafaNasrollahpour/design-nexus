@@ -122,24 +122,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Raziyeh\\.nuget\\packages\\": {}
+    "/home/mostafa/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj",
+      "projectUniqueName": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Domain/PortFolioService.Domain.csproj",
       "projectName": "PortFolioService.Domain",
-      "projectPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\PortFolioService.Domain.csproj",
-      "packagesPath": "C:\\Users\\Raziyeh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Raziyeh\\Desktop\\dd\\DesignNexus\\Backend\\src\\services\\portfolio\\PortFolioService.Domain\\obj\\",
+      "projectPath": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Domain/PortFolioService.Domain.csproj",
+      "packagesPath": "/home/mostafa/.nuget/packages/",
+      "outputPath": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Domain/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Raziyeh\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/mostafa/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "/usr/lib64/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -158,7 +159,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net9.0": {
@@ -185,7 +186,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/9.0.112/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

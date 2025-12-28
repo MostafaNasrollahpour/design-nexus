@@ -167,6 +167,10 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+// Default route
+app.MapGet("/", () => "Portfolio Service is running. Go to /swagger for API documentation.");
+
+
 // --------------------
 // Swagger middleware
 // --------------------
