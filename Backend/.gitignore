@@ -1,1 +1,3 @@
 src/services/portfolio/PortFolioService.Api/wwwroot/uploads/*
+**/obj
+**/bin
