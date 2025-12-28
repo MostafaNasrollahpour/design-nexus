@@ -13,5 +13,7 @@ public interface IDesignerProfileRepository
     Task UpdateAsync(DesignerProfile profile, CancellationToken ct);
 
     Task SaveChangesAsync(CancellationToken ct);
+
+    Task<List<DesignerProfile>> GetAllAsync(CancellationToken ct);
 }
 

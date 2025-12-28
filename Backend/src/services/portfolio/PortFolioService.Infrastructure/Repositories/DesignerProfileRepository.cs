@@ -37,4 +37,10 @@ public class DesignerProfileRepository : IDesignerProfileRepository
     {
         await _dbContext.SaveChangesAsync(ct);
     }
+
+    public async Task<List<DesignerProfile>> GetAllAsync(CancellationToken ct)
+    {
+        return await _dbContext.DesignerProfiles.ToListAsync(ct);
+    }
+
 }

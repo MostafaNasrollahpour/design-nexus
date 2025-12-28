@@ -12,6 +12,7 @@ using PortFolioService.Application.Queries.GetRecentPortfolio;
 using PortFolioService.Application.Queries.GetPortfolioByCategory;
 using PortFolioService.Application.Queries.GetPortfolioByDesigner;
 using PortFolioService.Application.Queries.GetPortfolioById;
+using PortFolioService.Application.Queries.GetAllDesigners;
 
 namespace PortFolioService.Api.Controllers
 {
@@ -124,6 +125,15 @@ namespace PortFolioService.Api.Controllers
             var result = await _mediator.Send(query, ct);
             return Ok(result);
         }
+
+        [HttpGet("designers")]
+        public async Task<IActionResult> GetAllDesigners(CancellationToken ct)
+        {
+            var query = new GetAllDesignersQuery();
+            var result = await _mediator.Send(query, ct);
+            return Ok(result);
+        }
+
 
         
     }
