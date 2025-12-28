@@ -37,7 +37,7 @@ namespace PortFolioService.Api.Controllers
 
             if (!result.Success)
             {
-                Unauthorized(result);
+                return Unauthorized(result);
             }
             return Ok(result);
         }
