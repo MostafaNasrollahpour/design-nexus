@@ -2,7 +2,7 @@
 
 const API_BASE_URL =
   (import.meta as any).env?.VITE_API_BASE_URL?.replace(/\/+$/, "") ||
-  "http://localhost:5118";
+  "http://localhost:5157/portfolio";
 
 export type DesignerItem = {
   id: number;
@@ -42,7 +42,7 @@ async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
 
 // گرفتن لیست تمام طراحان
 export async function getAllDesigners(signal?: AbortSignal): Promise<DesignerItem[]> {
-  const url = `${API_BASE_URL}/api/designers`;
+  const url = `${API_BASE_URL}/api/portfolios/designers`;
   const data = await fetchJson<DesignerApiDto[]>(url, signal);
   return data.map(x => ({
     id: x.id,

@@ -438,8 +438,6 @@ export type DesignerProjectDto = {
 
 /* ===================== Constants ===================== */
 
-const API_BASE_URL = "http://localhost:5118";
-const AUTH_BASE_URL = "http://localhost:5157";
 const ACCESS_TOKEN_KEY = "token";
 
 /* ===================== Token Storage ===================== */
@@ -464,7 +462,7 @@ function normalizeErrorMessage(res: Response, data: any): string {
 function normalizeImageUrl(imageUrl: string | null): string | null {
   if (!imageUrl) return null;
   if (imageUrl.startsWith("http")) return imageUrl;
-  return `${API_BASE_URL}${imageUrl.startsWith("/") ? "" : "/"}${imageUrl}`;
+  return `${BASE_URL}/portfolio${imageUrl.startsWith("/") ? "" : "/"}${imageUrl}`;
 }
 
 /* ===================== Auth ===================== */
@@ -475,7 +473,7 @@ function normalizeImageUrl(imageUrl: string | null): string | null {
  * پاسخ بک: { token: string }
  */
 async function refreshAccessToken(): Promise<string> {
-  const res = await fetch(`${AUTH_BASE_URL}/iam/api/Auth/refresh`, {
+  const res = await fetch(`${BASE_URL}/iam/api/Auth/refresh`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -513,7 +511,7 @@ export async function getDesignerProjects(): Promise<DesignerProjectDto[]> {
 
   // 2️⃣ درخواست اصلی
   const res = await fetch(
-    `${API_BASE_URL}/api/portfolios/designer/me`,
+    `${BASE_URL}/portfolio/api/portfolios/designer/me`,
     {
       method: "GET",
       headers: {

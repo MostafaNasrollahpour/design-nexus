@@ -30,7 +30,7 @@ type PortfolioDetailsApiDto = {
 
 const API_BASE_URL =
   (import.meta as any).env?.VITE_API_BASE_URL?.replace(/\/+$/, "") ||
-  "http://localhost:5118";
+  "http://localhost:5157/portfolio";
 
 const PORTFOLIOS_ENDPOINT = "/api/portfolios";
 
