@@ -80,9 +80,7 @@ export default function PortfolioDetailsPage() {
           </div>
         </div>
 
-        {error ? (
-          <div className="portfolioD-alert portfolioD-alert--error">{error}</div>
-        ) : null}
+        {error && <div className="portfolioD-alert portfolioD-alert--error">{error}</div>}
 
         {loading ? (
           <div className="portfolioD-grid portfolioD-grid--skeleton">
@@ -97,9 +95,9 @@ export default function PortfolioDetailsPage() {
               <div className="skeleton-line w-60" />
             </div>
           </div>
-        ) : !error && data ? (
+        ) : data ? (
           <div className="portfolioD-grid">
-            {/* RIGHT: BIG IMAGE - در کادر محدود شده */}
+            {/* RIGHT: BIG IMAGE */}
             <div className="portfolioD-imageContainer">
               <div className="portfolioD-imageBox">
                 <img
@@ -113,27 +111,11 @@ export default function PortfolioDetailsPage() {
                   }}
                 />
               </div>
-
-              <div className="portfolioD-badges">
-                <span className="portfolioD-badge">{categoryTitle}</span>
-                {data.designerName && (
-                  <span className="portfolioD-badge portfolioD-badge--light">
-                    طراح: {data.designerName}
-                  </span>
-                )}
-              </div>
             </div>
 
             {/* LEFT: INFO */}
             <div className="portfolioD-info">
               <div className="portfolioD-infoContent">
-                {/* <div className="portfolioD-section">
-                  <div className="portfolioD-label">عنوان طرح</div>
-                  <div className="portfolioD-value">
-                    {data.title?.trim() ? data.title : "—"}
-                  </div>
-                </div> */}
-
                 <div className="portfolioD-section">
                   <div className="portfolioD-label">طراح</div>
                   <div className="portfolioD-value">
@@ -141,24 +123,12 @@ export default function PortfolioDetailsPage() {
                   </div>
                 </div>
 
-                <div className="portfolioD-section">
-                  <div className="portfolioD-label">بیوگرافی</div>
+                 <div className="portfolioD-section">
+                  <div className="portfolioD-label">دسته بندی</div>
                   <div className="portfolioD-value">
-                    {data.biography?.trim() ? data.biography : "—"}
-                  </div>
-                </div>
-
-                <div className="portfolioD-section">
-                  <div className="portfolioD-label">لوکیشن</div>
-                  <div className="portfolioD-value">
-                    {data.location?.trim() ? data.location : "—"}
-                  </div>
-                </div>
-
-                <div className="portfolioD-section">
-                  <div className="portfolioD-label">تخصص</div>
-                  <div className="portfolioD-value">
-                    {data.expertise?.trim() ? data.expertise : "—"}
+                    {data.description?.trim() && data.categoryId != null
+                                ? CATEGORY_TITLES[data.categoryId]
+                                   : "—"}
                   </div>
                 </div>
 
@@ -168,6 +138,8 @@ export default function PortfolioDetailsPage() {
                     {data.description?.trim() ? data.description : "—"}
                   </div>
                 </div>
+
+               
               </div>
 
               <div className="portfolioD-actions">

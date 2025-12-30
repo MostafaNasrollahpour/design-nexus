@@ -41,7 +41,7 @@ export async function updatePortfolio(data: PortfolioEditDto): Promise<void> {
  * حذف نمونه‌کار
  */
 export async function deletePortfolio(id: number): Promise<void> {
-  const response = await fetch(`/api/portfolio/${id}`, {
+  const response = await fetch(`http://localhost:5157/portfolio/api/${id}`, {
     method: "DELETE",
   });
 

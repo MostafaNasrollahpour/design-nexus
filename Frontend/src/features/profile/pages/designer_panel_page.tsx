@@ -492,7 +492,7 @@ export default function DesignerPanelPage() {
         setProjectsError("توکن پیدا نشد. لطفاً دوباره وارد شوید.");
         return;
       }
-      const data = await getDesignerProjects(token);
+      const data = await getDesignerProjects();
       setProjects(Array.isArray(data) ? data : []);
     } catch (e) {
       setProjectsError(e instanceof Error ? e.message : "خطا در دریافت پروژه‌ها");

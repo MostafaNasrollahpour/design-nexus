@@ -148,11 +148,11 @@ const Navbar = () => {
             طراح ها
           </Link>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link to="/favorites" className="login_signup mobile-hidden">
             پربازدیدها
           </Link>
-        </li>
+        </li> */}
         <li className="nav-item">
           <Link to="/support" className="login_signup mobile-hidden">
             مشاوره و پشتیبانی
