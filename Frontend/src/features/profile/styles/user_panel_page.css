@@ -559,3 +559,36 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =========================
+   Designer Panel Note
+========================= */
+.panel-note {
+  background: linear-gradient(135deg, #ff9de2, #ff70a6);
+  color: #fff;
+  font-weight: 900;
+  padding: 14px 20px;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(255, 105, 180, 0.35);
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.panel-note::before {
+  content: "💡";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+}
+
+.panel-note:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(255, 105, 180, 0.45);
+}

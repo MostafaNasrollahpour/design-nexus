@@ -55,10 +55,10 @@ export default function PortfolioDetailsPage() {
   const imageSrc =
     data?.imageUrl || "https://via.placeholder.com/800x600?text=No+Image";
 
-  const categoryTitle =
-    data?.categoryId != null
-      ? CATEGORY_TITLES[data.categoryId] ?? `دسته‌بندی #${data.categoryId}`
-      : "نامشخص";
+  // const categoryTitle =
+  //   data?.categoryId != null
+  //     ? CATEGORY_TITLES[data.categoryId] ?? `دسته‌بندی #${data.categoryId}`
+  //     : "نامشخص";
 
   return (
     <div className="portfolioD-layout">

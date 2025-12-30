@@ -570,6 +570,17 @@ export default function DesignerPanelPage() {
 
         {/* محتوا */}
         <main className="panel-content">
+
+    
+  <div className="panel-note">
+    با درست وارد کردن اطلاعات تکمیلی خود در فهرست طراحان سایت قرار بگیرید!
+  </div>
+
+ 
+
+
+
+
           {activeTab === "profile" && (
             <div className="panel-card">
               <h2>اطلاعات طراح</h2>
