@@ -1,10 +1,10 @@
-// src/features/view/components/DesignerListPage.tsx
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllDesigners } from "../API/designer_list_API";
-import type { DesignerItem } from "../API/designer_list_API";
-
+import { getAllDesigners, getPortfoliosByCategoryId } from "../API/designer_list_API";
+import type {DesignerItem} from "../API/designer_list_API"
 import "../styles/designer_list_page.css";
+import { MdLocationOn } from "react-icons/md";
+
 
 export default function DesignerListPage() {
   const [designers, setDesigners] = useState<DesignerItem[]>([]);
@@ -16,12 +16,30 @@ export default function DesignerListPage() {
     setLoading(true);
     setError("");
 
-    getAllDesigners(controller.signal)
-      .then(data => setDesigners(data))
-      .catch(err => {
+    const fetchDesigners = async () => {
+      try {
+        const data = await getAllDesigners(controller.signal);
+
+        // پر کردن نام هر طراح با اولین پورتفولیو (یا خالی)
+        const designersWithNames = await Promise.all(
+          data.map(async designer => {
+            const portfolios = await getPortfoliosByCategoryId(designer.id, controller.signal);
+            return {
+              ...designer,
+              name: portfolios[0]?.title || `Designer ${designer.id}`,
+            };
+          })
+        );
+
+        setDesigners(designersWithNames);
+      } catch (err: any) {
         if (err.name !== "AbortError") setError(err.message || "خطا در دریافت اطلاعات");
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDesigners();
 
     return () => controller.abort();
   }, []);
@@ -31,7 +49,7 @@ export default function DesignerListPage() {
       <div className="designer-panel-content">
         <div className="designer-panel-card">
           <div className="designer-header">
-            <h2 className="designer-title">لیست طراحان</h2>
+            <h2 className="designer-title">فهرست طراحان</h2>
             <Link className="designer-backBtn" to="/">بازگشت به صفحه اصلی</Link>
           </div>
 
@@ -40,7 +58,7 @@ export default function DesignerListPage() {
           <div className="designer-grid">
             {loading
               ? Array.from({ length: 8 }).map((_, i) => (
-                  <div key={`sk-${i}`} className="designer-card designer-card--skeleton">
+                  <div key={`skeleton-${i}`} className="designer-card designer-card--skeleton">
                     <div className="designer-imageWrap">
                       <div className="designer-image skeleton-box" />
                     </div>
@@ -57,16 +75,21 @@ export default function DesignerListPage() {
                       <img
                         className="designer-image"
                         src={d.imageUrl || "https://via.placeholder.com/600x340?text=No+Image"}
-                        // alt={d.name}
+                        alt={d.name}
                         loading="lazy"
                       />
                     </div>
 
                     <div className="designer-body">
                       <div className="designer-nameRow">
-                        <div className="designer-name">{d.id}</div>
+                        <div className="designer-name">{d.name}</div>
                       </div>
-                      <div className="designer-location">{d.location}</div>
+
+<div className="designer-location">
+  <MdLocationOn style={{ color: "red"}} />
+  {d.location}
+</div>
+
                     </div>
 
                     <div className="designer-actions">
