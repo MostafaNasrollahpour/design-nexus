@@ -12,6 +12,7 @@ public interface IPortfolioRepository
     Task<List<Portfolio>> GetByCategoryIdAsync(int categoryId, CancellationToken ct);
     Task<Portfolio?> GetByIdAsync(int id, CancellationToken ct);
     Task DeleteAsync(Portfolio portfolio, CancellationToken ct);
+    Task UpdateAsync(Portfolio portfolio, CancellationToken ct);
 
 }
 
