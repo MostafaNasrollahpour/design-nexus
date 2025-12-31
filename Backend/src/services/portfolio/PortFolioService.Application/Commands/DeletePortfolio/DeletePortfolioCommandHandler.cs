@@ -12,15 +12,18 @@ public class DeletePortfolioCommandHandler
     private readonly IPortfolioRepository _repository;
     private readonly ICurrentUser _currentUser;
     private readonly ILogger<DeletePortfolioCommandHandler> _logger;
+    private readonly IFileStorage _fileStorage;
 
     public DeletePortfolioCommandHandler(
         IPortfolioRepository repository,
         ICurrentUser currentUser,
-        ILogger<DeletePortfolioCommandHandler> logger)
+        ILogger<DeletePortfolioCommandHandler> logger,
+        IFileStorage fileStorage)
     {
         _repository = repository;
         _currentUser = currentUser;
         _logger = logger;
+        _fileStorage = fileStorage;
     }
 
     public async Task<ResultDto> Handle(DeletePortfolioCommand request, CancellationToken ct)
@@ -46,6 +49,12 @@ public class DeletePortfolioCommandHandler
         {
             _logger?.LogWarning($"User {_currentUser.UserId} tried to delete portfolio {request.PortfolioId} which belongs to {portfolio.DesignerId}");
             return ResultDto.FailureResult("شما اجازه حذف این نمونه کار را ندارید");;
+        }
+
+        // حذف فایل نمونه کار
+        if (!string.IsNullOrEmpty(portfolio.ImageUrl))
+        {
+            await _fileStorage.DeleteAsync(portfolio.ImageUrl, ct);
         }
 
         // حذف Portfolio
