@@ -36,5 +36,15 @@ public class Portfolio
         ImageSize = imageSize;
         CreatedAt = DateTime.UtcNow;
     }
+
+    public void UpdateTitle(string title) => Title = title;
+    public void UpdateDescription(string? description) => Description = description;
+    public void UpdateCategory(int categoryId) => CategoryId = categoryId;
+
+    public void UpdateImage(string imageUrl, long imageSize)
+    {
+        ImageUrl = imageUrl;
+        ImageSize = imageSize;
+    }
 }
 
