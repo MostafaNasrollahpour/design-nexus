@@ -716,7 +716,7 @@ export default function DesignerPanelPage() {
                   </div>
                 </div>
 
-                <div className="projects-actions">
+                {/* <div className="projects-actions">
                   <button
                     type="button"
                     className="btn-ghost"
@@ -726,7 +726,7 @@ export default function DesignerPanelPage() {
                   >
                     {projectsLoading ? "در حال دریافت..." : "رفرش"}
                   </button>
-                </div>
+                </div> */}
               </div>
 
               {projectsError && <div className="projects-alert projects-alert--error">{projectsError}</div>}
@@ -768,13 +768,13 @@ export default function DesignerPanelPage() {
 
                           <div className="project-badges">
                             <span className="project-badge">{toCategoryTitle(p.categoryId)}</span>
-                            <span className="project-badge project-badge--light">#{p.id}</span>
+                            {/* <span className="project-badge project-badge--light">#{p.id}</span> */}
                           </div>
                         </div>
 
                         <div className="project-body">
                           <div className="project-title">{p.title || "—"}</div>
-                          <div className="project-desc">{p.description?.trim() ? p.description : "بدون توضیحات"}</div>
+                          {/* <div className="project-desc">{p.description?.trim() ? p.description : "بدون توضیحات"}</div> */}
 
                           <div className="project-footer">
                             <button type="button" className="project-editBtn" onClick={() => openEditProject(p)}>

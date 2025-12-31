@@ -1,52 +1,67 @@
+// src/API/edit_design_API.ts
+
 export type PortfolioEditDto = {
   id: number;
-  title?: string | null;
-  imageUrl?: string | null;
-  categoryId?: number | null;
-  name?: string | null;
-  description?: string | null;
-  location?: string | null;
-  biography?: string | null;
-  expertise?: string | null;
-  imageFile?: File | null; // برای آپلود عکس
+  title: string;
+  categoryId: number;
+  description: string;
+  imageFile?: File | null;
+  imageUrl?: string; // برای preview در frontend
 };
 
 /**
  * بروزرسانی نمونه‌کار
- * تمام فیلدها به همراه عکس (در صورت انتخاب) به سرور ارسال می‌شوند
+ * @param data اطلاعات نمونه‌کار شامل title, categoryId, description و imageFile
  */
-export async function updatePortfolio(data: PortfolioEditDto): Promise<void> {
+export async function updatePortfolio(data: PortfolioEditDto) {
   const formData = new FormData();
-  formData.append("title", data.title || "");
-  formData.append("categoryId", String(data.categoryId || ""));
-  if (data.name) formData.append("name", data.name);
-  if (data.description) formData.append("description", data.description);
-  if (data.location) formData.append("location", data.location);
-  if (data.biography) formData.append("biography", data.biography);
-  if (data.expertise) formData.append("expertise", data.expertise);
-  if (data.imageFile) formData.append("image", data.imageFile);
+  formData.append("title", data.title);
+  formData.append("categoryId", String(data.categoryId));
+  formData.append("description", data.description);
+  if (data.imageFile) {
+    formData.append("image", data.imageFile);
+  }
 
-  const response = await fetch(`/api/portfolio/${data.id}`, {
-    method: "PUT",
+  const response = await fetch(`https://localhost:5157/portfolio/api`, {
+    method: "POST", // یا POST بسته به بک‌اند شما
     body: formData,
+    credentials: "include", // توکن بصورت cookie ارسال می‌شود
   });
 
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: "خطا در بروزرسانی نمونه‌کار" }));
-    throw new Error(error.message);
+    let errorMessage = "خطا در بروزرسانی نمونه‌کار";
+    try {
+      const errorData = await response.json();
+      if (errorData?.message) errorMessage = errorData.message;
+    } catch {
+      // اگر JSON نبود، پیام پیش‌فرض استفاده شود
+    }
+    throw new Error(errorMessage);
   }
+
+  return await response.json();
 }
 
 /**
  * حذف نمونه‌کار
+ * @param id آیدی نمونه‌کار که در URL فرستاده می‌شود
  */
-export async function deletePortfolio(id: number): Promise<void> {
-  const response = await fetch(`http://localhost:5157/portfolio/api/${id}`, {
+export async function deletePortfolio(id: number) {
+  const response = await fetch(`https://localhost:5157/portfolio/api/${id}`, {
     method: "DELETE",
+    credentials: "include", // توکن بصورت cookie ارسال می‌شود
   });
 
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: "خطا در حذف نمونه‌کار" }));
-    throw new Error(error.message);
+    let errorMessage = "خطا در حذف نمونه‌کار";
+    try {
+      const errorData = await response.json();
+      if (errorData?.message) errorMessage = errorData.message;
+    } catch {
+      // اگر JSON نبود، پیام پیش‌فرض استفاده شود
+    }
+    throw new Error(errorMessage);
   }
+
+  return await response.json();
 }

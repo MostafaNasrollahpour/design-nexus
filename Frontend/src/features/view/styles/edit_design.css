@@ -132,9 +132,9 @@
 
 .portfolioEdit-editBtn {
   position: absolute;
-  top: 30px;
+  top: 35px;
   left: 8px;
-  background: #FFF58A;
+  background: rgba(255,255,255,0.7);
   border: none;
   border-radius: 50%;
   width: 28px;
@@ -143,9 +143,9 @@
   font-weight: 900;
 }
 
-.portfolioEdit-editBtn:hover {
+/* .portfolioEdit-editBtn:hover {
   background: #ffe645;
-}
+} */
 
 .portfolioEdit-actions {
   margin-top: auto;
@@ -268,4 +268,81 @@
 
 .portfolioEdit-imageLabel:hover {
   background: rgba(0,0,0,0.8);
+}
+/* بزرگ‌تر شدن کادر "درباره طرح" */
+.portfolioEdit-section[data-field="description"] .portfolioEdit-input {
+  height: 120px;
+}
+
+/* ---------- Mobile Responsive ---------- */
+@media (max-width: 768px) {
+  .portfolioEdit-grid {
+    grid-template-columns: 1fr; /* تک ستونه شدن گرید */
+    gap: 12px;
+    min-height: auto;
+  }
+
+  .portfolioEdit-imageContainer,
+  .portfolioEdit-info {
+    height: auto; /* ارتفاع منعطف */
+  }
+
+  .portfolioEdit-info {
+    padding: 12px;
+  }
+
+  .portfolioEdit-section {
+    margin-bottom: 10px;
+  }
+
+  .portfolioEdit-label {
+    font-size: 11px;
+  }
+
+  .portfolioEdit-input {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .portfolioEdit-editBtn {
+    top: 30px;
+    left: 6px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .portfolioEdit-actions {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .portfolioEdit-submitBtn,
+  .portfolioEdit-deleteBtn {
+    width: 100%;
+    padding: 8px 0;
+    font-size: 14px;
+  }
+
+  .portfolioEdit-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .portfolioEdit-headerActions {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .portfolioEdit-backBtn,
+  .portfolioEdit-homeBtn {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .portfolioEdit-imageLabel {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
 }

@@ -7,11 +7,12 @@
 /* ظرف اصلی اسلایدر */
 .custom-slider {
   position: relative;
-  width: 100%;              /* داخل wrapper، تمام عرض را بگیرد */
+  width: 100%;              
   overflow: hidden;
   border-radius: 12px;
   background: #f5f5f5;
   direction: ltr;
+  margin-top: 4lvh;
 }
 
 /* ردیف اسلایدها */
