@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using PortFolioService.Application.Commands.CreatePortfolio;
 using PortFolioService.Application.Commands.UpdateDesignerProfile;
 using PortFolioService.Application.Commands.DeletePortfolio;
+using PortFolioService.Application.Commands.UpdatePortfolio;
 
 using PortFolioService.Application.Queries.GetRecentPortfolio;
 using PortFolioService.Application.Queries.GetPortfolioByCategory;
@@ -148,6 +149,23 @@ namespace PortFolioService.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut("{portfolioId:int}")]
+        [Authorize(Roles = "طراح")]
+        public async Task<IActionResult> Edit(
+            int portfolioId,
+            [FromForm] UpdatePortfolioRequestDto request,
+            CancellationToken ct)
+        {
+            var command = new UpdatePortfolioCommand(portfolioId, request);
+            var result = await _mediator.Send(command, ct);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
         
     }
 

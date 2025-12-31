@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Ss7LyqKzBlCkh5eBY+/pIm+WXVYkaXhlNkbqSw4Om4w=",
+  "Hash": "laW3MmLAvu4781tll6Jznmge/W4710kB4wmPhwGvrbQ=",
   "Source": "PortFolioService.Api",
   "BasePath": "_content/PortFolioService.Api",
   "Mode": "Default",
@@ -57,6 +57,69 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/testfile.txt"
+    },
+    {
+      "Identity": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b.png",
+      "SourceId": "PortFolioService.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/",
+      "BasePath": "_content/PortFolioService.Api",
+      "RelativePath": "uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "flj2tywh6n",
+      "Integrity": "TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b.png"
+    },
+    {
+      "Identity": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6.png",
+      "SourceId": "PortFolioService.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/",
+      "BasePath": "_content/PortFolioService.Api",
+      "RelativePath": "uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "mvjzqjyxzh",
+      "Integrity": "YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6.png"
+    },
+    {
+      "Identity": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.png",
+      "SourceId": "PortFolioService.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/",
+      "BasePath": "_content/PortFolioService.Api",
+      "RelativePath": "uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "mvjzqjyxzh",
+      "Integrity": "YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.png"
     }
   ],
   "Endpoints": [
@@ -355,6 +418,252 @@
         {
           "Name": "integrity",
           "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b.flj2tywh6n.png",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1629941"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 31 Dec 2025 08:56:28 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "flj2tywh6n"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b.png",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1629941"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 31 Dec 2025 08:56:28 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6.mvjzqjyxzh.png",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "37121"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 31 Dec 2025 08:55:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "mvjzqjyxzh"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6.png",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "37121"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 31 Dec 2025 08:55:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.mvjzqjyxzh.png",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "37121"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 31 Dec 2025 07:37:13 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "mvjzqjyxzh"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.png",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "37121"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 31 Dec 2025 07:37:13 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8="
         }
       ]
     }
