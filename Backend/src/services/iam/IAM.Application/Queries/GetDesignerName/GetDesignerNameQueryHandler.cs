@@ -3,7 +3,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace IAM.Application.Queries;
+namespace IAM.Application.GetDesignerName.Queries;
 
 public class GetDesignerNameQueryHandler : IRequestHandler<GetDesignerNameQuery, string?>
 {

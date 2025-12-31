@@ -13,6 +13,7 @@
   
   <ItemGroup>
     <Folder Include="Commands\UpdateUser\" />
+    <Folder Include="Queries/GetDesignerUser/" />
   </ItemGroup>
 
   <PropertyGroup>

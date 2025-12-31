@@ -14,7 +14,7 @@ using IAM.Application.Commands.Refresh;
 using IAM.Application.Commands.Logout;
 using IAM.Application.Commands.UpdateUser;
 
-using IAM.Application.Queries;
+using IAM.Application.GetDesignerName.Queries;
 
 namespace IAM.Api.Controllers
 {

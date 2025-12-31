@@ -36,6 +36,16 @@ builder.Services.AddCors(options =>
 });
 
 // --------------------
+// HttpClient
+// --------------------
+builder.Services.AddHttpClient<IUserServiceClient, UserServiceClient>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5209"); // from config
+});
+
+
+
+// --------------------
 // Database
 // --------------------
 builder.Services.AddDbContext<AppDbContext>(options =>

@@ -1,4 +1,4 @@
 using MediatR;
-namespace IAM.Application.Queries;
+namespace IAM.Application.GetDesignerName.Queries;
 
 public record GetDesignerNameQuery(int DesignerId) : IRequest<string>;
