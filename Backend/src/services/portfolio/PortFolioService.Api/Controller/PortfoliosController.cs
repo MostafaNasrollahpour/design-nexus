@@ -108,6 +108,12 @@ namespace PortFolioService.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// need to check
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="ct"></param>
+        /// <returns></returns>
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(
             int id,

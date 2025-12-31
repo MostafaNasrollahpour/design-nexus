@@ -9,7 +9,6 @@ namespace IAM.Application.DTOs
 
         public string? CurrentPassword { get; set; }
 
-        [MinLength(8, ErrorMessage = "رمز عبور باید حداقل 8 کاراکتر باشد")]
         public string? NewPassword { get; set; }
 
         [Compare(nameof(NewPassword), ErrorMessage = "رمز عبور و تکرار آن مطابقت ندارند")]

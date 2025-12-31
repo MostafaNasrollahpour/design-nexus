@@ -84,6 +84,11 @@ namespace IAM.Application.Commands.UpdateUser
                     return AuthResponseDto.FailureResponse("رمز عبور فعلی اشتباه است.");
                 }
 
+                if (request.NewPassword.Length < 8)
+                {
+                    _logger.LogWarning($"New password too short for email: {user.Email}");
+                    return AuthResponseDto.FailureResponse("رمز عبور جدید باید حداقل 8 کاراکتر باشد");
+                }
                 // Check if new password is different from current
                 if (request.CurrentPassword == request.NewPassword)
                 {
