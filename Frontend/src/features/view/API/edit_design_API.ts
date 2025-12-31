@@ -1,4 +1,4 @@
-// src/API/edit_design_API.ts
+// src/API/portfolio_API.ts
 
 export type PortfolioEditDto = {
   id: number;
@@ -6,14 +6,23 @@ export type PortfolioEditDto = {
   categoryId: number;
   description: string;
   imageFile?: File | null;
-  imageUrl?: string; // برای preview در frontend
+  imageUrl?: string; // برای پیش‌نمایش در frontend
 };
+
+/**
+ * گرفتن توکن از localStorage
+ */
+function getToken() {
+  return localStorage.getItem("token") || "";
+}
 
 /**
  * بروزرسانی نمونه‌کار
  * @param data اطلاعات نمونه‌کار شامل title, categoryId, description و imageFile
  */
 export async function updatePortfolio(data: PortfolioEditDto) {
+  const token = getToken();
+
   const formData = new FormData();
   formData.append("title", data.title);
   formData.append("categoryId", String(data.categoryId));
@@ -22,10 +31,13 @@ export async function updatePortfolio(data: PortfolioEditDto) {
     formData.append("image", data.imageFile);
   }
 
-  const response = await fetch(`https://localhost:5157/portfolio/api`, {
-    method: "POST", // یا POST بسته به بک‌اند شما
+  const response = await fetch(`http://localhost:5157/portfolio/api/portfolios/${data.id}`, {
+    method: "PUT", // معمولاً برای بروزرسانی PUT استفاده می‌شود
     body: formData,
-    credentials: "include", // توکن بصورت cookie ارسال می‌شود
+    headers: {
+      Authorization: `Bearer ${token}`,
+      // Content-Type را نگذارید، fetch خودش تنظیم می‌کند
+    },
   });
 
   if (!response.ok) {
@@ -33,9 +45,7 @@ export async function updatePortfolio(data: PortfolioEditDto) {
     try {
       const errorData = await response.json();
       if (errorData?.message) errorMessage = errorData.message;
-    } catch {
-      // اگر JSON نبود، پیام پیش‌فرض استفاده شود
-    }
+    } catch {}
     throw new Error(errorMessage);
   }
 
@@ -44,12 +54,16 @@ export async function updatePortfolio(data: PortfolioEditDto) {
 
 /**
  * حذف نمونه‌کار
- * @param id آیدی نمونه‌کار که در URL فرستاده می‌شود
+ * @param id آیدی نمونه‌کار
  */
 export async function deletePortfolio(id: number) {
-  const response = await fetch(`https://localhost:5157/portfolio/api/${id}`, {
+  const token = getToken();
+
+  const response = await fetch(`http://localhost:5157/portfolio/api/portfolios/${id}`, {
     method: "DELETE",
-    credentials: "include", // توکن بصورت cookie ارسال می‌شود
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!response.ok) {
@@ -57,9 +71,7 @@ export async function deletePortfolio(id: number) {
     try {
       const errorData = await response.json();
       if (errorData?.message) errorMessage = errorData.message;
-    } catch {
-      // اگر JSON نبود، پیام پیش‌فرض استفاده شود
-    }
+    } catch {}
     throw new Error(errorMessage);
   }
 
