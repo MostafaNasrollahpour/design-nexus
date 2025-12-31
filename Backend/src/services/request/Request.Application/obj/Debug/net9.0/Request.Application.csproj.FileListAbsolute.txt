@@ -1,0 +1,16 @@
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/bin/Debug/net9.0/Request.Application.deps.json
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/bin/Debug/net9.0/Request.Application.dll
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/bin/Debug/net9.0/Request.Application.pdb
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/bin/Debug/net9.0/Request.Domain.dll
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/bin/Debug/net9.0/Request.Domain.pdb
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/obj/Debug/net9.0/Request.Application.csproj.AssemblyReference.cache
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/obj/Debug/net9.0/Request.Application.GeneratedMSBuildEditorConfig.editorconfig
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/obj/Debug/net9.0/Request.Application.AssemblyInfoInputs.cache
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/obj/Debug/net9.0/Request.Application.AssemblyInfo.cs
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/obj/Debug/net9.0/Request.Application.csproj.CoreCompileInputs.cache
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/obj/Debug/net9.0/Request.Application.sourcelink.json
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/obj/Debug/net9.0/Request..F51F5405.Up2Date
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/obj/Debug/net9.0/Request.Application.dll
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/obj/Debug/net9.0/refint/Request.Application.dll
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/obj/Debug/net9.0/Request.Application.pdb
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/obj/Debug/net9.0/ref/Request.Application.dll

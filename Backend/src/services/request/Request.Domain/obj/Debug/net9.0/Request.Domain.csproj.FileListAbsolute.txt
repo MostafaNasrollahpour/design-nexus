@@ -1,0 +1,12 @@
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Domain/bin/Debug/net9.0/Request.Domain.deps.json
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Domain/bin/Debug/net9.0/Request.Domain.dll
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Domain/bin/Debug/net9.0/Request.Domain.pdb
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Domain/obj/Debug/net9.0/Request.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Domain/obj/Debug/net9.0/Request.Domain.AssemblyInfoInputs.cache
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Domain/obj/Debug/net9.0/Request.Domain.AssemblyInfo.cs
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Domain/obj/Debug/net9.0/Request.Domain.csproj.CoreCompileInputs.cache
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Domain/obj/Debug/net9.0/Request.Domain.sourcelink.json
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Domain/obj/Debug/net9.0/Request.Domain.dll
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Domain/obj/Debug/net9.0/refint/Request.Domain.dll
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Domain/obj/Debug/net9.0/Request.Domain.pdb
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Domain/obj/Debug/net9.0/ref/Request.Domain.dll

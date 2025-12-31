@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "2yOK9gcUSOs=",
+  "success": true,
+  "projectFilePath": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/request/Request.Application/Request.Application.csproj",
+  "expectedPackageFiles": [
+    "/home/mostafa/.nuget/packages/fluentvalidation/11.8.0/fluentvalidation.11.8.0.nupkg.sha512",
+    "/home/mostafa/.nuget/packages/mediatr/12.2.0/mediatr.12.2.0.nupkg.sha512",
+    "/home/mostafa/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
+    "/home/mostafa/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/9.0.0/microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512",
+    "/home/mostafa/.nuget/packages/microsoft.extensions.logging.abstractions/9.0.0/microsoft.extensions.logging.abstractions.9.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
