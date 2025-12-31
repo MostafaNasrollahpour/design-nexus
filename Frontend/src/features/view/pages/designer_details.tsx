@@ -1,11 +1,10 @@
 // src/pages/DesignerDetailsPage.tsx
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getDesignerById } from "../API/designerAPI"; // ✅ فقط این API آماده برای نام
 import { getDesignerDetailsById, getPortfoliosByDesignerId } from "../API/designer_details_API";
-import type { DesignerDetails } from "../API/designer_details_API";
-import type { PortfolioListItem } from "../API/category_view_API";
+import type { DesignerDetails, PortfolioListItem } from "../API/designer_details_API";
 import "../styles/designer_details.css";
+import { ArrowLeft, MessageCircle } from "lucide-react";
 
 const CATEGORIES: Record<number, string> = {
   1: "اتاق خواب",
@@ -17,87 +16,120 @@ const CATEGORIES: Record<number, string> = {
   7: "کافی‌ شاپ و رستوران",
 };
 
-export default function DesignerDetailsPage() {
-  const { designerId: designerIdParam } = useParams<{ designerId: string }>();
-  const designerId = Number(designerIdParam);
+type PageState = {
+  loading: boolean;
+  error: string | null;
+  designer: DesignerDetails | null;
+  portfolios: PortfolioListItem[];
+};
 
-  const [designer, setDesigner] = useState<DesignerDetails | null>(null);
-  const [portfolios, setPortfolios] = useState<PortfolioListItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+export default function DesignerDetailsPage() {
+  const { designerId } = useParams<{ designerId: string }>();
+  const id = Number(designerId);
+
+  const [state, setState] = useState<PageState>({
+    loading: true,
+    error: null,
+    designer: null,
+    portfolios: [],
+  });
 
   useEffect(() => {
     const controller = new AbortController();
-    setLoading(true);
-    setError("");
 
-    const fetchData = async () => {
+    const fetchAll = async () => {
       try {
-        // اطلاعات کامل طراح
-        const designerData = await getDesignerDetailsById(designerId, controller.signal);
+        setState((prev) => ({ ...prev, loading: true, error: null }));
+        const designerData = await getDesignerDetailsById(id, controller.signal);
+        const portfoliosData = await getPortfoliosByDesignerId(id, controller.signal);
 
-        // اگر نام طراح نیاز به API جدا داشت
-        const designerName = await getDesignerById(designerId, controller.signal); // ✅ فقط نام
-        designerData.name = designerName.name;
-
-        setDesigner(designerData);
-
-        // تمام پورتفولیوهای طراح
-        const portfoliosData = await getPortfoliosByDesignerId(designerId, controller.signal);
-        setPortfolios(portfoliosData);
+        setState({
+          loading: false,
+          error: null,
+          designer: designerData ?? null,
+          portfolios: Array.isArray(portfoliosData) ? portfoliosData : [],
+        });
       } catch (err: any) {
-        if (err.name !== "AbortError") setError(err.message || "خطا در دریافت اطلاعات");
-      } finally {
-        setLoading(false);
+        if (err.name !== "AbortError") {
+          setState((prev) => ({ ...prev, loading: false, error: err.message || "خطا در دریافت اطلاعات" }));
+        }
       }
     };
 
-    fetchData();
+    fetchAll();
     return () => controller.abort();
-  }, [designerId]);
+  }, [id]);
+
+  const safeValue = (value?: string | null) => (value && value.trim() ? value : "-");
+
+  const { loading, error, designer, portfolios } = state;
 
   if (loading) return <div className="designer-details-layout">در حال بارگذاری...</div>;
   if (error) return <div className="designer-details-layout designer-alert">{error}</div>;
-  if (!designer) return null;
+  if (!designer) return <div className="designer-details-layout">اطلاعات طراح موجود نیست</div>;
 
   return (
     <div className="designer-details-layout">
       {/* Header */}
       <div className="designer-details-header">
+        <Link to="/designers" className="designer-back-icon" title="بازگشت به لیست طراحان">
+          <ArrowLeft size={24} />
+        </Link>
+
         <img
           className="designer-details-image"
-          src={designer.imageUrl || "https://via.placeholder.com/400x400?text=No+Image"}
-          alt={designer.name}
+          src={designer.imageUrl ?? "https://via.placeholder.com/400x400?text=No+Image"}
+          alt={safeValue(designer.name)}
         />
+
         <div className="designer-details-info">
-          <h2 className="designer-details-name">{designer.name}</h2>
-          <p className="designer-details-expertise"><strong>تخصص:</strong> {designer.expertise}</p>
-          <p className="designer-details-location"><strong>لوکیشن:</strong> {designer.location}</p>
-          <p className="designer-details-biography">{designer.biography}</p>
-          <Link className="designer-backBtn" to="/designers">بازگشت به لیست طراحان</Link>
+          <h2 className="designer-details-name">{safeValue(designer.name)}</h2>
+          <p><strong>تخصص:</strong> {safeValue(designer.expertise)}</p>
+          <p><strong>لوکیشن:</strong> {safeValue(designer.location)}</p>
+          <p><strong>بیوگرافی:</strong> {safeValue(designer.biography)}</p>
         </div>
       </div>
 
-      {/* Portfolio */}
-      <h3 className="designer-portfolio-title">نمونه‌کارها</h3>
-      <div className="designer-portfolio-grid">
-        {portfolios.map(p => (
-          <div key={p.id} className="designer-portfolio-card">
-            <div className="portfolio-imageWrap">
-              <img
-                src={p.imageUrl || "https://via.placeholder.com/300x200?text=No+Image"}
-                alt={p.title}
-                loading="lazy"
-              />
-              <div className="portfolio-badge">{CATEGORIES[p.categoryId ?? 0] || "نامشخص"}</div>
-            </div>
-            <div className="portfolio-body">
-              <div className="portfolio-title">{p.title}</div>
-              <div className="portfolio-designer">طراح: {designer.name}</div>
-            </div>
-            <Link className="portfolio-viewBtn" to={`/portfolio/${p.id}`}>مشاهده</Link>
+      {/* Portfolio Section */}
+      <div className="portfolio-section">
+        <h3 className="designer-portfolio-title">نمونه‌کارها</h3>
+        {portfolios.length > 0 ? (
+          <div className="designer-portfolio-grid">
+            {portfolios.map((p) => (
+              <div key={p.id} className="designer-portfolio-card">
+                <div className="portfolio-imageWrap">
+                  <img
+                    src={p.imageUrl ?? "https://via.placeholder.com/300x200?text=No+Image"}
+                    alt={safeValue(p.title)}
+                    loading="lazy"
+                  />
+                  <div className="portfolio-badge">
+                    {CATEGORIES[p.categoryId ?? 0] ?? "نامشخص"}
+                  </div>
+                </div>
+                <div className="portfolio-body">
+                  <div className="portfolio-title">{safeValue(p.title)}</div>
+                  <div className="portfolio-designer">طراح: {safeValue(designer.name)}</div>
+                </div>
+                <Link className="portfolio-viewBtn" to={`/portfolio/${p.id}`}>
+                  مشاهده
+                </Link>
+              </div>
+            ))}
           </div>
-        ))}
+        ) : (
+          <p>نمونه‌کار موجود نیست</p>
+        )}
+      </div>
+
+      {/* Action Buttons */}
+      <div className="designer-actions-wrapper">
+        <div className="designer-actions">
+          <button className="btn btn-request">ثبت درخواست</button>
+          <button className="btn btn-message">
+            <MessageCircle size={18} /> ارسال پیام
+          </button>
+        </div>
       </div>
     </div>
   );

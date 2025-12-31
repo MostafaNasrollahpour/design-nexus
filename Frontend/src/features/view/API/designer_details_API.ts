@@ -48,12 +48,21 @@ export async function getDesignerDetailsById(
   designerId: number,
   signal?: AbortSignal
 ): Promise<DesignerDetails> {
-  const url = `${API_BASE_URL}/api/portfolios/designer-details/${encodeURIComponent(String(designerId))}`;
-  const data = await fetchJson<DesignerDetails>(url, signal);
+  const url = `${API_BASE_URL}/api/portfolios/designer-details/${designerId}`;
+  const res = await fetchJson<any>(url, signal);
 
-  data.imageUrl = normalizeImageUrl(data.imageUrl);
-  return data;
+  const d = res.data; // 👈 خیلی مهم
+
+  return {
+    id: d.designerId,
+    name: d.fullName,
+    biography: d.bio ?? "",
+    expertise: d.specialty ?? "",
+    location: d.location ?? "",
+    imageUrl: normalizeImageUrl(d.avatarUrl),
+  };
 }
+
 
 // دریافت پورتفولیوهای یک طراح
 export async function getPortfoliosByDesignerId(

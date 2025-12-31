@@ -15,8 +15,8 @@ import caffee from "../assets/caffee.jpg";
 import { useNavigate } from "react-router-dom";
 
 // ✅ اضافه شد: API مربوط به دسته‌بندی‌ها
-import { getPortfoliosByCategoryId } from "../../view/API/category_view_API";
-import type { PortfolioListItem } from "../../view/API/category_view_API";
+import { getPortfoliosByCategoryId } from "../../view/API/designer_list_API";
+import type { PortfolioListItem } from "../../view/API/designer_list_API";
 
 // ✅ اضافه شد: مپ slug های اسلایدر به categoryId های بک‌اند/صفحه
 const CATEGORY_SLUG_TO_ID: Record<string, number> = {

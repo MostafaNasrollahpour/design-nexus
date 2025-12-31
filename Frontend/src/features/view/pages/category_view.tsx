@@ -1,9 +1,9 @@
 // src/features/view/components/CategoryPortfoliosPage.tsx
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { getPortfoliosByCategoryId } from "../API/category_view_API";
+import { getPortfoliosByCategoryId } from "../API/designer_list_API";
 import { getDesignersByIds } from "../API/designerAPI";
-import type { PortfolioListItem } from "../API/category_view_API";
+import type { PortfolioListItem } from "../API/designer_list_API";
 import "../styles/category_view.css";
 
 const CATEGORY_TITLES: Record<number, string> = {

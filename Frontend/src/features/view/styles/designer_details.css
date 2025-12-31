@@ -1,10 +1,12 @@
+/* ===== Layout اصلی ===== */
 .designer-details-layout {
   width: min(1200px, 95%);
   margin: 20px auto;
   direction: rtl;
-  font-family: "IRANSans", sans-serif;
+  position: relative;
 }
 
+/* ===== Header طراح ===== */
 .designer-details-header {
   display: flex;
   gap: 20px;
@@ -14,6 +16,7 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.06);
   flex-wrap: wrap;
   align-items: flex-start;
+  position: relative;
 }
 
 .designer-details-image {
@@ -36,48 +39,56 @@
 }
 
 .designer-details-name {
-  margin: 0 0 8px 0;
+  margin: 0 0 12px 0;
   font-size: 24px;
   font-weight: 900;
 }
 
-.designer-details-expertise,
-.designer-details-location,
-.designer-details-biography {
-  margin: 6px 0;
-  font-size: 14px;
+.designer-details-info p {
+  margin: 18px 0;
+  font-size: 15px;
   line-height: 1.6;
 }
 
-.designer-backBtn {
-  display: inline-block;
-  margin-top: 10px;
-  text-decoration: none;
-  border-radius: 12px;
-  padding: 8px 14px;
-  background: #FFF58A;
+/* آیکون بازگشت */
+.designer-back-icon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
   color: #000;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: 0.2s;
+  cursor: pointer;
 }
 
-.designer-backBtn:hover {
-  filter: brightness(0.95);
+.designer-back-icon:hover {
+  transform: scale(1.1);
 }
 
-/* Portfolio */
+/* ===== Portfolio Section ===== */
+.portfolio-section {
+  position: relative;
+  padding: 20px;
+  background: rgba(198, 231, 255, 0.15);
+  border-radius: 16px;
+  margin-top: 20px;
+}
+
+/* عنوان نمونه‌کار */
 .designer-portfolio-title {
-  margin-top: 30px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   font-size: 18px;
   font-weight: 900;
 }
 
+/* Grid کارت‌ها */
 .designer-portfolio-grid {
   display: flex;
   overflow-x: auto;
   gap: 14px;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   scroll-behavior: smooth;
 }
 
@@ -90,23 +101,26 @@
   border-radius: 4px;
 }
 
+/* کارت‌ها */
 .designer-portfolio-card {
   min-width: 240px;
-  background: rgba(255,255,255,0.85);
+  background: rgba(198, 231, 255, 0.85);
   border-radius: 14px;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.15);
   overflow: hidden;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
 .designer-portfolio-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+  box-shadow: 0 12px 28px rgba(0, 123, 255, 0.25);
+  background: rgba(198, 231, 255, 1);
 }
 
+/* تصویر و دسته‌بندی */
 .portfolio-imageWrap {
   position: relative;
 }
@@ -129,6 +143,7 @@
   font-weight: 800;
 }
 
+/* اطلاعات داخل کارت */
 .portfolio-body {
   padding: 10px;
   flex: 1;
@@ -145,6 +160,7 @@
   opacity: 0.8;
 }
 
+/* دکمه مشاهده */
 .portfolio-viewBtn {
   display: block;
   text-align: center;
@@ -162,7 +178,48 @@
   filter: brightness(0.95);
 }
 
-/* Responsive */
+/* ===== Action Buttons ===== */
+/* Wrapper دکمه‌ها خارج از کادر */
+.designer-actions-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 80px; /* فاصله با کارت‌ها */
+}
+
+/* دکمه‌ها */
+.designer-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  max-width: 800px;
+}
+
+.designer-actions .btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  background: #FFF58A;
+  color: #000;
+  box-shadow: 0 6px 18px rgba(255, 245, 138, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.designer-actions .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(255, 245, 138, 0.4);
+  background: #FFF159;
+}
+
+
+
+
+/* ===== Responsive ===== */
 @media (max-width: 900px) {
   .designer-details-header {
     flex-direction: column;

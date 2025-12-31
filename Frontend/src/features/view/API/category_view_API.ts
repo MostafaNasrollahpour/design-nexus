@@ -1,28 +1,27 @@
-// src/features/view/api/portfolioApi.ts
-
-export type PortfolioListItem = {
-  id: number;
-  title: string;
-  imageUrl: string | null;
-  categoryId?: number | null;
-  designerId: number;
-};
-
-// چیزی که از API برمی‌گرده (اکثر بک‌اندها camelCase می‌دن)
-type PortfolioApiDto = {
-  id: number;
-  title: string;
-  imageUrl: string | null;
-  categoryId?: number | null;
-  designerId: number;
-};
+// src/features/view/api/designerApi.ts
 
 const API_BASE_URL =
   (import.meta as any).env?.VITE_API_BASE_URL?.replace(/\/+$/, "") ||
   "http://localhost:5157/portfolio";
 
-const PORTFOLIOS_ENDPOINT = "/api/portfolios";
+const DESIGNERS_ENDPOINT = "/api/portfolios/designers";
 
+// ---------------- نوع‌ها ----------------
+export type DesignerItem = {
+  id: number;
+  name?: string;
+  location?: string;
+  imageUrl: string | null;
+};
+
+// چیزی که از API برمی‌گرده
+type DesignerApiDto = {
+  id: number;
+  location?: string | null;
+  imageUrl: string | null;
+};
+
+// ---------------- توابع کمکی ----------------
 function normalizeImageUrl(url: string | null | undefined): string | null {
   if (!url) return null;
   if (/^https?:\/\//i.test(url)) return url;
@@ -45,21 +44,17 @@ async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
   return (await res.json()) as T;
 }
 
-export async function getPortfoliosByCategoryId(
-  categoryId: number,
+// ---------------- API ----------------
+export async function getAllDesigners(
   signal?: AbortSignal
-): Promise<PortfolioListItem[]> {
-  const url = `${API_BASE_URL}${PORTFOLIOS_ENDPOINT}/category/${encodeURIComponent(
-    String(categoryId)
-  )}`;
+): Promise<DesignerItem[]> {
+  const url = `${API_BASE_URL}${DESIGNERS_ENDPOINT}`;
+  const data = await fetchJson<DesignerApiDto[]>(url, signal);
 
-  const data = await fetchJson<PortfolioApiDto[]>(url, signal);
-
-  return data.map((x) => ({
-    id: x.id,
-    title: x.title,
-    imageUrl: normalizeImageUrl(x.imageUrl),
-    categoryId: x.categoryId ?? null,
-    designerId: x.designerId,
+  return data.map((d) => ({
+    id: d.id,
+    name: undefined,
+    location: d.location || "بدون لوکیشن",
+    imageUrl: normalizeImageUrl(d.imageUrl), // ✅ دقیقاً مثل portfolio
   }));
 }
