@@ -64,5 +64,11 @@ public class PortfolioRepository : IPortfolioRepository
         await _dbContext.SaveChangesAsync(ct);
     }
 
+    public async Task UpdateAsync(Portfolio portfolio, CancellationToken ct)
+    {
+        _dbContext.Portfolios.Update(portfolio);
+        await _dbContext.SaveChangesAsync(ct);
+    }
+
 }
 
