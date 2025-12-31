@@ -76,11 +76,15 @@
 }
 
 .designer-location {
-  font-weight: 800;
-  font-size: 15px;
-  opacity: 0.8;
-  white-space: nowrap;
+  display: flex;
+  align-items: center; /* تراز عمودی */
+  gap: 4px;
+  font-size: 14px;
+  line-height: 1; /* ← اضافه شد */
+  
 }
+
+
 
 .designer-body {
   padding: 12px 12px 52px;

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllDesigners, getPortfoliosByCategoryId } from "../API/designer_list_API";
-import type {DesignerItem} from "../API/designer_list_API"
+import type { DesignerItem } from "../API/designer_list_API";
 import "../styles/designer_list_page.css";
 import { MdLocationOn } from "react-icons/md";
-
 
 export default function DesignerListPage() {
   const [designers, setDesigners] = useState<DesignerItem[]>([]);
@@ -20,9 +19,9 @@ export default function DesignerListPage() {
       try {
         const data = await getAllDesigners(controller.signal);
 
-        // پر کردن نام هر طراح با اولین پورتفولیو (یا خالی)
+        // اضافه کردن نام از اولین پورتفولیو
         const designersWithNames = await Promise.all(
-          data.map(async designer => {
+          data.map(async (designer) => {
             const portfolios = await getPortfoliosByCategoryId(designer.id, controller.signal);
             return {
               ...designer,
@@ -69,7 +68,7 @@ export default function DesignerListPage() {
                     </div>
                   </div>
                 ))
-              : designers.map(d => (
+              : designers.map((d) => (
                   <div key={d.id} className="designer-card">
                     <div className="designer-imageWrap">
                       <img
@@ -85,9 +84,9 @@ export default function DesignerListPage() {
                         <div className="designer-name">{d.name}</div>
                       </div>
 
-<div className="designer-location">
-  <MdLocationOn style={{ color: "red"}} />
-  {d.location}
+                      <div className="designer-location">
+  <MdLocationOn style={{ color: "red", fontSize: "20px", verticalAlign: "middle" }} />
+  <span style={{ verticalAlign: "middle" }}>{d.location || "بدون لوکیشن"}</span>
 </div>
 
                     </div>

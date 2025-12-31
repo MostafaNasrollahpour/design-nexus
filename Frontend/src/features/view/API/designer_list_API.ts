@@ -8,8 +8,8 @@ const PORTFOLIOS_ENDPOINT = "/api/portfolios";
 // ---------------- نوع‌ها ----------------
 export type DesignerItem = {
   id: number;
-  name?: string; // ممکن است بعداً پر شود
-  location: string;
+  name?: string;
+  location?: string; // ← می‌تواند خالی باشد
   imageUrl: string | null;
 };
 
@@ -24,7 +24,7 @@ export type PortfolioListItem = {
 // نوع داده دریافتی از API
 type DesignerApiDto = {
   id: number;
-  location: string;
+  location?: string | null;
   imageUrl: string | null;
 };
 
@@ -54,21 +54,18 @@ async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
 }
 
 // ---------------- API ها ----------------
-
-// گرفتن لیست تمام طراحان
 export async function getAllDesigners(signal?: AbortSignal): Promise<DesignerItem[]> {
   const url = `${API_BASE_URL}${DESIGNERS_ENDPOINT}`;
   const data = await fetchJson<DesignerApiDto[]>(url, signal);
 
-  return data.map(d => ({
+  return data.map((d) => ({
     id: d.id,
     name: undefined,
-    location: d.location,
+    location: d.location || "بدون لوکیشن", // ← پیش‌فرض اضافه شد
     imageUrl: normalizeImageUrl(d.imageUrl),
   }));
 }
 
-// گرفتن پورتفولیو بر اساس categoryId
 export async function getPortfoliosByCategoryId(
   categoryId: number,
   signal?: AbortSignal
@@ -76,7 +73,7 @@ export async function getPortfoliosByCategoryId(
   const url = `${API_BASE_URL}${PORTFOLIOS_ENDPOINT}/category/${encodeURIComponent(categoryId)}`;
   const data = await fetchJson<PortfolioApiDto[]>(url, signal);
 
-  return data.map(p => ({
+  return data.map((p) => ({
     id: p.id,
     title: p.title,
     imageUrl: normalizeImageUrl(p.imageUrl),
