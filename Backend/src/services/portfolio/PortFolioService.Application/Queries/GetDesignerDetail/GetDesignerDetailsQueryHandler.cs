@@ -5,7 +5,7 @@ using PortFolioService.Application.DTOs;
 namespace PortFolioService.Application.Queries.GetDesignerDetails;
 
 public class GetDesignerDetailsQueryHandler
-    : IRequestHandler<GetDesignerDetailsQuery, DesignerDetailsDto?>
+    : IRequestHandler<GetDesignerDetailsQuery, DesignerDetailsResponse>
 {
     private readonly IUserServiceClient _userServiceClient;
     private readonly IDesignerProfileRepository _profileRepository;
@@ -18,7 +18,7 @@ public class GetDesignerDetailsQueryHandler
         _profileRepository = profileRepository;
     }
 
-    public async Task<DesignerDetailsDto?> Handle(
+    public async Task<DesignerDetailsResponse> Handle(
         GetDesignerDetailsQuery request,
         CancellationToken cancellationToken)
     {
@@ -26,12 +26,11 @@ public class GetDesignerDetailsQueryHandler
             .GetDesignerUserAsync(request.DesignerId);
 
         if (user is null)
-            return null;
+            return DesignerDetailsResponse.Failure($"Designer with ID {request.DesignerId} not found.");
 
         var profile = await _profileRepository
-            .GetByDesignerIdAsync(request.DesignerId, cancellationToken); // ✅ FIX
-
-        return new DesignerDetailsDto(
+            .GetByDesignerIdAsync(request.DesignerId, cancellationToken); 
+        var dto = new DesignerDetailsDto(
             request.DesignerId,
             user.FullName,
             user.Email,
@@ -43,5 +42,7 @@ public class GetDesignerDetailsQueryHandler
             profile?.AvatarUrl,
             profile?.AvatarSize
         );
+
+        return DesignerDetailsResponse.CreateSuccess(dto);
     }
 }

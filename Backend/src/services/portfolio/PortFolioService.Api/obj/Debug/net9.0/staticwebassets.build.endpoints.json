@@ -301,90 +301,8 @@
       ]
     },
     {
-      "Route": "uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b.flj2tywh6n.png",
-      "AssetFile": "uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1629941"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 31 Dec 2025 08:56:28 GMT"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "flj2tywh6n"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE="
-        },
-        {
-          "Name": "label",
-          "Value": "uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b.png"
-        }
-      ]
-    },
-    {
-      "Route": "uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b.png",
-      "AssetFile": "uploads/designer-1/a93b5f0b-483d-4c9d-8a48-85a93ed2be5b.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1629941"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 31 Dec 2025 08:56:28 GMT"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE="
-        }
-      ]
-    },
-    {
-      "Route": "uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6.mvjzqjyxzh.png",
-      "AssetFile": "uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6.png",
+      "Route": "uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85.mvjzqjyxzh.png",
+      "AssetFile": "uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -409,7 +327,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 31 Dec 2025 08:55:42 GMT"
+          "Value": "Wed, 31 Dec 2025 09:02:05 GMT"
         }
       ],
       "EndpointProperties": [
@@ -423,13 +341,13 @@
         },
         {
           "Name": "label",
-          "Value": "uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6.png"
+          "Value": "uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85.png"
         }
       ]
     },
     {
-      "Route": "uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6.png",
-      "AssetFile": "uploads/designer-1/e84656b4-511e-4008-a8c6-f7d7055d50c6.png",
+      "Route": "uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85.png",
+      "AssetFile": "uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -454,13 +372,95 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 31 Dec 2025 08:55:42 GMT"
+          "Value": "Wed, 31 Dec 2025 09:02:05 GMT"
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
           "Value": "sha256-YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f.jpg",
+      "AssetFile": "uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "92548"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jB0Bj7Cutz4df0bPEPxwoglvzidmCx9yFBbRvfs5sHk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 31 Dec 2025 10:03:37 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-jB0Bj7Cutz4df0bPEPxwoglvzidmCx9yFBbRvfs5sHk="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f.swrtr89ded.jpg",
+      "AssetFile": "uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "92548"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jB0Bj7Cutz4df0bPEPxwoglvzidmCx9yFBbRvfs5sHk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 31 Dec 2025 10:03:37 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "swrtr89ded"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-jB0Bj7Cutz4df0bPEPxwoglvzidmCx9yFBbRvfs5sHk="
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f.jpg"
         }
       ]
     },

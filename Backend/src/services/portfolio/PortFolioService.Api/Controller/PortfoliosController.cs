@@ -144,8 +144,8 @@ namespace PortFolioService.Api.Controllers
             var query = new GetDesignerDetailsQuery(designerId);
             var result = await _mediator.Send(query, ct);
 
-            if (result is null)
-                return NotFound();
+            if (!result.Success)
+                return BadRequest(result);
 
             return Ok(result);
         }

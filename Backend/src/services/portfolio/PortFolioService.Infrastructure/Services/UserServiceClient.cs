@@ -14,8 +14,19 @@ public class UserServiceClient : IUserServiceClient
 
     public async Task<UserServiceDesignerDto?> GetDesignerUserAsync(int designerId)
     {
-        return await _httpClient.GetFromJsonAsync<UserServiceDesignerDto>(
-            $"internal/designers/{designerId}");
+        var response = await _httpClient.GetAsync($"internal/designers/{designerId}");
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadFromJsonAsync<UserServiceDesignerDto>();
+        }
+        else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+        else
+        {
+            throw new HttpRequestException($"Failed to retrieve designer with ID {designerId}. Status code: {response.StatusCode}");
+        }
     }
 }
 
