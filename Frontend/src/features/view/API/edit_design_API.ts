@@ -25,10 +25,11 @@ export async function updatePortfolio(data: PortfolioEditDto) {
 
   const formData = new FormData();
   formData.append("title", data.title);
-  formData.append("categoryId", String(data.categoryId));
+  
   formData.append("description", data.description);
+  formData.append("categoryId", String(data.categoryId));
   if (data.imageFile) {
-    formData.append("image", data.imageFile);
+    formData.append("imageFile", data.imageFile);
   }
 
   const response = await fetch(`http://localhost:5157/portfolio/api/portfolios/${data.id}`, {
