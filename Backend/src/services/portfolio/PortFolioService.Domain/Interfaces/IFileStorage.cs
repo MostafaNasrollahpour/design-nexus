@@ -9,5 +9,8 @@ public interface IFileStorage
         IFormFile file,
         string folder,
         CancellationToken ct);
+
+    Task DeleteAsync(string filePath, CancellationToken ct);
+    
 }
 

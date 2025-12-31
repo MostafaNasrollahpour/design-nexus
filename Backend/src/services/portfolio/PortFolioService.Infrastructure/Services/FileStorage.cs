@@ -36,4 +36,24 @@ public class FileStorage : IFileStorage
         // مسیر برای فرانت (Static File)
         return $"/uploads/{folder}/{fileName}";
     }
+
+    public async Task DeleteAsync(string filePath, CancellationToken ct)
+    {
+        // Convert relative path to absolute
+        var webRoot = _env.WebRootPath ?? Path.Combine(_env.ContentRootPath, "wwwroot");
+        var fullPath = Path.Combine(webRoot, filePath.TrimStart('/').Replace("/", Path.DirectorySeparatorChar.ToString()));
+
+        if (File.Exists(fullPath))
+        {
+            File.Delete(fullPath);
+            Console.WriteLine($"[FILE DELETED]: {fullPath}");
+        }
+        else
+        {
+            Console.WriteLine($"[FILE NOT FOUND]: {fullPath}");
+        }
+
+        await Task.CompletedTask; // just to match async signature
+    }
+
 }
