@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+
 import {
   getPortfolioDetailsById,
   type PortfolioDetails,
@@ -30,7 +32,6 @@ export default function PortfolioDetailsPage() {
 
   useEffect(() => {
     const controller = new AbortController();
-
     setError("");
     setData(null);
 
@@ -55,14 +56,10 @@ export default function PortfolioDetailsPage() {
   const imageSrc =
     data?.imageUrl || "https://via.placeholder.com/800x600?text=No+Image";
 
-  // const categoryTitle =
-  //   data?.categoryId != null
-  //     ? CATEGORY_TITLES[data.categoryId] ?? `دسته‌بندی #${data.categoryId}`
-  //     : "نامشخص";
-
   return (
     <div className="portfolioD-layout">
       <div className="portfolioD-card">
+        {/* ---------- Header ---------- */}
         <div className="portfolioD-header">
           <div className="portfolioD-headerText">
             <h2 className="portfolioD-title">
@@ -70,17 +67,15 @@ export default function PortfolioDetailsPage() {
             </h2>
           </div>
 
-          <div className="portfolioD-headerActions">
-            <Link className="portfolioD-backBtn" to={-1 as any}>
-              برگشت
-            </Link>
-            <Link className="portfolioD-homeBtn" to="/">
-              صفحه اصلی
-            </Link>
-          </div>
+          {/* ---------- Back Button with Icon ---------- */}
+          <Link to={-1 as any} className="portfolioD-iconBackBtn">
+            <ArrowLeft size={20} />
+          </Link>
         </div>
 
-        {error && <div className="portfolioD-alert portfolioD-alert--error">{error}</div>}
+        {error && (
+          <div className="portfolioD-alert portfolioD-alert--error">{error}</div>
+        )}
 
         {loading ? (
           <div className="portfolioD-grid portfolioD-grid--skeleton">
@@ -123,12 +118,12 @@ export default function PortfolioDetailsPage() {
                   </div>
                 </div>
 
-                 <div className="portfolioD-section">
+                <div className="portfolioD-section">
                   <div className="portfolioD-label">دسته بندی</div>
                   <div className="portfolioD-value">
                     {data.description?.trim() && data.categoryId != null
-                                ? CATEGORY_TITLES[data.categoryId]
-                                   : "—"}
+                      ? CATEGORY_TITLES[data.categoryId]
+                      : "—"}
                   </div>
                 </div>
 
@@ -138,8 +133,6 @@ export default function PortfolioDetailsPage() {
                     {data.description?.trim() ? data.description : "—"}
                   </div>
                 </div>
-
-               
               </div>
 
               <div className="portfolioD-actions">

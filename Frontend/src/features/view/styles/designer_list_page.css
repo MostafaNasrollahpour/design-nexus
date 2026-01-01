@@ -132,3 +132,26 @@
 .w-60 { width: 60%; }
 .w-70 { width: 70%; }
 .w-80 { width: 80%; }
+
+
+
+
+/* ===== Back Button - Circle like other pages ===== */
+.designer-backBtn {
+width: 45px;
+    height: 45px;
+    font-size: 0; /* جلوگیری از اثر متن */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(198, 231, 255, 0.5);
+    border-radius: 50%;
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+}
+
+.designer-backBtn:hover {
+   background: #b5dcfa; /* کمی تیره‌تر برای hover */
+  transform: translateX(-2px); /* حس بازگشت به چپ */
+}
+

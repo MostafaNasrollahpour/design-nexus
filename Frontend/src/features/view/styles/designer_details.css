@@ -51,21 +51,31 @@
 }
 
 /* آیکون بازگشت */
+/* ===== Back Button - Circle like PortfolioDetailsPage ===== */
 .designer-back-icon {
   position: absolute;
   top: 12px;
   left: 12px;
-  color: #000;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.2s;
+  border-radius: 50%;
+  background: #C6E7FF; /* هم‌رنگ کارت */
+  color: #000;
   cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  z-index: 10;
 }
 
 .designer-back-icon:hover {
-  transform: scale(1.1);
+    background: #b5dcfa; /* کمی تیره‌تر برای hover */
+
+  transform: translateX(-2px);
 }
+
 
 /* ===== Portfolio Section ===== */
 .portfolio-section {

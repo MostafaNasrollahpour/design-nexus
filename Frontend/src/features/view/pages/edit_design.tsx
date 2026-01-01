@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Pencil } from "lucide-react";
+import { Pencil, ArrowLeft } from "lucide-react";
 
 import {
   getPortfolioDetailsById,
@@ -18,7 +18,7 @@ import Alert from "../components/alert";
 
 import "../styles/edit_design.css";
 
-/* ---------- Categories (for display name) ---------- */
+/* ---------- Categories ---------- */
 const CATEGORIES = [
   { id: 1, title: "اتاق خواب" },
   { id: 2, title: "پذیرایی" },
@@ -39,14 +39,19 @@ export default function PortfolioEditPage() {
   const [loading, setLoading] = useState(true);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  /* ---------- Alert state ---------- */
-  const [alert, setAlert] = useState<{ message: string; type: "success" | "error" } | null>(null);
-  const showAlert = (message: string, type: "success" | "error" = "success") => {
-    setAlert({ message, type });
-  };
-
   /* ---------- Dirty state ---------- */
   const [isDirty, setIsDirty] = useState(false);
+
+  /* ---------- Alert ---------- */
+  const [alert, setAlert] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
+
+  const showAlert = (
+    message: string,
+    type: "success" | "error" = "success"
+  ) => setAlert({ message, type });
 
   /* ---------- Fetch data ---------- */
   useEffect(() => {
@@ -64,11 +69,11 @@ export default function PortfolioEditPage() {
           imageUrl: res.imageUrl || "",
           imageFile: null,
         });
+        setIsDirty(false); // مهم
       })
       .catch(err => {
         if (err.name !== "AbortError") {
           showAlert("خطا در دریافت داده‌ها", "error");
-          console.error(err);
         }
       })
       .finally(() => setLoading(false));
@@ -76,13 +81,17 @@ export default function PortfolioEditPage() {
     return () => controller.abort();
   }, [portfolioId]);
 
-  /* ---------- Helpers ---------- */
-  const handleChange = (field: keyof PortfolioEditDto, value: string | number | null) => {
+  /* ---------- Handlers ---------- */
+  const handleChange = (
+    field: keyof PortfolioEditDto,
+    value: string | number | null
+  ) => {
     if (!inputs) return;
+
     setInputs(prev => {
-      const updated = prev ? { ...prev, [field]: value } : prev;
+      if (!prev) return prev;
       if (!isDirty) setIsDirty(true);
-      return updated;
+      return { ...prev, [field]: value };
     });
   };
 
@@ -90,21 +99,20 @@ export default function PortfolioEditPage() {
     setEditing(prev => ({ ...prev, [field]: !prev[field] }));
   };
 
- const handleImageChange = (file: File | null) => {
-  if (!file || !inputs) return;
+  const handleImageChange = (file: File | null) => {
+    if (!file || !inputs) return;
 
-  setInputs(prev => {
-    if (!prev) return prev;
-    const updated: PortfolioEditDto = {
-      ...prev,
-      imageFile: file,
-      imageUrl: URL.createObjectURL(file),
-    };
-    if (!isDirty) setIsDirty(true);
-    return updated;
-  });
-};
+    setInputs(prev => {
+      if (!prev) return prev;
+      if (!isDirty) setIsDirty(true);
 
+      return {
+        ...prev,
+        imageFile: file,
+        imageUrl: URL.createObjectURL(file),
+      };
+    });
+  };
 
   /* ---------- Submit ---------- */
   const handleSubmit = async () => {
@@ -117,8 +125,8 @@ export default function PortfolioEditPage() {
 
     try {
       await updatePortfolio(inputs);
-      showAlert("ویرایش با موفقیت انجام شد", "success");
-      setIsDirty(false); // بعد از ذخیره دکمه دوباره disable می‌شود
+      showAlert("ویرایش با موفقیت انجام شد");
+      setIsDirty(false); // 🔒 دوباره disable
     } catch (err: any) {
       showAlert(err?.message || "خطا در بروزرسانی نمونه‌کار", "error");
     }
@@ -130,7 +138,7 @@ export default function PortfolioEditPage() {
 
     try {
       await deletePortfolio(data.id);
-      showAlert("نمونه‌کار حذف شد", "success");
+      showAlert("نمونه‌کار حذف شد");
       window.location.href = "/";
     } catch (err: any) {
       showAlert(err?.message || "خطا در حذف نمونه‌کار", "error");
@@ -143,26 +151,28 @@ export default function PortfolioEditPage() {
     return <div className="portfolioEdit-layout">در حال دریافت داده‌ها...</div>;
   }
 
-  /* ---------- Selected category title ---------- */
-  const selectedCategory = CATEGORIES.find(c => c.id === inputs.categoryId);
+  const selectedCategory = CATEGORIES.find(
+    c => c.id === inputs.categoryId
+  );
 
   return (
     <div className="portfolioEdit-layout">
-      {/* ---------- Alert ---------- */}
-      {alert && <Alert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
+      {alert && (
+        <Alert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert(null)}
+        />
+      )}
 
       <div className="portfolioEdit-card">
         {/* ---------- Header ---------- */}
         <div className="portfolioEdit-header">
           <h2 className="portfolioEdit-title">ویرایش نمونه‌کار</h2>
-          <div className="portfolioEdit-headerActions">
-            <Link className="portfolioEdit-backBtn" to={-1 as any}>
-              بازگشت
-            </Link>
-            <Link className="portfolioEdit-homeBtn" to="/">
-              صفحه اصلی
-            </Link>
-          </div>
+
+          <Link to={-1 as any} className="portfolioEdit-iconBackBtn">
+            <ArrowLeft size={20} />
+          </Link>
         </div>
 
         <div className="portfolioEdit-grid">
@@ -170,16 +180,24 @@ export default function PortfolioEditPage() {
           <div className="portfolioEdit-imageContainer">
             <img
               className="portfolioEdit-image"
-              src={inputs.imageUrl || "https://via.placeholder.com/800x600?text=No+Image"}
+              src={
+                inputs.imageUrl ||
+                "https://via.placeholder.com/800x600?text=No+Image"
+              }
               alt={inputs.title || "portfolio"}
             />
+
             <label className="portfolioEdit-imageLabel">
               تغییر عکس
               <input
                 type="file"
-                accept="image/*"
                 hidden
-                onChange={e => handleImageChange(e.target.files ? e.target.files[0] : null)}
+                accept="image/*"
+                onChange={e =>
+                  handleImageChange(
+                    e.target.files ? e.target.files[0] : null
+                  )
+                }
               />
             </label>
           </div>
@@ -195,7 +213,10 @@ export default function PortfolioEditPage() {
                 value={inputs.title}
                 onChange={e => handleChange("title", e.target.value)}
               />
-              <button className="portfolioEdit-editBtn" onClick={() => handleEditToggle("title")}>
+              <button
+                className="portfolioEdit-editBtn"
+                onClick={() => handleEditToggle("title")}
+              >
                 <Pencil size={15} />
               </button>
             </div>
@@ -213,7 +234,7 @@ export default function PortfolioEditPage() {
               ) : (
                 <CategoryDropdown
                   value={inputs.categoryId}
-                  onChange={(id) => {
+                  onChange={id => {
                     handleChange("categoryId", id);
                     handleEditToggle("categoryId");
                   }}
@@ -233,10 +254,12 @@ export default function PortfolioEditPage() {
               <label className="portfolioEdit-label">درباره طرح</label>
               <textarea
                 className="portfolioEdit-input"
-                style={{ height: "120px", resize: "vertical" }}
+                style={{ height: 120 }}
                 readOnly={!editing.description}
                 value={inputs.description}
-                onChange={e => handleChange("description", e.target.value)}
+                onChange={e =>
+                  handleChange("description", e.target.value)
+                }
               />
               <button
                 className="portfolioEdit-editBtn"
@@ -252,10 +275,14 @@ export default function PortfolioEditPage() {
                 className="portfolioEdit-submitBtn"
                 onClick={handleSubmit}
                 disabled={!isDirty}
-                style={{ opacity: !isDirty ? 0.5 : 1, cursor: !isDirty ? "not-allowed" : "pointer" }}
+                style={{
+                  opacity: !isDirty ? 0.5 : 1,
+                  cursor: !isDirty ? "not-allowed" : "pointer",
+                }}
               >
                 ذخیره
               </button>
+
               <button
                 className="portfolioEdit-deleteBtn"
                 onClick={() => setShowDeleteConfirm(true)}
@@ -273,12 +300,15 @@ export default function PortfolioEditPage() {
           <div className="portfolioEdit-modalContent">
             <p>آیا مطمئن هستید که می‌خواهید این نمونه‌کار حذف شود؟</p>
             <div className="portfolioEdit-modalActions">
-              <button onClick={confirmDelete} className="portfolioEdit-confirmBtn">
+              <button
+                className="portfolioEdit-confirmBtn"
+                onClick={confirmDelete}
+              >
                 بله
               </button>
               <button
-                onClick={() => setShowDeleteConfirm(false)}
                 className="portfolioEdit-cancelBtn"
+                onClick={() => setShowDeleteConfirm(false)}
               >
                 خیر
               </button>

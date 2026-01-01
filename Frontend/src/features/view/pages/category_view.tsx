@@ -1,6 +1,7 @@
-// src/features/view/components/CategoryPortfoliosPage.tsx
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+
 import { getPortfoliosByCategoryId } from "../API/designer_list_API";
 import { getDesignersByIds } from "../API/designerAPI";
 import type { PortfolioListItem } from "../API/designer_list_API";
@@ -42,7 +43,6 @@ export default function CategoryPortfoliosPage() {
   const [loadingDesigners, setLoadingDesigners] = useState(false);
   const [error, setError] = useState("");
 
-  // تابع برای دریافت نام طراحان
   const fetchDesignerNames = async (designerIds: number[], signal?: AbortSignal) => {
     if (designerIds.length === 0) return;
     
@@ -57,14 +57,12 @@ export default function CategoryPortfoliosPage() {
     }
   };
 
-  // تابع کمکی برای دریافت نام طراح
   const getDesignerName = (designerId: number): string => {
     return designerNames.get(designerId) || "در حال دریافت...";
   };
 
   useEffect(() => {
     const controller = new AbortController();
-
     setError("");
 
     if (!Number.isFinite(categoryId)) {
@@ -74,28 +72,21 @@ export default function CategoryPortfoliosPage() {
       return () => controller.abort();
     }
 
-    // ✅ اگر از اسلایدر با state آمده باشیم، همان دیتا را استفاده کن
     const st = location.state as LocationState | null;
     const prefetched = st?.pageData;
 
     if (prefetched && prefetched.categoryId === categoryId) {
       setItems(prefetched.items);
-      
-      // دریافت نام طراحان برای داده‌های prefetch شده
       const designerIds = prefetched.items.map(item => item.designerId);
       fetchDesignerNames(designerIds, controller.signal);
-      
       setLoading(false);
       return () => controller.abort();
     }
 
-    // ✅ حالت عادی: صفحه خودش API را صدا می‌زند
     setLoading(true);
     getPortfoliosByCategoryId(categoryId, controller.signal)
       .then((data) => {
         setItems(data);
-        
-        // دریافت نام طراحان برای داده‌های جدید
         const designerIds = data.map(item => item.designerId);
         return fetchDesignerNames(designerIds, controller.signal);
       })
@@ -118,11 +109,10 @@ export default function CategoryPortfoliosPage() {
               <h2 className="designer-title">نمونه‌کارهای {title}</h2>
             </div>
 
-            <div className="designer-headerActions">
-              <Link className="designer-backBtn" to="/">
-                برگشت به صفحه اصلی
-              </Link>
-            </div>
+            {/* ---------- Back Button as Icon ---------- */}
+            <Link to="/" className="designer-iconBackBtn">
+              <ArrowLeft size={20} />
+            </Link>
           </div>
 
           {error ? <div className="designer-alert designer-alert--error">{error}</div> : null}
@@ -152,26 +142,16 @@ export default function CategoryPortfoliosPage() {
               : items.map((p) => (
                   <div key={p.id} className="designer-card">
                     <div className="designer-imageWrap">
-                      {p.imageUrl ? (
-                        <img
-                          className="designer-image"
-                          src={p.imageUrl}
-                          alt={p.title}
-                          loading="lazy"
-                          onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).src =
-                              "https://via.placeholder.com/600x340?text=No+Image";
-                          }}
-                        />
-                      ) : (
-                        <img
-                          className="designer-image"
-                          src="https://via.placeholder.com/600x340?text=No+Image"
-                          alt="No Image"
-                          loading="lazy"
-                        />
-                      )}
-
+                      <img
+                        className="designer-image"
+                        src={p.imageUrl || "https://via.placeholder.com/600x340?text=No+Image"}
+                        alt={p.title}
+                        loading="lazy"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).src =
+                            "https://via.placeholder.com/600x340?text=No+Image";
+                        }}
+                      />
                       <div className="designer-badge">{title}</div>
                     </div>
 

@@ -346,3 +346,24 @@
     font-size: 12px;
   }
 }
+
+
+/* ---------- Icon Back Button ---------- */
+.portfolioEdit-iconBackBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #C6E7FF; /* همرنگ کارت */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  transition: all 0.25s ease;
+}
+
+.portfolioEdit-iconBackBtn:hover {
+  background: #b5dcfa; /* کمی تیره‌تر برای hover */
+  transform: translateX(-2px); /* حس بازگشت به چپ */
+}
+
+

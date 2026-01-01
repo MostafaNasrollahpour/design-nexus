@@ -874,22 +874,29 @@ export default function DesignerPanelPage() {
 
               <div className="settings-footer">
                 <button
-                  className="btn-primary"
-                  disabled={designerSaving}
-                  onClick={async () => {
-                    setDesignerError("");
-                    setDesignerSaving(true);
-                    try {
-                      await saveDesignerExtraProfile(designerExtra);
-                    } catch (e) {
-                      setDesignerError(e instanceof Error ? e.message : "خطا");
-                    } finally {
-                      setDesignerSaving(false);
-                    }
-                  }}
-                >
-                  {designerSaving ? "در حال ذخیره..." : "ذخیره اطلاعات"}
-                </button>
+  className="btn-primary"
+  disabled={designerSaving}
+  onClick={async () => {
+    setDesignerError("");
+    setDesignerSaving(true);
+    try {
+      await saveDesignerExtraProfile(designerExtra);
+
+      /* ✅ چند ثانیه صبر کن تا پیام موفقیت دیده شود */
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500); // هم‌زمان با prettyAlert
+    } catch (e) {
+      setDesignerError(e instanceof Error ? e.message : "خطا");
+    } finally {
+      setDesignerSaving(false);
+    }
+  }}
+>
+  {designerSaving ? "در حال ذخیره..." : "ذخیره اطلاعات"}
+</button>
+
+
               </div>
 
               {/* ✅ مودال کراپ */}

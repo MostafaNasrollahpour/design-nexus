@@ -4,6 +4,7 @@ import { getAllDesigners, getPortfoliosByCategoryId } from "../API/designer_list
 import type { DesignerItem } from "../API/designer_list_API";
 import "../styles/designer_list_page.css";
 import { MdLocationOn } from "react-icons/md";
+import { MdArrowBack } from "react-icons/md";
 
 export default function DesignerListPage() {
   const [designers, setDesigners] = useState<DesignerItem[]>([]);
@@ -49,7 +50,9 @@ export default function DesignerListPage() {
         <div className="designer-panel-card">
           <div className="designer-header">
             <h2 className="designer-title">فهرست طراحان</h2>
-            <Link className="designer-backBtn" to="/">بازگشت به صفحه اصلی</Link>
+            <Link className="designer-backBtn" to="/">
+  <MdArrowBack size={78} />
+</Link>
           </div>
 
           {error && <div className="designer-alert designer-alert--error">{error}</div>}
@@ -85,10 +88,9 @@ export default function DesignerListPage() {
                       </div>
 
                       <div className="designer-location">
-  <MdLocationOn style={{ color: "red", fontSize: "20px", verticalAlign: "middle" }} />
-  <span style={{ verticalAlign: "middle" }}>{d.location || "بدون لوکیشن"}</span>
-</div>
-
+                        <MdLocationOn style={{ color: "red", fontSize: "20px", verticalAlign: "middle" }} />
+                        <span style={{ verticalAlign: "middle" }}>{d.location || "بدون لوکیشن"}</span>
+                      </div>
                     </div>
 
                     <div className="designer-actions">
