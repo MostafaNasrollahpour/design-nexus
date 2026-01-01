@@ -5,6 +5,7 @@ using Request.Infrastructure.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Request.Domain.Enums;
 
 namespace Request.Infrastructure.Repositories;
 
@@ -22,14 +23,13 @@ public class InvoiceRepository : IInvoiceRepository
         return await _context.Invoices.FindAsync(invoiceId);
     }
 
-    public async Task<IEnumerable<Invoice>> GetByRequestIdAsync(int requestId)
+    public async Task<Invoice?> GetByRequestIdAsync(int requestId)
     {
         return await _context.Invoices
-            .Where(i => i.RequestId == requestId)
-            .ToListAsync();
+            .SingleOrDefaultAsync(i => i.RequestId == requestId);
     }
 
-    public async Task<IEnumerable<Invoice>> GetByStatusAsync(string status)
+    public async Task<IEnumerable<Invoice>> GetByStatusAsync(InvoiceStatus status)
     {
         return await _context.Invoices
             .Where(i => i.Status == status)

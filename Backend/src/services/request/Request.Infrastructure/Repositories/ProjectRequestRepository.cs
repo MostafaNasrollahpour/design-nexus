@@ -5,6 +5,7 @@ using Request.Infrastructure.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Request.Domain.Enums;
 
 namespace Request.Infrastructure.Repositories;
 
@@ -36,7 +37,7 @@ public class ProjectRequestRepository : IProjectRequestRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<ProjectRequest>> GetByStatusAsync(string status)
+    public async Task<IEnumerable<ProjectRequest>> GetByStatusAsync(RequestStatus status)
     {
         return await _context.ProjectRequests
             .Where(r => r.Status == status)
