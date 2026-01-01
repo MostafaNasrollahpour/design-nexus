@@ -379,43 +379,51 @@ export default function DesignerPanelPage() {
   };
 
   const submitUpload = async () => {
-    setUploadError("");
-    setUploadSuccess("");
+  setUploadError("");
+  setUploadSuccess("");
 
-    const title = uploadForm.title.trim();
-    const descriptionTrimmed = uploadForm.description.trim();
+  const title = uploadForm.title.trim();
+  const descriptionTrimmed = uploadForm.description.trim();
 
-    if (!title) {
-      setUploadError("عنوان طرح الزامی است.");
-      return;
-    }
-    if (!uploadForm.categoryId) {
-      setUploadError("دسته‌بندی الزامی است.");
-      return;
-    }
-    if (!uploadForm.imageFile) {
-      setUploadError("لطفاً یک تصویر برای طرح انتخاب کنید.");
-      return;
-    }
+  if (!title) {
+    setUploadError("عنوان طرح الزامی است.");
+    return;
+  }
+  if (!uploadForm.categoryId) {
+    setUploadError("دسته‌بندی الزامی است.");
+    return;
+  }
+  if (!uploadForm.imageFile) {
+    setUploadError("لطفاً یک تصویر برای طرح انتخاب کنید.");
+    return;
+  }
 
-    const payload: UploadDesignPayload = {
-      title,
-      categoryId: uploadForm.categoryId,
-      description: descriptionTrimmed ? descriptionTrimmed : null,
-      imageFile: uploadForm.imageFile,
-    };
-
-    setUploading(true);
-    try {
-      await uploadDesignerDesign(payload);
-      setUploadSuccess("طرح با موفقیت ارسال شد ✅");
-      resetUploadFieldsAfterSuccess();
-    } catch (err) {
-      setUploadError(err instanceof Error ? err.message : "خطای ناشناخته");
-    } finally {
-      setUploading(false);
-    }
+  const payload: UploadDesignPayload = {
+    title,
+    categoryId: uploadForm.categoryId,
+    description: descriptionTrimmed ? descriptionTrimmed : null,
+    imageFile: uploadForm.imageFile,
   };
+
+  setUploading(true);
+  try {
+    await uploadDesignerDesign(payload);
+
+    setUploadSuccess("طرح با موفقیت ارسال شد ✅");
+    resetUploadFieldsAfterSuccess();
+
+    /* ✅ ریفرش لیست پروژه‌ها */
+    await loadProjects();
+
+    /* ✅ UX بهتر: رفتن خودکار به تب پروژه‌ها */
+    setActiveTab("projects");
+  } catch (err) {
+    setUploadError(err instanceof Error ? err.message : "خطای ناشناخته");
+  } finally {
+    setUploading(false);
+  }
+};
+
 
   /* ---------------- Avatar handlers ---------------- */
   const onAvatarFilePicked = async (file: File | null) => {
