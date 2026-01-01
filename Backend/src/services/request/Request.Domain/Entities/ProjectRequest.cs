@@ -1,5 +1,3 @@
-using System;
-
 namespace Request.Domain.Entities;
 
 public class ProjectRequest
@@ -12,7 +10,7 @@ public class ProjectRequest
     public decimal? Budget { get; private set; }
     public DateTime? Deadline { get; private set; }
     public string Address { get; private set; }
-    public string Category { get; private set; }
+    public int CategoryId { get; private set; } 
     public string Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
@@ -22,11 +20,11 @@ public class ProjectRequest
         Title = string.Empty;
         Description = string.Empty;
         Address = string.Empty;
-        Category = string.Empty;
         Status = string.Empty;
     }
 
-    public ProjectRequest(int userId, string title, string description, decimal? budget, DateTime? deadline, string address, string category)
+    public ProjectRequest(int userId, string title, string description, decimal? budget, 
+                          DateTime? deadline, string address, int categoryId)  // Changed parameter type
     {
         UserId = userId;
         Title = title ?? throw new ArgumentNullException(nameof(title));
@@ -34,8 +32,8 @@ public class ProjectRequest
         Budget = budget;
         Deadline = deadline;
         Address = address ?? throw new ArgumentNullException(nameof(address));
-        Category = category ?? throw new ArgumentNullException(nameof(category));
-        Status = "pending"; // default status
+        CategoryId = categoryId;  
+        Status = "pending"; 
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
@@ -52,14 +50,15 @@ public class ProjectRequest
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void UpdateDetails(string title, string description, decimal? budget, DateTime? deadline, string address, string category)
+    public void UpdateDetails(string title, string description, decimal? budget, 
+                              DateTime? deadline, string address, int categoryId) 
     {
         Title = title ?? throw new ArgumentNullException(nameof(title));
         Description = description ?? throw new ArgumentNullException(nameof(description));
         Budget = budget;
         Deadline = deadline;
         Address = address ?? throw new ArgumentNullException(nameof(address));
-        Category = category ?? throw new ArgumentNullException(nameof(category));
+        CategoryId = categoryId;
         UpdatedAt = DateTime.UtcNow;
     }
 }

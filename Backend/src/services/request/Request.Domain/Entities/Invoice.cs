@@ -1,5 +1,3 @@
-using System;
-
 namespace Request.Domain.Entities;
 
 public class Invoice
@@ -9,39 +7,36 @@ public class Invoice
     public decimal Amount { get; private set; }
     public string Currency { get; private set; }
     public string Status { get; private set; }
-    public string PaymentRef { get; private set; }
+    public string? PaymentRef { get; private set; } 
     public DateTime CreatedAt { get; private set; }
     public DateTime? PaidAt { get; private set; }
 
-    private Invoice()
-    {
-        Currency = string.Empty;
-        Status = string.Empty;
-        PaymentRef = string.Empty;
-    }
-
-    public Invoice(int requestId, decimal amount, string currency, string paymentRef)
+    public Invoice(int requestId, decimal amount, string currency)
     {
         RequestId = requestId;
         Amount = amount > 0 ? amount : throw new ArgumentException("Amount must be positive", nameof(amount));
         Currency = currency ?? throw new ArgumentNullException(nameof(currency));
-        Status = "pending"; // default status
-        PaymentRef = paymentRef ?? throw new ArgumentNullException(nameof(paymentRef));
+        Status = "pending";
+        PaymentRef = null; 
         CreatedAt = DateTime.UtcNow;
     }
 
-    public void MarkAsPaid()
+    public void SetPaymentRef(string paymentRef)
+    {
+        if (string.IsNullOrWhiteSpace(paymentRef))
+            throw new ArgumentException("Payment reference cannot be empty", nameof(paymentRef));
+        
+        PaymentRef = paymentRef;
+    }
+
+    public void MarkAsPaid(string? paymentRef = null)
     {
         Status = "paid";
         PaidAt = DateTime.UtcNow;
-    }
-
-    public void UpdateStatus(string status)
-    {
-        Status = status ?? throw new ArgumentNullException(nameof(status));
-        if (status == "paid" && !PaidAt.HasValue)
+        
+        if (!string.IsNullOrWhiteSpace(paymentRef))
         {
-            PaidAt = DateTime.UtcNow;
+            PaymentRef = paymentRef;
         }
     }
 }
