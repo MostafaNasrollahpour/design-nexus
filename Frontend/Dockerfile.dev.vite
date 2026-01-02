@@ -1,0 +1,14 @@
+# Dockerfile.dev.vite
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+# پورت پیش‌فرض Vite
+EXPOSE 5173
+
+# فرمان اجرای dev server
+CMD ["npm", "run", "dev", "--", "--host"]
