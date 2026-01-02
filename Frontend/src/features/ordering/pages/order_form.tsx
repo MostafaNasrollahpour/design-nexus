@@ -31,14 +31,23 @@ export default function OrderFormPage() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(""); // برای نمایش ارور روی صفحه
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // وضعیت ورود کاربر
 
-  // پر کردن نام و ایمیل از localStorage
+  // بررسی ورود کاربر و پر کردن نام و ایمیل
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || '{}');
+    const token = localStorage.getItem("token");
+    if (!token) {
+      prettyAlert("لطفاً ابتدا وارد حساب کاربری خود شوید.", "error");
+      navigate("/login");
+      return;
+    }
+    setIsLoggedIn(true);
+
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
     const name = user.FullName || "";
     const email = user.Email || "";
     setFormData((prev) => ({ ...prev, name, email }));
-  }, []);
+  }, [navigate]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -48,6 +57,14 @@ export default function OrderFormPage() {
   };
 
   const handleSubmit = async () => {
+    // دوباره بررسی ورود برای اطمینان
+    const token = localStorage.getItem("token");
+    if (!token) {
+      prettyAlert("لطفاً ابتدا وارد حساب کاربری خود شوید.", "error");
+      navigate("/login");
+      return;
+    }
+
     // چک کردن اینکه همه فیلدها پر شده باشند
     const emptyField = Object.entries(formData).find(([_, value]) => value === "");
     if (emptyField) {
@@ -57,7 +74,6 @@ export default function OrderFormPage() {
 
     setError(""); // اگر همه فیلدها پر بودند ارور پاک شود
     setLoading(true);
-    const token = localStorage.getItem("token");
 
     try {
       const res = await fetch(`https://your-api.com/orders`, {
@@ -88,6 +104,11 @@ export default function OrderFormPage() {
       setLoading(false);
     }
   };
+
+  if (!isLoggedIn) {
+    // اگر لاگین نکرده بود، فرم رو اصلاً نشون نده
+    return null;
+  }
 
   return (
     <div className="order-form-layout">
