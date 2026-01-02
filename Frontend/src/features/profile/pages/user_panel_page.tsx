@@ -207,7 +207,7 @@ export default function UserPanelPage() {
         </aside>
 
         <main className="panel-content">
-          {/* {activeTab === "profile" && (
+          {activeTab === "profile" && (
             <div className="panel-card">
               <h2>اطلاعات حساب</h2>
 
@@ -226,7 +226,7 @@ export default function UserPanelPage() {
                 <b>{user?.Role || localStorage.getItem("userRole") || "—"}</b>
               </div>
             </div>
-          )} */}
+          )}
 
           {activeTab === "orders" && (
             <div className="panel-card">
