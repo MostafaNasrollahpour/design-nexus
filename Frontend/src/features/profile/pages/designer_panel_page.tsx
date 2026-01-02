@@ -10,15 +10,23 @@ import { IconChevronDown } from "@tabler/icons-react";
 
 import Cropper from "react-easy-crop";
 
-import {
-  saveProfileSettings,
-  uploadDesignerDesign,
-  saveDesignerExtraProfile,
-  getDesignerProjects,
-  type ProfileSettingsPayload,
-  type UploadDesignPayload,
-  type DesignerProjectDto,
-} from "../API/testapi";
+// Profile API
+import { saveProfileSettings } from "../API/profile";
+import type { ProfileSettingsPayload } from "../API/profile";
+
+// Portfolio Uploads API
+import { uploadDesignerDesign } from "../API/portfolio_uploads";
+import type { UploadDesignPayload } from "../API/portfolio_uploads";
+
+// Designer Extra Profile API
+import { saveDesignerExtraProfile } from "../API/portfolioextra_profile";
+
+// Portfolio Projects API
+import { getDesignerProjects } from "../API/portfolio_projects";
+import type { DesignerProjectDto } from "../API/portfolio_projects";
+
+
+
 
 /** ---------------------- ثابت‌ها ---------------------- */
 type DesignerTab =

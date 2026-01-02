@@ -134,18 +134,23 @@ export default function PortfolioEditPage() {
 
   /* ---------- Delete ---------- */
   const confirmDelete = async () => {
-    if (!data) return;
+  if (!data) return;
 
-    try {
-      await deletePortfolio(data.id);
-      showAlert("نمونه‌کار حذف شد");
+  try {
+    await deletePortfolio(data.id);
+    showAlert("نمونه‌کار حذف شد");
+
+    // 🔹 صبر 2 ثانیه قبل از خروج از صفحه
+    setTimeout(() => {
       window.location.href = "/";
-    } catch (err: any) {
-      showAlert(err?.message || "خطا در حذف نمونه‌کار", "error");
-    } finally {
-      setShowDeleteConfirm(false);
-    }
-  };
+    }, 2000);
+  } catch (err: any) {
+    showAlert(err?.message || "خطا در حذف نمونه‌کار", "error");
+  } finally {
+    setShowDeleteConfirm(false);
+  }
+};
+
 
   if (loading || !inputs) {
     return <div className="portfolioEdit-layout">در حال دریافت داده‌ها...</div>;
