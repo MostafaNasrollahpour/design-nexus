@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllDesigners, getPortfoliosByCategoryId } from "../API/designer_list_API";
+import { getAllDesigners, getDesignerNameById } from "../API/designer_list_API";
 import type { DesignerItem } from "../API/designer_list_API";
 import "../styles/designer_list_page.css";
 import { MdLocationOn } from "react-icons/md";
@@ -10,39 +10,39 @@ export default function DesignerListPage() {
   const [designers, setDesigners] = useState<DesignerItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+useEffect(() => {
+  const controller = new AbortController();
+  setLoading(true);
+  setError("");
 
-  useEffect(() => {
-    const controller = new AbortController();
-    setLoading(true);
-    setError("");
+  const fetchDesigners = async () => {
+    try {
+      const data = await getAllDesigners(controller.signal);
 
-    const fetchDesigners = async () => {
-      try {
-        const data = await getAllDesigners(controller.signal);
+      // گرفتن نام هر طراح به صورت جداگانه
+      const designersWithNames = await Promise.all(
+        data.map(async (d) => {
+          const name = await getDesignerNameById(d.id, controller.signal);
+          return {
+            ...d,
+            name: name || `Designer ${d.id}`,
+          };
+        })
+      );
 
-        // اضافه کردن نام از اولین پورتفولیو
-        const designersWithNames = await Promise.all(
-          data.map(async (designer) => {
-            const portfolios = await getPortfoliosByCategoryId(designer.id, controller.signal);
-            return {
-              ...designer,
-              name: portfolios[0]?.title || `Designer ${designer.id}`,
-            };
-          })
-        );
+      setDesigners(designersWithNames);
+    } catch (err: any) {
+      if (err.name !== "AbortError") setError(err.message || "خطا در دریافت اطلاعات");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        setDesigners(designersWithNames);
-      } catch (err: any) {
-        if (err.name !== "AbortError") setError(err.message || "خطا در دریافت اطلاعات");
-      } finally {
-        setLoading(false);
-      }
-    };
+  fetchDesigners();
 
-    fetchDesigners();
+  return () => controller.abort();
+}, []);
 
-    return () => controller.abort();
-  }, []);
 
   return (
     <div className="designer-panel-layout">
@@ -51,8 +51,8 @@ export default function DesignerListPage() {
           <div className="designer-header">
             <h2 className="designer-title">فهرست طراحان</h2>
             <Link className="designer-backBtn" to="/">
-  <MdArrowBack size={78} />
-</Link>
+              <MdArrowBack size={78} />
+            </Link>
           </div>
 
           {error && <div className="designer-alert designer-alert--error">{error}</div>}

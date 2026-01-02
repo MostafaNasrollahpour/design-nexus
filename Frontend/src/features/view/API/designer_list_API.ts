@@ -4,12 +4,13 @@ const API_BASE_URL =
 
 const DESIGNERS_ENDPOINT = "/api/portfolios/designers";
 const PORTFOLIOS_ENDPOINT = "/api/portfolios";
+// const DESIGNER_NAMES_ENDPOINT = "api/Auth/get-name"; // ← API جدید برای نام‌ها
 
 // ---------------- نوع‌ها ----------------
 export type DesignerItem = {
   id: number;
-  name?: string;
-  location?: string; // ← می‌تواند خالی باشد
+  name?: string; // نام طراح
+  location?: string;
   imageUrl: string | null;
 };
 
@@ -21,7 +22,7 @@ export type PortfolioListItem = {
   designerId: number;
 };
 
-// نوع داده دریافتی از API
+// داده دریافتی از API
 type DesignerApiDto = {
   id: number;
   location?: string | null;
@@ -34,6 +35,11 @@ type PortfolioApiDto = {
   imageUrl: string | null;
   categoryId?: number | null;
   designerId: number;
+};
+
+type DesignerNameDto = {
+  id: number;
+  name: string;
 };
 
 // ---------------- توابع کمکی ----------------
@@ -60,8 +66,8 @@ export async function getAllDesigners(signal?: AbortSignal): Promise<DesignerIte
 
   return data.map((d) => ({
     id: d.id,
-    name: undefined,
-    location: d.location || "بدون لوکیشن", // ← پیش‌فرض اضافه شد
+    name: undefined, // ← بعداً از API نام پر می‌کنیم
+    location: d.location || "بدون لوکیشن",
     imageUrl: normalizeImageUrl(d.imageUrl),
   }));
 }
@@ -81,3 +87,24 @@ export async function getPortfoliosByCategoryId(
     designerId: p.designerId,
   }));
 }
+
+// ---------------- API جدید: گرفتن نام همه طراح‌ها یکجا ----------------
+export async function getDesignerNameById(
+  id: number,
+  signal?: AbortSignal
+): Promise<string | undefined> {
+  if (!id) return undefined;
+
+  const url = `http://localhost:5157/iam/api/Auth/get-name/${id}`;
+
+  try {
+    const data = await fetchJson<DesignerNameDto>(url, signal); // ← توجه: دیگر آرایه نیست
+    return data?.name; // نام طراح را مستقیماً برمی‌گرداند
+  } catch (err) {
+    console.error("Failed to fetch designer name:", err);
+    return undefined;
+  }
+}
+
+
+

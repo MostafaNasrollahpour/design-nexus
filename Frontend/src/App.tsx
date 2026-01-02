@@ -7,7 +7,7 @@ import VerifyCodePage from "./features/auth/pages/verify_email_page";
 import VerifyToChangePassword from "./features/auth/pages/verify_to_change_password";
 import ChangePasswordPage from "./features/auth/pages/change_password";
 import HomePage from "./features/auth/pages/home_page";
-import PanelPage from "./features/profile/pages/panel_page";
+import PanelPage from "./features/media/pages/panel_page";
 import SupportConsultPage from "./features/support/pages/support_page";
 import UserChatPage from "./features/chat/user_chat_page";
 import AdminChatPage from "./features/chat/admin_chat_page";
