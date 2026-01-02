@@ -1,0 +1,148 @@
+.order-form-layout {
+  width: min(800px, 95%);
+  margin: 40px auto;
+  direction: rtl;
+  background: #C6E7FF; /* مثل کارت‌ها */
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 123, 255, 0.15);
+  font-family: "Vazir", sans-serif;
+  position: relative;
+}
+
+/* Back Button */
+.order-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #C6E7FF;
+  color: #000;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  margin-bottom: 20px;
+  transition: all 0.2s;
+}
+
+.order-back-btn:hover {
+  background: #b5dcfa;
+  transform: translateX(-2px);
+}
+
+/* Form Title */
+.order-form-title {
+  font-size: 24px;
+  font-weight: 900;
+  margin-bottom: 20px;
+  color: #0f172a;
+  text-align: center;
+}
+
+/* Form Fields */
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 700;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.order-form input,
+.order-form select,
+.order-form textarea {
+  margin-top: 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #0ea5e9;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s;
+  background: #fff; /* زمینه سفید مثل کارت‌ها */
+}
+
+.order-form input:focus,
+.order-form select:focus,
+.order-form textarea:focus {
+  border-color: #0ea5e9;
+  box-shadow: 0 4px 12px rgba(14,165,233,0.2);
+}
+
+.order-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Submit Button */
+.order-submit-btn {
+  background: #FFF58A; /* رنگ دکمه‌ها مطابق سایت */
+  color: #000;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 800;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.order-submit-btn:hover {
+  background: #FFF159;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 245, 138,0.3);
+}
+
+.order-submit-btn:disabled {
+  background: #fef9c3;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .order-form-layout {
+    padding: 20px;
+  }
+
+  .order-back-btn {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+
+  .order-submit-btn {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+}
+
+/* Back Button فقط فلش و سمت چپ */
+.order-back-btn-left {
+  position: absolute;
+  top: 20px;
+  left: 20px; /* سمت چپ */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #0f172a;
+  transition: transform 0.2s;
+}
+
+.order-back-btn-left:hover {
+  transform: translateX(-2px);
+}
+
+/* نمایش خطا روی صفحه */
+.form-error {
+  color: #dc2626; /* قرمز */
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-align: center;
+}
+

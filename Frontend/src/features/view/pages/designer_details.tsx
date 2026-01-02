@@ -1,6 +1,6 @@
 // src/pages/DesignerDetailsPage.tsx
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { getDesignerDetailsById, getPortfoliosByDesignerId } from "../API/designer_details_API";
 import type { DesignerDetails, PortfolioListItem } from "../API/designer_details_API";
 import "../styles/designer_details.css";
@@ -26,6 +26,7 @@ type PageState = {
 export default function DesignerDetailsPage() {
   const { designerId } = useParams<{ designerId: string }>();
   const id = Number(designerId);
+  const navigate = useNavigate();
 
   const [state, setState] = useState<PageState>({
     loading: true,
@@ -125,7 +126,16 @@ export default function DesignerDetailsPage() {
       {/* Action Buttons */}
       <div className="designer-actions-wrapper">
         <div className="designer-actions">
-          <button className="btn btn-request">ثبت درخواست</button>
+          {/* دکمه ثبت سفارش */}
+         <button
+  className="btn btn-request"
+  onClick={() => navigate(`/designer-details/${id}/order`)}
+>
+  ثبت درخواست
+</button>
+
+
+          {/* دکمه ارسال پیام */}
           <button className="btn btn-message">
             <MessageCircle size={18} /> ارسال پیام
           </button>

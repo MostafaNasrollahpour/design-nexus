@@ -15,7 +15,8 @@ import CategoryPortfoliosPage from "./features/view/pages/category_view";
 import PortfolioDetailsPage from "./features/view/pages/profile_details";
 import DesignerListPage from "./features/view/pages/designer_list_page";
 import PortfolioEditPage from "./features/view/pages/edit_design";
-import DesignerDetailsPage from "./features/view/pages/designer_details"; // ✅ اضافه شد
+import DesignerDetailsPage from "./features/view/pages/designer_details"; 
+import OrderFormPage from "./features/ordering/pages/order_form"; // ✅ اضافه شد
 
 export default function App() {
   return (
@@ -35,7 +36,10 @@ export default function App() {
 
         {/* View */}
         <Route path="/designers" element={<DesignerListPage />} />
-        <Route path="/designer-details/:designerId" element={<DesignerDetailsPage />} /> {/* ✅ اضافه شد */}
+        <Route path="/designer-details/:designerId" element={<DesignerDetailsPage />} /> 
+
+        {/* ✅ صفحه فرم سفارش */}
+        <Route path="/designer-details/:designerId/order" element={<OrderFormPage />} />
 
         {/* Category Portfolios */}
         <Route path="/category/:categoryId" element={<CategoryPortfoliosPage />} />
