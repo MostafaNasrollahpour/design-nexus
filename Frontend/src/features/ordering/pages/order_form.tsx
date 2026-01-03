@@ -86,58 +86,58 @@ export default function OrderFormPage() {
   };
 
   const handleSubmit = async () => {
-    if (
-      !formData.title ||
-      !formData.categoryId ||
-      !formData.budget ||
-      !formData.address ||
-      !formData.deadline ||
-      !formData.description
-    ) {
-      setError("لطفاً همه فیلدها را پر کنید.");
-      return;
-    }
+  if (
+    !formData.title ||
+    !formData.categoryId ||
+    !formData.budget ||
+    !formData.address ||
+    !formData.deadline ||
+    !formData.description
+  ) {
+    setError("لطفاً همه فیلدها را پر کنید.");
+    return;
+  }
 
-    setError("");
-    setLoading(true);
+  setError("");
+  setLoading(true);
 
-    try {
-      // تبدیل designerId به number قبل از ارسال
-      const numericDesignerId = designerId ? Number(designerId) : undefined;
+  try {
+    const numericDesignerId = designerId ? Number(designerId) : undefined;
 
-      await submitOrder({
-        title: formData.title,
-        categoryId: formData.categoryId,
-        budget: formData.budget,
-        address: formData.address,
-        deadline: formData.deadline,
-        description: formData.description,
-        designerId: numericDesignerId,
-      });
+    await submitOrder({
+      title: formData.title,
+      categoryId: formData.categoryId,
+      budget: formData.budget,
+      address: formData.address,
+      deadline: new Date(formData.deadline), // ← تبدیل به Date
+      description: formData.description,
+      designerId: numericDesignerId,
+    });
 
-      setFloatingMsg({
-        type: "success",
-        message: "سفارش شما با موفقیت ثبت شد!",
-      });
+    setFloatingMsg({
+      type: "success",
+      message: "سفارش شما با موفقیت ثبت شد!",
+    });
 
-      setFormData((prev) => ({
-        ...prev,
-        title: "",
-        categoryId: 0,
-        budget: 0,
-        address: "",
-        deadline: "",
-        description: "",
-      }));
-    } catch (err: any) {
-      setFloatingMsg({
-        type: "error",
-        message: err.message || "خطا در ثبت سفارش",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+    setFormData((prev) => ({
+      ...prev,
+      title: "",
+      categoryId: 0,
+      budget: 0,
+      address: "",
+      deadline: "",
+      description: "",
+    }));
+  } catch (err: any) {
+    setFloatingMsg({
+      type: "error",
+      message: err.message || "خطا در ثبت سفارش",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   if (!isLoggedIn) return null;
 

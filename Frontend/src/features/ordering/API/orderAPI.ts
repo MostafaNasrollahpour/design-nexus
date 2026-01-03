@@ -1,16 +1,15 @@
 // types/orders.ts
 
 export interface OrderData {
-  // name: string;
-  // email: string;
   title: string;
   categoryId: number;
   budget: number;
   address: string;
-  deadline: string;
+  deadline: Date; // ← قبلاً string بود
   description: string;
   designerId?: number;
 }
+
 
 export interface OrderResponse extends OrderData {
   id: string;
