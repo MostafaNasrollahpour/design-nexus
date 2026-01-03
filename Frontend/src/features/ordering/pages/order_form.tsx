@@ -1,18 +1,19 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import "../styles/order_form.css";
 import FloatingMessage from "../components/floating_alert";
+import { submitOrder } from "../API/orderAPI";
 
 const CATEGORIES = [
-  "اتاق خواب",
-  "پذیرایی",
-  "آشپزخانه",
-  "اتاق کار",
-  "عروسی و نامزدی",
-  "جشن تولد",
-  "کافی‌ شاپ و رستوران",
-];
+  { id: 1, title: "اتاق خواب" },
+  { id: 2, title: "پذیرایی" },
+  { id: 3, title: "آشپزخانه" },
+  { id: 4, title: "اتاق کار" },
+  { id: 5, title: "عروسی و نامزدی" },
+  { id: 6, title: "جشن تولد" },
+  { id: 7, title: "کافی شاپ و رستوران" },
+] as const;
 
 export default function OrderFormPage() {
   const navigate = useNavigate();
@@ -22,51 +23,69 @@ export default function OrderFormPage() {
     name: "",
     email: "",
     title: "",
-    category: "",
-    budget: "",
+    categoryId: 0,
+    budget: 0,
     address: "",
     deadline: "",
     description: "",
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [floatingMsg, setFloatingMsg] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [floatingMsg, setFloatingMsg] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
-  // بررسی ورود کاربر و پر کردن نام و ایمیل
+  // بررسی لاگین و پر کردن نام و ایمیل
   useEffect(() => {
     const token = localStorage.getItem("token");
+
     if (!token) {
-      setFloatingMsg({ type: "error", message: "لطفاً ابتدا وارد حساب کاربری خود شوید." });
+      setFloatingMsg({
+        type: "error",
+        message: "لطفاً ابتدا وارد حساب کاربری خود شوید.",
+      });
       navigate("/login");
       return;
     }
+
     setIsLoggedIn(true);
 
     const user = JSON.parse(localStorage.getItem("user") || "{}");
-    const name = user.FullName || "";
-    const email = user.Email || "";
-    setFormData((prev) => ({ ...prev, name, email }));
+    setFormData((prev) => ({
+      ...prev,
+      name: user.FullName || "",
+      email: user.Email || "",
+    }));
   }, [navigate]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]:
+        name === "categoryId" || name === "budget"
+          ? Number(value)
+          : value,
+    }));
   };
 
   const handleSubmit = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setFloatingMsg({ type: "error", message: "لطفاً ابتدا وارد حساب کاربری خود شوید." });
-      navigate("/login");
-      return;
-    }
-
-    const emptyField = Object.entries(formData).find(([_, value]) => value === "");
-    if (emptyField) {
+    if (
+      !formData.title ||
+      !formData.categoryId ||
+      !formData.budget ||
+      !formData.address ||
+      !formData.deadline ||
+      !formData.description
+    ) {
       setError("لطفاً همه فیلدها را پر کنید.");
       return;
     }
@@ -75,30 +94,30 @@ export default function OrderFormPage() {
     setLoading(true);
 
     try {
-      const res = await fetch(`https://your-api.com/orders`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ ...formData, designerId }),
+      await submitOrder({
+        ...formData,
+        designerId, // 👈 ارسال designerId به API
       });
 
-      if (!res.ok) throw new Error("خطا در ارسال سفارش");
+      setFloatingMsg({
+        type: "success",
+        message: "سفارش شما با موفقیت ثبت شد!",
+      });
 
-      setFloatingMsg({ type: "success", message: "سفارش شما با موفقیت ثبت شد!" });
-      setFormData({
-        name: formData.name,
-        email: formData.email,
+      setFormData((prev) => ({
+        ...prev,
         title: "",
-        category: "",
-        budget: "",
+        categoryId: 0,
+        budget: 0,
         address: "",
         deadline: "",
         description: "",
-      });
+      }));
     } catch (err: any) {
-      setFloatingMsg({ type: "error", message: err.message || "خطا در ثبت سفارش" });
+      setFloatingMsg({
+        type: "error",
+        message: err.message || "خطا در ثبت سفارش",
+      });
     } finally {
       setLoading(false);
     }
@@ -127,38 +146,35 @@ export default function OrderFormPage() {
       <div className="order-form">
         <label>
           نام:
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            readOnly
-            className="readonly-input"
-          />
+          <input type="text" value={formData.name} readOnly />
         </label>
 
         <label>
           ایمیل:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            readOnly
-            className="readonly-input"
-          />
+          <input type="email" value={formData.email} readOnly />
         </label>
 
         <label>
           عنوان سفارش:
-          <input type="text" name="title" value={formData.title} onChange={handleChange} />
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+          />
         </label>
 
         <label>
           دسته‌بندی:
-          <select name="category" value={formData.category} onChange={handleChange}>
-            <option value="">انتخاب کنید</option>
-            {CATEGORIES.map((c, idx) => (
-              <option key={idx} value={c}>
-                {c}
+          <select
+            name="categoryId"
+            value={formData.categoryId}
+            onChange={handleChange}
+          >
+            <option value={0}>انتخاب کنید</option>
+            {CATEGORIES.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.title}
               </option>
             ))}
           </select>
@@ -166,32 +182,50 @@ export default function OrderFormPage() {
 
         <label>
           بودجه (تومان):
-          <input type="number" name="budget" value={formData.budget} onChange={handleChange} />
+          <input
+            type="number"
+            name="budget"
+            value={formData.budget}
+            onChange={handleChange}
+          />
         </label>
 
         <label>
           آدرس:
-          <input type="text" name="address" value={formData.address} onChange={handleChange} />
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+          />
         </label>
 
         <label>
           ددلاین:
-          <input type="date" name="deadline" value={formData.deadline} onChange={handleChange} />
+          <input
+            type="date"
+            name="deadline"
+            value={formData.deadline}
+            onChange={handleChange}
+          />
         </label>
 
         <label>
           توضیحات:
-          <textarea name="description" value={formData.description} onChange={handleChange}></textarea>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
         </label>
 
-       <button
-  className="order-submit-btn"
-  onClick={handleSubmit}
-  disabled={loading} // اینجا دکمه هنگام ارسال غیر فعال است
->
-  {loading ? "در حال ارسال..." : "ثبت سفارش"}
-</button>
-
+        <button
+          className="order-submit-btn"
+          onClick={handleSubmit}
+          disabled={loading}
+        >
+          {loading ? "در حال ارسال..." : "ثبت سفارش"}
+        </button>
       </div>
     </div>
   );

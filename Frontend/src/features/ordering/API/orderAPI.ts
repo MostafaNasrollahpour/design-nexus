@@ -1,23 +1,27 @@
+// types/orders.ts
+
 export interface OrderData {
-  name: string;
-  email: string;
+  // name: string;
+  // email: string;
   title: string;
-  category: string;
-  budget: string;
+  categoryId: number;
+  budget: number;
   address: string;
   deadline: string;
   description: string;
+  designerId?: string;
 }
 
 export interface OrderResponse extends OrderData {
   id: string;
-  status: string;        // وضعیت سفارش: pending, accepted, completed و غیره
-  designerName?: string; // نام طراح در صورت اختصاص سفارش
+  status: "pending" | "accepted" | "completed" | "cancelled" | string;
+  designerName?: string;
 }
 
 export async function submitOrder(data: OrderData): Promise<OrderResponse> {
   const token = localStorage.getItem("token");
-  const res = await fetch("https://your-api.com/orders", {
+
+  const res = await fetch("http://localhost:5112/api/ProjectRequest", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,15 +34,22 @@ export async function submitOrder(data: OrderData): Promise<OrderResponse> {
     const errorData = await res.json().catch(() => null);
     throw new Error(errorData?.message || "خطا در ارسال سفارش");
   }
-  
+
   return res.json();
 }
 
 export async function fetchUserOrders(): Promise<OrderResponse[]> {
   const token = localStorage.getItem("token");
+
   const res = await fetch("https://your-api.com/orders/user", {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
-  if (!res.ok) throw new Error("خطا در دریافت سفارش‌ها");
+
+  if (!res.ok) {
+    throw new Error("خطا در دریافت سفارش‌ها");
+  }
+
   return res.json();
 }
