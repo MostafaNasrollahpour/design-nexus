@@ -27,6 +27,12 @@ import type { DesignerProjectDto } from "../API/portfolio_projects";
 
 
 
+import { fetchDesignerRequests } from "../../ordering/API/send_order_to_designers"; // مسیر به API واقعی شما
+import type { DesignerRequestDto } from "../../ordering/API/send_order_to_designers"; // نوع داده‌ای که API برمی‌گرداند
+
+
+
+
 
 /** ---------------------- ثابت‌ها ---------------------- */
 type DesignerTab =
@@ -553,6 +559,27 @@ export default function DesignerPanelPage() {
     navigate(`/portfolio/edit/${p.id}`, { state: { project: p } });
   };
 
+
+
+
+  const [requests, setRequests] = useState<DesignerRequestDto[]>([]);
+const [requestsLoading, setRequestsLoading] = useState(false);
+const [requestsError, setRequestsError] = useState("");
+
+
+useEffect(() => {
+  if (activeTab === "requests") {
+    setRequestsLoading(true);
+    fetchDesignerRequests()
+      .then(setRequests)
+      .catch((e) => setRequestsError(e.message))
+      .finally(() => setRequestsLoading(false));
+  }
+}, [activeTab]);
+
+
+
+
   return (
     <div className="panel-container">
       <Navbar />
@@ -806,12 +833,63 @@ export default function DesignerPanelPage() {
             </div>
           )}
 
-          {activeTab === "requests" && (
-            <div className="panel-card">
-              <h2>درخواست‌ها</h2>
-              <p className="panel-muted">اینجا درخواست‌های جدید مشتری‌ها می‌آید.</p>
+         {activeTab === "requests" && (
+  <div className="panel-card">
+    <h2>درخواست‌ها</h2>
+    <p className="panel-muted">
+      در این بخش تمام سفارش‌های مشتریان شما نمایش داده می‌شوند.
+    </p>
+
+    {requestsError && (
+      <div className="projects-alert projects-alert--error">{requestsError}</div>
+    )}
+
+    {requestsLoading ? (
+      <div className="projects-grid-wrapper">
+        <div className="projects-grid">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div className="project-card project-card--skeleton" key={i}>
+              <div className="project-body">
+                <div className="skeleton-line w-80" />
+                <div className="skeleton-line w-60" />
+                <div className="skeleton-line w-70" />
+              </div>
             </div>
-          )}
+          ))}
+        </div>
+      </div>
+    ) : requests.length === 0 ? (
+      <div className="projects-empty">
+        <div className="projects-emptyTitle">فعلاً درخواستی ندارید 🧩</div>
+        <div className="projects-emptyText">
+          وقتی مشتری‌ها سفارش جدید ثبت کنند اینجا نمایش داده می‌شود.
+        </div>
+      </div>
+    ) : (
+      <div className="projects-grid-wrapper">
+        <div className="projects-grid">
+          {requests.map((r) => (
+            <div className="project-card" key={r.id}>
+              <div className="project-body">
+                <div className="project-title">{r.title}</div>
+                <div className="project-desc">
+                  <b>کاربر:</b> {r.userName} <br />
+                  <b>دسته‌بندی:</b> {r.categoryId || "—"} <br />
+                  <b>ددلاین:</b> {r.deadline} <br />
+                  <b>بودجه:</b> {r.budget ?? "—"} <br />
+                  <b>آدرس:</b> {r.address} <br />
+                  <b>توضیحات:</b> {r.description} <br />
+                  <b>وضعیت:</b> {r.status}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+)}
+
 
           {activeTab === "wallet" && (
             <div className="panel-card">
