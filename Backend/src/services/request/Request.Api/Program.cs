@@ -1,4 +1,3 @@
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -26,12 +25,14 @@ builder.Services.AddSwaggerGen(c =>
     // Add JWT Bearer authentication
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        In = ParameterLocation.Header,
-        Description = "Please enter JWT with Bearer into field",
+        Description = "Paste your JWT token here (without 'Bearer '), Swagger will add 'Bearer ' automatically",
         Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
     });
+
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -49,11 +50,19 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// --------------------
+// HttpClient
+// --------------------
+builder.Services.AddHttpClient<IUserServiceClient, UserServiceClient>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5209"); // from config
+});
+
 // Add MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Request.Application.Commands.CreateProjectRequest.CreateProjectRequestCommand).Assembly));
 
 // Add DbContext
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Host=localhost;Database=requestdb;Username=postgres;Password=password";
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
@@ -88,6 +97,22 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        context.Database.Migrate();
+        Console.WriteLine("Database migration completed successfully.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred while migrating the database: {ex.Message}");
+        throw;
+    }
 }
 
 app.UseHttpsRedirection();

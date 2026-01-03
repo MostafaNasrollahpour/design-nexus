@@ -1,3 +1,4 @@
+using Request.Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,20 +19,22 @@ namespace Request.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "کاربر")]
-        public async Task<IActionResult> CreateProjectRequest([FromBody] CreateProjectRequestDto request)
+        [Authorize] 
+        public async Task<IActionResult> CreateProjectRequest(
+            [FromBody] CreateProjectRequestDto request,
+            [FromServices] ICurrentUser currentUser)
         {
+            // Manually check role
+            if (currentUser.Role != "کاربر")
+                return Forbid(); // 403
+
             var command = new CreateProjectRequestCommand(request);
             var result = await _mediator.Send(command);
 
             if (result.Success)
-            {
                 return Ok(result);
-            }
             else
-            {
                 return BadRequest(result);
-            }
         }
     }
 }

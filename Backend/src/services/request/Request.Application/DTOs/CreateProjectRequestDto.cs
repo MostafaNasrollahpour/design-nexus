@@ -7,7 +7,7 @@ namespace Request.Application.DTOs
         public required string Description { get; set; }
         public decimal? Budget { get; set; }
         public required string Address { get; set; }
-        public required string Category { get; set; }
+        public required int CategoryId { get; set; }
         public DateTime? Deadline { get; set; }
     }
 }

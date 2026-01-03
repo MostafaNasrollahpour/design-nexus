@@ -9,17 +9,39 @@ namespace Request.Application.Commands.CreateProjectRequest
     {
         private readonly IProjectRequestRepository _projectRequestRepository;
         private readonly ICurrentUser _currentUser;
+        private readonly IUserServiceClient _userServiceClient;
 
-        public CreateProjectRequestCommandHandler(IProjectRequestRepository projectRequestRepository, ICurrentUser currentUser)
+        public CreateProjectRequestCommandHandler(IProjectRequestRepository projectRequestRepository, ICurrentUser currentUser, IUserServiceClient userServiceClient)
         {
             _projectRequestRepository = projectRequestRepository;
             _currentUser = currentUser;
+            _userServiceClient = userServiceClient;
         }
 
         public async Task<BaseResponseDto> Handle(CreateProjectRequestCommand request, CancellationToken cancellationToken)
         {
             try
             {
+                if (request.Request.DesignerId.HasValue && request.Request.DesignerId.Value == _currentUser.UserId)
+                {
+                    return BaseResponseDto.FailureResponse("شما نمی‌توانید برای خودتان درخواست پروژه ایجاد کنید.");
+                }
+
+                if (request.Request.DesignerId.HasValue)
+                {
+                    var designer = await _userServiceClient.GetDesignerUserAsync(request.Request.DesignerId.Value);
+                    if (designer is null)
+                    {
+                        return BaseResponseDto.FailureResponse($"طراح با آیدی {request.Request.DesignerId.Value} وجود ندارد.");
+                    }
+
+                    // Optional: enforce role check
+                    if (designer.Role == "کاربر") // or "Designer" if that's the proper role
+                    {
+                        return BaseResponseDto.FailureResponse($"کاربر با آیدی {request.Request.DesignerId.Value} یک طراح نیست.");
+                    }
+                }
+
                 var projectRequest = new ProjectRequest(
                     _currentUser.UserId,
                     request.Request.Title,
@@ -27,7 +49,7 @@ namespace Request.Application.Commands.CreateProjectRequest
                     request.Request.Budget,
                     request.Request.Deadline,
                     request.Request.Address ?? string.Empty,
-                    request.Request.Category
+                    request.Request.CategoryId
                 );
 
                 if (request.Request.DesignerId.HasValue)
@@ -37,11 +59,11 @@ namespace Request.Application.Commands.CreateProjectRequest
 
                 await _projectRequestRepository.AddAsync(projectRequest);
 
-                return BaseResponseDto.SuccessResponse("Project request created successfully", new { RequestId = projectRequest.RequestId });
+                return BaseResponseDto.SuccessResponse("درخواست پروژه با موفقیت ایجاد شد", new { RequestId = projectRequest.RequestId });
             }
             catch (Exception ex)
             {
-                return BaseResponseDto.FailureResponse($"Failed to create project request: {ex.Message}");
+                return BaseResponseDto.FailureResponse($"درخواست پروژه ایجاد نشد: {ex.Message}");
             }
         }
     }
