@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import "../styles/order_form.css";
-import { prettyAlert } from "../../media/components/pretty_alert";
+import FloatingMessage from "../components/floating_alert";
 
 const CATEGORIES = [
   "اتاق خواب",
@@ -30,14 +30,15 @@ export default function OrderFormPage() {
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(""); // برای نمایش ارور روی صفحه
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // وضعیت ورود کاربر
+  const [error, setError] = useState(""); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [floatingMsg, setFloatingMsg] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   // بررسی ورود کاربر و پر کردن نام و ایمیل
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      prettyAlert("لطفاً ابتدا وارد حساب کاربری خود شوید.", "error");
+      setFloatingMsg({ type: "error", message: "لطفاً ابتدا وارد حساب کاربری خود شوید." });
       navigate("/login");
       return;
     }
@@ -57,22 +58,20 @@ export default function OrderFormPage() {
   };
 
   const handleSubmit = async () => {
-    // دوباره بررسی ورود برای اطمینان
     const token = localStorage.getItem("token");
     if (!token) {
-      prettyAlert("لطفاً ابتدا وارد حساب کاربری خود شوید.", "error");
+      setFloatingMsg({ type: "error", message: "لطفاً ابتدا وارد حساب کاربری خود شوید." });
       navigate("/login");
       return;
     }
 
-    // چک کردن اینکه همه فیلدها پر شده باشند
     const emptyField = Object.entries(formData).find(([_, value]) => value === "");
     if (emptyField) {
       setError("لطفاً همه فیلدها را پر کنید.");
       return;
     }
 
-    setError(""); // اگر همه فیلدها پر بودند ارور پاک شود
+    setError("");
     setLoading(true);
 
     try {
@@ -87,7 +86,7 @@ export default function OrderFormPage() {
 
       if (!res.ok) throw new Error("خطا در ارسال سفارش");
 
-      prettyAlert("سفارش شما با موفقیت ثبت شد!", "success");
+      setFloatingMsg({ type: "success", message: "سفارش شما با موفقیت ثبت شد!" });
       setFormData({
         name: formData.name,
         email: formData.email,
@@ -99,27 +98,30 @@ export default function OrderFormPage() {
         description: "",
       });
     } catch (err: any) {
-      prettyAlert(err.message || "خطا در ثبت سفارش", "error");
+      setFloatingMsg({ type: "error", message: err.message || "خطا در ثبت سفارش" });
     } finally {
       setLoading(false);
     }
   };
 
-  if (!isLoggedIn) {
-    // اگر لاگین نکرده بود، فرم رو اصلاً نشون نده
-    return null;
-  }
+  if (!isLoggedIn) return null;
 
   return (
     <div className="order-form-layout">
-      {/* Back Button فقط فلش سمت چپ */}
+      {floatingMsg && (
+        <FloatingMessage
+          type={floatingMsg.type}
+          message={floatingMsg.message}
+          onClose={() => setFloatingMsg(null)}
+        />
+      )}
+
       <button className="order-back-btn-left" onClick={() => navigate(-1)}>
         <ArrowLeft size={20} />
       </button>
 
       <h2 className="order-form-title">ثبت سفارش جدید</h2>
 
-      {/* نمایش خطا */}
       {error && <div className="form-error">{error}</div>}
 
       <div className="order-form">
@@ -182,13 +184,14 @@ export default function OrderFormPage() {
           <textarea name="description" value={formData.description} onChange={handleChange}></textarea>
         </label>
 
-        <button
-          className="order-submit-btn"
-          onClick={handleSubmit}
-          disabled={loading}
-        >
-          {loading ? "در حال ارسال..." : "ثبت سفارش"}
-        </button>
+       <button
+  className="order-submit-btn"
+  onClick={handleSubmit}
+  disabled={loading} // اینجا دکمه هنگام ارسال غیر فعال است
+>
+  {loading ? "در حال ارسال..." : "ثبت سفارش"}
+</button>
+
       </div>
     </div>
   );
