@@ -10,6 +10,26 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// --------------------
+// CORS Configuration
+// --------------------
+var corsPolicyName = "AllowFrontend";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsPolicyName,
+        policy =>
+        {
+            policy.WithOrigins(
+                               "http://localhost:5173", // React/Vite dev server
+                               "https://localhost:5173",
+                               "http://localhost:3000", // Next.js or other React
+                               "https://localhost:3000")
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()
+                  .AllowCredentials(); // اگر از کوکی یا احراز هویت استفاده می‌کنید
+        });
+});
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -114,6 +134,8 @@ using (var scope = app.Services.CreateScope())
         throw;
     }
 }
+
+app.UseCors(corsPolicyName);
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
