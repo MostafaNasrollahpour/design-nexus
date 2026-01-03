@@ -9,7 +9,7 @@ export interface OrderData {
   address: string;
   deadline: string;
   description: string;
-  designerId?: string;
+  designerId?: number;
 }
 
 export interface OrderResponse extends OrderData {
@@ -21,7 +21,7 @@ export interface OrderResponse extends OrderData {
 export async function submitOrder(data: OrderData): Promise<OrderResponse> {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("http://localhost:5112/api/ProjectRequest", {
+  const res = await fetch("http://localhost:5157/request/api/ProjectRequest", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -1,3 +1,4 @@
+// pages/OrderFormPage.tsx
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -15,11 +16,22 @@ const CATEGORIES = [
   { id: 7, title: "کافی شاپ و رستوران" },
 ] as const;
 
+interface FormData {
+  name: string;
+  email: string;
+  title: string;
+  categoryId: number;
+  budget: number;
+  address: string;
+  deadline: string;
+  description: string;
+}
+
 export default function OrderFormPage() {
   const navigate = useNavigate();
   const { designerId } = useParams<{ designerId: string }>();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     title: "",
@@ -41,7 +53,6 @@ export default function OrderFormPage() {
   // بررسی لاگین و پر کردن نام و ایمیل
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     if (!token) {
       setFloatingMsg({
         type: "error",
@@ -67,13 +78,10 @@ export default function OrderFormPage() {
     >
   ) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]:
-        name === "categoryId" || name === "budget"
-          ? Number(value)
-          : value,
+        name === "categoryId" || name === "budget" ? Number(value) : value,
     }));
   };
 
@@ -94,9 +102,17 @@ export default function OrderFormPage() {
     setLoading(true);
 
     try {
+      // تبدیل designerId به number قبل از ارسال
+      const numericDesignerId = designerId ? Number(designerId) : undefined;
+
       await submitOrder({
-        ...formData,
-        designerId, // 👈 ارسال designerId به API
+        title: formData.title,
+        categoryId: formData.categoryId,
+        budget: formData.budget,
+        address: formData.address,
+        deadline: formData.deadline,
+        description: formData.description,
+        designerId: numericDesignerId,
       });
 
       setFloatingMsg({
