@@ -79,10 +79,10 @@ export default function UserPanelPage() {
                         <div className="project-body">
                           <div className="project-title">{order.title}</div>
                           <div className="project-desc">
-                            دسته: {order.category} <br />
+                            دسته: {order.categoryId} <br />
                             بودجه: {order.budget} <br />
                             آدرس: {order.address} <br />
-                            مهلت: {order.deadline} <br />
+                            مهلت: {order.deadline.toString()} <br />
                             توضیحات: {order.description}
                           </div>
                         </div>
