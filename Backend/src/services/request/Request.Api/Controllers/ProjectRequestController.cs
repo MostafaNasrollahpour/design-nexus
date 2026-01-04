@@ -21,13 +21,8 @@ namespace Request.Api.Controllers
         [HttpPost]
         [Authorize] 
         public async Task<IActionResult> CreateProjectRequest(
-            [FromBody] CreateProjectRequestDto request,
-            [FromServices] ICurrentUser currentUser)
+            [FromBody] CreateProjectRequestDto request)
         {
-            // Manually check role
-            if (currentUser.Role != "کاربر")
-                return Forbid(); // 403
-
             var command = new CreateProjectRequestCommand(request);
             var result = await _mediator.Send(command);
 

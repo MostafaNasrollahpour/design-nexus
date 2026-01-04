@@ -8,6 +8,6 @@ namespace Request.Application.DTOs
         public required string Address { get; set; }
         public DateTime? Deadline { get; set; }
         public required string Description { get; set; }
-        public int? DesignerId { get; set; }
+        public required int DesignerId { get; set; }
     }
 }
