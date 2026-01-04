@@ -6,7 +6,8 @@ using Request.Application.DTOs;
 
 using Request.Application.Commands.CreateProjectRequest;
 
-using Request.Application.Queries.GetProjectRequests;
+using Request.Application.Queries.GetProjectRequestsByRequester;
+using Request.Application.Queries.GetProjectRequestsByDesigner;
 
 namespace Request.Api.Controllers
 {
@@ -37,9 +38,9 @@ namespace Request.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetProjectRequests(CancellationToken ct)
+        public async Task<IActionResult> GetProjectRequestsByRequester(CancellationToken ct)
         {
-            var query = new GetProjectRequestsQuery();
+            var query = new GetProjectRequestsByRequesterQuery();
             var result = await _mediator.Send(query, ct);
 
             if (result.Success)
@@ -48,6 +49,25 @@ namespace Request.Api.Controllers
             }
 
             return BadRequest(result.Message);
+        }
+
+        [HttpGet("by-designer")]
+        [Authorize] 
+        public async Task<IActionResult> GetProjectRequestsByDesigner(
+            [FromServices] ICurrentUser currentUser,
+            CancellationToken ct)
+        {
+            
+            if (currentUser.Role != "طراح")
+                return Forbid(); 
+
+            var query = new GetProjectRequestsByDesignerQuery();
+            var result = await _mediator.Send(query, ct);
+
+            if (result.Success)
+                return Ok(result);
+            else
+                return BadRequest(result);
         }
     }
 }
