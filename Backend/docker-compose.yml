@@ -1,0 +1,90 @@
+version: "3.9"
+
+networks:
+  appnet:
+
+volumes:
+  iam-db:
+  portfolio-db:
+  request-db:
+
+services:
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - gateway
+    networks:
+      - appnet
+
+  gateway:
+    build: ./src/gateway/Gateway
+    container_name: gateway
+    depends_on:
+      - iam-api
+      - portfolio-api
+      - request-api
+    networks:
+      - appnet
+
+  iam-api:
+    build: ./src/services/iam/IAM.Api
+    environment:
+      - ConnectionStrings__Default=Host=iam-db;Database=iam;Username=postgres;Password=postgres
+    depends_on:
+      - iam-db
+    networks:
+      - appnet
+
+  iam-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: iam
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - iam-db:/var/lib/postgresql/data
+    networks:
+      - appnet
+
+  portfolio-api:
+    build: ./src/services/portfolio/PortFolioService.Api
+    environment:
+      - ConnectionStrings__Default=Host=portfolio-db;Database=portfolio;Username=postgres;Password=postgres
+    depends_on:
+      - portfolio-db
+    networks:
+      - appnet
+
+  portfolio-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: portfolio
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - portfolio-db:/var/lib/postgresql/data
+    networks:
+      - appnet
+
+  request-api:
+    build: ./src/services/request/Request.Api
+    environment:
+      - ConnectionStrings__Default=Host=request-db;Database=request;Username=postgres;Password=postgres
+    depends_on:
+      - request-db
+    networks:
+      - appnet
+
+  request-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: request
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - request-db:/var/lib/postgresql/data
+    networks:
+      - appnet
