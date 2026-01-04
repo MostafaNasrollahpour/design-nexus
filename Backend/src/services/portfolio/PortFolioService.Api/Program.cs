@@ -40,8 +40,11 @@ builder.Services.AddCors(options =>
 // --------------------
 builder.Services.AddHttpClient<IUserServiceClient, UserServiceClient>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5209"); // from config
+    // Read the base address from configuration
+    var userServiceBaseAddress = builder.Configuration["HttpClientConfig:UserServiceBaseAddress"]!;
+    client.BaseAddress = new Uri(userServiceBaseAddress); // from config
 });
+
 
 
 

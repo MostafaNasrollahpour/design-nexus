@@ -75,8 +75,11 @@ builder.Services.AddSwaggerGen(c =>
 // --------------------
 builder.Services.AddHttpClient<IUserServiceClient, UserServiceClient>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5209"); // from config
+    // Read the base address from configuration
+    var userServiceBaseAddress = builder.Configuration["HttpClientConfig:UserServiceBaseAddress"]!;
+    client.BaseAddress = new Uri(userServiceBaseAddress); // from config
 });
+
 
 // Add MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Request.Application.Commands.CreateProjectRequest.CreateProjectRequestCommand).Assembly));
