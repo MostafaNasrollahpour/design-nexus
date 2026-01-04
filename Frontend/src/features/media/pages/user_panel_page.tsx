@@ -16,7 +16,8 @@ export default function UserPanelPage() {
   const [loadingOrders, setLoadingOrders] = useState(true);
 
   const fullNameLS = localStorage.getItem("fullName") || "";
-  const emailLS = JSON.parse(localStorage.getItem("user") || "{}")?.Email || "";
+  const emailLS =
+    JSON.parse(localStorage.getItem("user") || "{}")?.Email || "";
 
   // بارگذاری سفارش‌ها وقتی تب سفارش‌ها فعال شد
   useEffect(() => {
@@ -43,52 +44,120 @@ export default function UserPanelPage() {
       <div className="panel-layout">
         <aside className="panel-sidebar">
           <div className="sidebar-header">
-            <div className="sidebar-name">{fullNameLS || "کاربر"}</div>
+            <div className="sidebar-name">
+              {fullNameLS || "کاربر"}
+            </div>
             <div className="sidebar-email">{emailLS}</div>
           </div>
 
-          <button className="sidebar-item" onClick={() => navigate("/", { replace: true })}>صفحه اصلی</button>
-          <button className={`sidebar-item ${activeTab === "profile" ? "active" : ""}`} onClick={() => setActiveTab("profile")}>اطلاعات حساب</button>
-          <button className={`sidebar-item ${activeTab === "orders" ? "active" : ""}`} onClick={() => setActiveTab("orders")}>سفارش‌ها</button>
-          <button className={`sidebar-item ${activeTab === "favorites" ? "active" : ""}`} onClick={() => setActiveTab("favorites")}>علاقه‌مندی‌ها</button>
-          <button className={`sidebar-item ${activeTab === "settings" ? "active" : ""}`} onClick={() => setActiveTab("settings")}>ویرایش اطلاعات</button>
-          <button className="sidebar-item" onClick={() => navigate("/support", { replace: true })}>مشاوره و پشتیبانی</button>
+          <button
+            className="sidebar-item"
+            onClick={() => navigate("/", { replace: true })}
+          >
+            صفحه اصلی
+          </button>
+
+          <button
+            className={`sidebar-item ${
+              activeTab === "profile" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("profile")}
+          >
+            اطلاعات حساب
+          </button>
+
+          <button
+            className={`sidebar-item ${
+              activeTab === "orders" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("orders")}
+          >
+            سفارش‌ها
+          </button>
+
+          <button
+            className={`sidebar-item ${
+              activeTab === "favorites" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("favorites")}
+          >
+            علاقه‌مندی‌ها
+          </button>
+
+          <button
+            className={`sidebar-item ${
+              activeTab === "settings" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("settings")}
+          >
+            ویرایش اطلاعات
+          </button>
+
+          <button
+            className="sidebar-item"
+            onClick={() => navigate("/support", { replace: true })}
+          >
+            مشاوره و پشتیبانی
+          </button>
         </aside>
 
         <main className="panel-content">
           {activeTab === "profile" && (
             <div className="panel-card">
               <h2>اطلاعات حساب</h2>
-              <div className="panel-row"><span>نام:</span><b>{fullNameLS || "—"}</b></div>
-              <div className="panel-row"><span>ایمیل:</span><b>{emailLS || "—"}</b></div>
+              <div className="panel-row">
+                <span>نام:</span>
+                <b>{fullNameLS || "—"}</b>
+              </div>
+              <div className="panel-row">
+                <span>ایمیل:</span>
+                <b>{emailLS || "—"}</b>
+              </div>
             </div>
           )}
 
           {activeTab === "orders" && (
             <div className="panel-card">
               <h2>سفارش‌ها</h2>
+
               {loadingOrders ? (
                 <p>در حال بارگذاری...</p>
               ) : orders.length === 0 ? (
-                <p className="projects-emptyText">فعلاً سفارشی برای نمایش ندارید.</p>
+                <p className="projects-emptyText">
+                  فعلاً سفارشی برای نمایش ندارید.
+                </p>
               ) : (
                 <div className="projects-grid-wrapper">
                   <div className="projects-grid">
-                    {orders.map((order) => (
-                      <div key={order.id} className="project-card">
+                    {orders.map((order, index) => (
+                      <div
+                        key={index}
+                        className="project-card"
+                      >
                         <div className="project-body">
-                          <div className="project-title">{order.title}</div>
+                          <div className="project-title">
+                            {order.title}
+                          </div>
+
                           <div className="project-desc">
-                            دسته: {order.categoryId} <br />
-                            بودجه: {order.budget} <br />
-                            آدرس: {order.address} <br />
-                            مهلت: {order.deadline.toString()} <br />
+                            دسته: {order.categoryId}
+                            <br />
+                            بودجه: {order.budget}
+                            <br />
+                            آدرس: {order.address}
+                            <br />
+                            مهلت: {order.deadline.toString()}
+                            <br />
                             توضیحات: {order.description}
                           </div>
                         </div>
+
                         <div className="project-footer">
                           <span className="project-badge project-badge--light">
-                            {order.status} {order.designerName ? `- طراح: ${order.designerName}` : ""}
+                            {order.status}
+                            {order.designerName
+                              ? ` - طراح: ${order.designerName}`
+                              : ""}
                           </span>
                         </div>
                       </div>
@@ -102,14 +171,16 @@ export default function UserPanelPage() {
           {activeTab === "favorites" && (
             <div className="panel-card">
               <h2>علاقه‌مندی‌ها</h2>
-              <p className="panel-muted">فعلاً موردی در علاقه‌مندی‌ها ندارید.</p>
+              <p className="panel-muted">
+                فعلاً موردی در علاقه‌مندی‌ها ندارید.
+              </p>
             </div>
           )}
 
           {activeTab === "settings" && (
             <div className="panel-card">
               <h2>ویرایش اطلاعات</h2>
-              {/* بخش ویرایش اطلاعات مثل قبل اضافه می‌شود */}
+              {/* بخش ویرایش اطلاعات */}
             </div>
           )}
         </main>

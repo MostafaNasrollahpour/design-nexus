@@ -40,7 +40,7 @@ export async function submitOrder(data: OrderData): Promise<OrderResponse> {
 export async function fetchUserOrders(): Promise<OrderResponse[]> {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("https://your-api.com/orders/user", {
+  const res = await fetch("http://localhost:5157/request/api/projectrequest", {
     headers: {
       Authorization: `Bearer ${token}`,
     },

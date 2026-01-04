@@ -30,6 +30,10 @@ import type { DesignerProjectDto } from "../API/portfolio_projects";
 import { fetchDesignerRequests } from "../../ordering/API/send_order_to_designers"; // مسیر به API واقعی شما
 import type { DesignerRequestDto } from "../../ordering/API/send_order_to_designers"; // نوع داده‌ای که API برمی‌گرداند
 
+import { fetchUserOrders, type OrderResponse } from "../../ordering/API/orderAPI";
+
+
+
 
 
 
@@ -42,7 +46,8 @@ type DesignerTab =
   | "requests"
   | "wallet"
   | "settings"
-  | "designerProfile";
+  | "designerProfile"
+  | "orders";
 type EditableField = "fullName" | "currentPassword" | "newPassword" | "confirmNewPassword";
 
 const CATEGORIES = [
@@ -569,13 +574,54 @@ const [requestsError, setRequestsError] = useState("");
 
 useEffect(() => {
   if (activeTab === "requests") {
+    setRequestsError("");
     setRequestsLoading(true);
+
     fetchDesignerRequests()
       .then(setRequests)
-      .catch((e) => setRequestsError(e.message))
+      .catch((e) =>
+        setRequestsError(e instanceof Error ? e.message : "خطا در دریافت درخواست‌ها")
+      )
       .finally(() => setRequestsLoading(false));
   }
 }, [activeTab]);
+
+
+
+// سفارش
+
+const [orders, setOrders] = useState<OrderResponse[]>([]);
+const [loadingOrders, setLoadingOrders] = useState(false);
+
+useEffect(() => {
+  if (activeTab === "orders") {
+    loadOrders();
+  }
+}, [activeTab]);
+
+const loadOrders = async () => {
+  setLoadingOrders(true);
+  try {
+    const data = await fetchUserOrders();
+
+    // ✅ حتماً آرایه ست می‌کنیم
+    if (Array.isArray(data)) {
+      setOrders(data);
+    } else if (Array.isArray((data as any)?.data)) {
+      setOrders((data as any).data);
+    } else if (Array.isArray((data as any)?.orders)) {
+      setOrders((data as any).orders);
+    } else {
+      setOrders([]);
+    }
+  } catch {
+    setOrders([]);
+  } finally {
+    setLoadingOrders(false);
+  }
+};
+
+
 
 
 
@@ -596,6 +642,12 @@ useEffect(() => {
           <SidebarButton tab="upload" label="بارگذاری طرح" onClick={() => setActiveTab("upload")} />
           <SidebarButton tab="projects" label="پروژه‌ها" onClick={() => setActiveTab("projects")} />
           <SidebarButton tab="requests" label="درخواست‌ها" onClick={() => setActiveTab("requests")} />
+            <SidebarButton
+  tab="orders"
+  label="سفارش‌ها"
+  onClick={() => setActiveTab("orders")}
+/>
+
           <SidebarButton tab="wallet" label="کیف پول / درآمد" onClick={() => setActiveTab("wallet")} />
 
           <SidebarButton
@@ -638,10 +690,10 @@ useEffect(() => {
                 <b>{emailLS || "—"}</b>
               </div>
 
-              <div className="panel-row">
+              {/* <div className="panel-row">
                 <span>نقش:</span>
                 <b>{user?.Role || localStorage.getItem("userRole") || "طراح"}</b>
-              </div>
+              </div> */}
             </div>
           )}
 
@@ -868,22 +920,73 @@ useEffect(() => {
     ) : (
       <div className="projects-grid-wrapper">
         <div className="projects-grid">
-          {requests.map((r) => (
-            <div className="project-card" key={r.id}>
-              <div className="project-body">
-                <div className="project-title">{r.title}</div>
-                <div className="project-desc">
-                  <b>کاربر:</b> {r.userName} <br />
-                  <b>دسته‌بندی:</b> {r.categoryId || "—"} <br />
-                  <b>ددلاین:</b> {r.deadline} <br />
-                  <b>بودجه:</b> {r.budget ?? "—"} <br />
-                  <b>آدرس:</b> {r.address} <br />
-                  <b>توضیحات:</b> {r.description} <br />
-                  <b>وضعیت:</b> {r.status}
-                </div>
-              </div>
-            </div>
-          ))}
+         {requests.map((r) => (
+  <div className="project-card" key={r.requestId}>
+    <div className="project-body">
+      <div className="project-title">{r.title}</div>
+
+      <div className="project-desc">
+        <b>شناسه:</b> {r.requestId} <br />
+        <b>توضیحات:</b> {r.description} <br />
+        <b>وضعیت:</b> {r.status} <br />
+        <b>تاریخ ایجاد:</b>{" "}
+        {new Date(r.createdAt).toLocaleDateString("fa-IR")} <br />
+        <b>آخرین بروزرسانی:</b>{" "}
+        {new Date(r.updatedAt).toLocaleDateString("fa-IR")} <br />
+        <b>دسته‌بندی:</b> {toCategoryTitle(r.categoryId)} <br />
+        <b>بودجه:</b> {r.budget ?? "—"} <br />
+        <b>آدرس:</b> {r.address} <br />
+        <b>ددلاین:</b>{" "}
+        {r.deadline ? new Date(r.deadline).toLocaleDateString("fa-IR") : "—"}
+      </div>
+    </div>
+  </div>
+))}
+
+
+        </div>
+      </div>
+    )}
+  </div>
+)}
+
+
+{activeTab === "orders" && (
+  <div className="panel-card">
+    <h2>سفارش‌ها</h2>
+
+    {loadingOrders ? (
+      <p>در حال بارگذاری...</p>
+    ) : orders.length === 0 ? (
+      <p className="projects-emptyText">
+        فعلاً سفارشی برای نمایش ندارید.
+      </p>
+    ) : (
+      <div className="projects-grid-wrapper">
+        <div className="projects-grid">
+          {orders.map((order, index) => (
+  <div key={order.id ?? index} className="project-card">
+    <div className="project-body">
+      <div className="project-title">{order.title}</div>
+
+      <div className="project-desc">
+        دسته: {order.categoryId} <br />
+        بودجه: {order.budget} <br />
+        آدرس: {order.address} <br />
+        مهلت: {order.deadline.toString()} <br />
+        توضیحات: {order.description}
+      </div>
+    </div>
+
+    <div className="project-footer">
+      <span className="project-badge project-badge--light">
+        {order.status}
+        {order.designerName ? ` - طراح: ${order.designerName}` : ""}
+      </span>
+    </div>
+  </div>
+))}
+
         </div>
       </div>
     )}
