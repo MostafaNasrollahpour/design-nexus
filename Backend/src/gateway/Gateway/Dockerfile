@@ -9,11 +9,11 @@ COPY src/gateway/Gateway ./src/gateway/Gateway
 
 RUN dotnet publish src/gateway/Gateway/Gateway.csproj -o /app/publish /p:UseAppHost=false
 
-FROM mcr.microsoft.com/dotnet/aspnet:9.0
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 
-EXPOSE 8080
-ENV ASPNETCORE_URLS=http://+:8080
+EXPOSE 5157
+ENV ASPNETCORE_URLS=http://+:5157
 
 COPY --from=build /app/publish .
 

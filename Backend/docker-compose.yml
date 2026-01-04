@@ -1,5 +1,3 @@
-version: "3.9"
-
 networks:
   appnet:
 
@@ -10,17 +8,10 @@ volumes:
 
 services:
 
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:80"
-    depends_on:
-      - gateway
-    networks:
-      - appnet
-
   gateway:
-    build: ./src/gateway/Gateway
+    build:
+      context: ./  # Root directory
+      dockerfile: ./src/gateway/Gateway/Dockerfile
     container_name: gateway
     depends_on:
       - iam-api
@@ -28,18 +19,38 @@ services:
       - request-api
     networks:
       - appnet
+    ports:
+      - "5157:5157"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5157"]
+      interval: 30s
+      retries: 3
+      start_period: 20s
 
   iam-api:
-    build: ./src/services/iam/IAM.Api
+    build:
+      context: ./  # Root directory
+      dockerfile: ./src/services/iam/IAM.Api/Dockerfile
+    container_name: iam-api
     environment:
       - ConnectionStrings__Default=Host=iam-db;Database=iam;Username=postgres;Password=postgres
+      - ConnectionStrings__Redis=redis:6379
     depends_on:
-      - iam-db
+      iam-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      retries: 3
+      start_period: 20s
 
   iam-db:
     image: postgres:16
+    container_name: iam-db
     environment:
       POSTGRES_DB: iam
       POSTGRES_USER: postgres
@@ -48,18 +59,33 @@ services:
       - iam-db:/var/lib/postgresql/data
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 30s
+      retries: 3
+      start_period: 20s
 
   portfolio-api:
-    build: ./src/services/portfolio/PortFolioService.Api
+    build:
+      context: ./  # Root directory
+      dockerfile: ./src/services/portfolio/PortFolioService.Api/Dockerfile
+    container_name: portfolio-api
     environment:
       - ConnectionStrings__Default=Host=portfolio-db;Database=portfolio;Username=postgres;Password=postgres
     depends_on:
-      - portfolio-db
+      portfolio-db:
+        condition: service_healthy
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      retries: 3
+      start_period: 20s
 
   portfolio-db:
     image: postgres:16
+    container_name: portfolio-db
     environment:
       POSTGRES_DB: portfolio
       POSTGRES_USER: postgres
@@ -68,18 +94,33 @@ services:
       - portfolio-db:/var/lib/postgresql/data
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 30s
+      retries: 3
+      start_period: 20s
 
   request-api:
-    build: ./src/services/request/Request.Api
+    build:
+      context: ./  # Root directory
+      dockerfile: ./src/services/request/Request.Api/Dockerfile
+    container_name: request-api
     environment:
       - ConnectionStrings__Default=Host=request-db;Database=request;Username=postgres;Password=postgres
     depends_on:
-      - request-db
+      request-db:
+        condition: service_healthy
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      retries: 3
+      start_period: 20s
 
   request-db:
     image: postgres:16
+    container_name: request-db
     environment:
       POSTGRES_DB: request
       POSTGRES_USER: postgres
@@ -88,3 +129,19 @@ services:
       - request-db:/var/lib/postgresql/data
     networks:
       - appnet
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 30s
+      retries: 3
+      start_period: 20s
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    networks:
+      - appnet
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      retries: 3
+      start_period: 20s
