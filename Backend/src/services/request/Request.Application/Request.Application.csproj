@@ -10,6 +10,11 @@
     <ProjectReference Include="..\Request.Domain\Request.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Queries/" />
+    <Folder Include="Queries/GetProjectRequests/" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

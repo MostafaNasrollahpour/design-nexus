@@ -43,6 +43,11 @@ namespace Request.Application.Commands.CreateProjectRequest
                     return BaseResponseDto.FailureResponse("مهلت پروژه باید در آینده باشد.");
                 }
 
+                if (request.Request.CategoryId > 7 || request.Request.CategoryId < 1)
+                {
+                    return BaseResponseDto.FailureResponse("دسته‌بندی انتخاب شده معتبر نیست.");
+                }
+
                 var projectRequest = new ProjectRequest(
                     _currentUser.UserId,
                     request.Request.Title,
