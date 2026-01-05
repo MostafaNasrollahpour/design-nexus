@@ -42,7 +42,7 @@ type ClientToServerEvents = {
   send_message: (payload: SendMessagePayload) => void;
 };
 
-const SOCKET_URL = (import.meta as any)?.env?.VITE_CHAT_SOCKET_URL || "http://localhost:4000";
+const SOCKET_URL = (import.meta as any)?.env?.VITE_CHAT_SOCKET_URL || "http://gateway:4000";
 
 function ChatBox({ userId, isAdmin = false, currentChatUserId = null, headerTitle }: ChatBoxProps) {
   const navigate = useNavigate();

@@ -19,7 +19,7 @@ export type DesignerDetails = {
 
 const API_BASE_URL =
   (import.meta as any).env?.VITE_API_BASE_URL?.replace(/\/+$/, "") ||
-  "http://localhost:5157/portfolio";
+  "http://gateway:5157/portfolio";
 
 function normalizeImageUrl(url: string | null | undefined): string | null {
   if (!url) return null;

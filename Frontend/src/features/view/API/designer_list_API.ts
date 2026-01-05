@@ -1,6 +1,6 @@
 const API_BASE_URL =
   (import.meta as any).env?.VITE_API_BASE_URL?.replace(/\/+$/, "") ||
-  "http://localhost:5157/portfolio";
+  "http://gateway:5157/portfolio";
 
 const DESIGNERS_ENDPOINT = "/api/portfolios/designers";
 const PORTFOLIOS_ENDPOINT = "/api/portfolios";
@@ -95,7 +95,7 @@ export async function getDesignerNameById(
 ): Promise<string | undefined> {
   if (!id) return undefined;
 
-  const url = `http://localhost:5157/iam/api/Auth/get-name/${id}`;
+  const url = `http://gateway:5157/iam/api/Auth/get-name/${id}`;
 
   try {
     const data = await fetchJson<DesignerNameDto>(url, signal); // ← توجه: دیگر آرایه نیست

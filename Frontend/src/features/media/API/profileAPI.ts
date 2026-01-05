@@ -1,5 +1,5 @@
 //------------------------------------------------------------
-const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5157/iam";
+const BASE_URL = import.meta.env.VITE_API_URL ?? "http://gateway:5157/iam";
 
 // 🔧 مطابق بک‌اندت تنظیم کن
 const USER_UPDATE_PROFILE_PATH = "/api/Auth/update-profile";
@@ -285,7 +285,7 @@ export async function saveProfileSettings(
 //     fd.append("ImageFile", payload.imageFile); // از "image" به "ImageFile" تغییر دادم
 //   }
 
-//   const res = await fetch("http://localhost:5118/api/portfolios", {
+//   const res = await fetch("http://gateway:5118/api/portfolios", {
 //     method: "POST",
 //     body: fd,
 //     credentials: "include",
@@ -314,7 +314,7 @@ export async function saveProfileSettings(
 // }
 
 // export async function uploadDesignerDesign(payload: UploadDesignPayload) {
-//   const url = "http://localhost:5118/api/portfolios";
+//   const url = "http://gateway:5118/api/portfolios";
 
 //   // ✅ برای اطمینان، هر بار FormData رو از نو می‌سازیم (برای retry امن‌تره)
 //   const buildFormData = () => {

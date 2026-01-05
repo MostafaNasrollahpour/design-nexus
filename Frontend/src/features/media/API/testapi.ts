@@ -7,7 +7,7 @@
 
 // import { prettyAlert } from "../components/pretty_alert";
 
-// const BASE_URL = (import.meta.env.VITE_API_URL ?? "http://localhost:5157").replace(/\/+$/, "");
+// const BASE_URL = (import.meta.env.VITE_API_URL ?? "http://gateway:5157").replace(/\/+$/, "");
 
 // // 🔧 مطابق بک‌اندت تنظیم کن
 // const USER_UPDATE_PROFILE_PATH = "/api/Auth/update-profile";
