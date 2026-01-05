@@ -1,8 +1,4 @@
-
-const BASE_URL = import.meta.env.VITE_API_URL ?? "http://gateway:5157/iam";
-
-
-
+const BASE_URL = import.meta.env.VITE_API_URL.replace(/\/+$/, "") + "/iam";
 
 
 /** ---------------- Types ---------------- */

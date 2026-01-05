@@ -2,7 +2,7 @@ import { prettyAlert } from "../components/pretty_alert";
 
 /* ===================== Base ===================== */
 
-export const BASE_URL = (import.meta.env.VITE_API_URL ?? "http://gateway:5157").replace(/\/+$/, "");
+export const BASE_URL = import.meta.env.VITE_API_URL.replace(/\/+$/, "");
 
 /* ===================== Helpers ===================== */
 

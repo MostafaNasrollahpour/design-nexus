@@ -1,6 +1,6 @@
-const API_BASE_URL =
-  (import.meta as any).env?.VITE_API_BASE_URL?.replace(/\/+$/, "") ||
-  "http://gateway:5157/portfolio";
+const API_BASE_URL = import.meta.env.VITE_API_URL.replace(/\/+$/, "") + "/portfolio";
+
+const API_BASE_URL2 = import.meta.env.VITE_API_URL.replace(/\/+$/, "") + "/iam";
 
 const DESIGNERS_ENDPOINT = "/api/portfolios/designers";
 const PORTFOLIOS_ENDPOINT = "/api/portfolios";
@@ -95,7 +95,7 @@ export async function getDesignerNameById(
 ): Promise<string | undefined> {
   if (!id) return undefined;
 
-  const url = `http://gateway:5157/iam/api/Auth/get-name/${id}`;
+  const url = `${API_BASE_URL2}/api/Auth/get-name/${id}`;
 
   try {
     const data = await fetchJson<DesignerNameDto>(url, signal); // ← توجه: دیگر آرایه نیست

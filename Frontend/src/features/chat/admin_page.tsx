@@ -14,7 +14,7 @@ type ClientToServerEvents = {
   register: (payload: { userId: ActiveUserId; isAdmin: boolean; currentChatUserId?: ActiveUserId | null }) => void;
 };
 
-const SOCKET_URL = (import.meta as any)?.env?.VITE_CHAT_SOCKET_URL || "http://gateway:4000";
+const SOCKET_URL = import.meta.env.VITE_API_URL.replace(/\/+$/, "");
 
 const AdminPanel: React.FC = () => {
   const isAdmin = true;

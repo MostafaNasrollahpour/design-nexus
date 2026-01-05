@@ -1,5 +1,6 @@
 networks:
   appnet:
+    driver: bridge
 
 volumes:
   iam-db:
@@ -156,6 +157,8 @@ services:
     build:
       context: ../Frontend
       dockerfile: Dockerfile
+      args:
+      - VITE_API_URL=http://localhost:5157
     container_name: frontend
     networks:
       - appnet
@@ -164,4 +167,4 @@ services:
     depends_on:
       - gateway
     environment:
-      - VITE_API_URL=http://gateway:5157
+      - VITE_API_URL=http://localhost:5157

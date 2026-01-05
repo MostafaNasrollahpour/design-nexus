@@ -1,4 +1,5 @@
 // types/orders.ts
+const API_BASE_URL = import.meta.env.VITE_API_URL.replace(/\/+$/, "") + "/request";
 
 export interface OrderData {
   title: string;
@@ -20,7 +21,7 @@ export interface OrderResponse extends OrderData {
 export async function submitOrder(data: OrderData): Promise<OrderResponse> {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("http://gateway:5157/request/api/ProjectRequest", {
+  const res = await fetch(`${API_BASE_URL}/api/ProjectRequest`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -40,7 +41,7 @@ export async function submitOrder(data: OrderData): Promise<OrderResponse> {
 export async function fetchUserOrders(): Promise<OrderResponse[]> {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("http://gateway:5157/request/api/projectrequest", {
+  const res = await fetch(`${API_BASE_URL}/api/projectrequest`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
