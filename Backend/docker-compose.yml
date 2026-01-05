@@ -164,4 +164,4 @@ services:
     depends_on:
       - gateway
     environment:
-      - VITE_API_URL=http://gateway:5157/iam
+      - VITE_API_URL=http://gateway:5157
