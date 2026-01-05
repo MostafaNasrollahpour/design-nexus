@@ -6,6 +6,7 @@ volumes:
   portfolio-db:
   request-db:
   redis-data:
+  wwwroot-data:
 
 services:
 
@@ -78,6 +79,8 @@ services:
         condition: service_healthy
     networks:
       - appnet
+    volumes:
+      - wwwroot-data:/Backend/src/services/portfolio/PortFolioService.Api/wwwroot
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080"]
       interval: 30s
