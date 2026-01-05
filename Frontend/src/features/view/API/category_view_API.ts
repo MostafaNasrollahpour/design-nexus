@@ -58,3 +58,20 @@ export async function getAllDesigners(
     imageUrl: normalizeImageUrl(d.imageUrl), // ✅ دقیقاً مثل portfolio
   }));
 }
+
+// src/view/API/category_view_API.ts
+
+export type PortfolioListItem = {
+  id: number;
+  title: string;
+  description: string;
+  // Add any other properties you expect for a portfolio item
+};
+
+// Mockup function for getPortfoliosByCategoryId
+export async function getPortfoliosByCategoryId(categoryId: number): Promise<PortfolioListItem[]> {
+  const url = `${API_BASE_URL}/portfolios/${categoryId}`; // Adjust the endpoint as necessary
+  const response = await fetch(url);
+  const data: PortfolioListItem[] = await response.json();
+  return data;
+}
