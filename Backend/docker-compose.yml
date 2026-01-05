@@ -5,6 +5,7 @@ volumes:
   iam-db:
   portfolio-db:
   request-db:
+  redis-data:
 
 services:
 
@@ -140,6 +141,8 @@ services:
     container_name: redis
     networks:
       - appnet
+    volumes:
+      - redis-data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 30s
