@@ -81,7 +81,7 @@ services:
     networks:
       - appnet
     volumes:
-      - wwwroot-data:/Backend/src/services/portfolio/PortFolioService.Api/wwwroot
+      - wwwroot-data:/app/wwwroot
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080"]
       interval: 30s
