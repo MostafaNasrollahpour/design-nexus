@@ -1,8 +1,8 @@
 import { getDesignerById } from "../API/designerAPI";
 
-const API_BASE_URL =
-  (import.meta as any).env?.VITE_API_BASE_URL?.replace(/\/+$/, "") ||
-  "http://gateway:5157/portfolio";
+
+const API_BASE_URL = import.meta.env.VITE_API_URL.replace(/\/+$/, "") + "/portfolio";
+
 
 const PORTFOLIOS_ENDPOINT = "/api/portfolios";
 
