@@ -1,4 +1,5 @@
 // src/API/portfolio_API.ts
+const API_BASE_URL = import.meta.env.VITE_API_URL.replace(/\/+$/, "") + "/portfolio";
 
 export type PortfolioEditDto = {
   id: number;
@@ -32,7 +33,7 @@ export async function updatePortfolio(data: PortfolioEditDto) {
     formData.append("imageFile", data.imageFile);
   }
 
-  const response = await fetch(`http://gateway:5157/portfolio/api/portfolios/${data.id}`, {
+  const response = await fetch(`${API_BASE_URL}/api/portfolios/${data.id}`, {
     method: "PUT", // معمولاً برای بروزرسانی PUT استفاده می‌شود
     body: formData,
     headers: {
@@ -60,7 +61,7 @@ export async function updatePortfolio(data: PortfolioEditDto) {
 export async function deletePortfolio(id: number) {
   const token = getToken();
 
-  const response = await fetch(`http://gateway:5157/portfolio/api/portfolios/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/api/portfolios/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

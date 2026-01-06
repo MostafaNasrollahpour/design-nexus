@@ -1,8 +1,6 @@
 
 
-const API_BASE_URL =
-  (import.meta as any).env?.VITE_API_BASE_URL?.replace(/\/+$/, "") ||
-  "http://gateway:5157/iam";
+const API_BASE_URL = import.meta.env.VITE_API_URL.replace(/\/+$/, "") + "/iam";
 
 const DESIGNERS_ENDPOINT = "/api/Auth/get-name";
 
