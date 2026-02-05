@@ -227,7 +227,7 @@ app.UseHttpsRedirection();
 
 // app.UseCors("AllowAll");
 app.UseCors(builder => builder
-    .WithOrigins("http://localhost:3000") // origin دقیق را مشخص کنید
+    .WithOrigins("http://localhost:5173") // origin دقیق را مشخص کنید
     .AllowAnyMethod()
     .AllowAnyHeader()
     .AllowCredentials());

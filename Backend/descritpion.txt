@@ -1,0 +1,9 @@
+appsettings.json in gateway/Gateway changed
+
+appsettings.json in services/src/iam/IAM.Api changed
+
+Program.cs in services/src/iam/IAM.Api changed
+
+appsettings.json in services/src/portfolio/PortFolioService.Api changed
+
+appsettings.json in services/src/request/Request.Api changed
