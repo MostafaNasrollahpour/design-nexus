@@ -2,7 +2,7 @@ import React from 'react';
 import Home from './home';
 import AdminPanel from './admin_page';
 import ChatBox from './chatbox';
-import './chat_dashboard_pade.css';
+import '../styles/chat_dashboard_pade.css';
 
 const ChatDashboardPage: React.FC = () => {
   return (

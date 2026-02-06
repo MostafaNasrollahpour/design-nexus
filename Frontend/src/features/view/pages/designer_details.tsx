@@ -16,6 +16,31 @@ const CATEGORIES: Record<number, string> = {
   7: "کافی‌ شاپ و رستوران",
 };
 
+// --- Helper برای بررسی وضعیت لاگین ---
+function safeParseUser() {
+  try {
+    return JSON.parse(localStorage.getItem("user") || "null");
+  } catch {
+    return null;
+  }
+}
+
+function getAuthIdentity(): string | null {
+  const u = safeParseUser();
+  const token =
+    localStorage.getItem("token") ||
+    localStorage.getItem("accessToken") ||
+    localStorage.getItem("jwt");
+
+  const id =
+    u?.Id ?? u?.ID ?? u?.UserId ?? u?.userId ?? u?.Email ?? u?.email ?? u?.Username ?? u?.username;
+
+  if (id) return String(id);
+  if (token) return `token_${token.slice(0, 16)}`;
+  return null;
+}
+
+// --- Type صفحه ---
 type PageState = {
   loading: boolean;
   error: string | null;
@@ -35,6 +60,7 @@ export default function DesignerDetailsPage() {
     portfolios: [],
   });
 
+  // --- Fetch اطلاعات طراح و نمونه‌کار ---
   useEffect(() => {
     const controller = new AbortController();
 
@@ -52,7 +78,11 @@ export default function DesignerDetailsPage() {
         });
       } catch (err: any) {
         if (err.name !== "AbortError") {
-          setState((prev) => ({ ...prev, loading: false, error: err.message || "خطا در دریافت اطلاعات" }));
+          setState((prev) => ({
+            ...prev,
+            loading: false,
+            error: err.message || "خطا در دریافت اطلاعات",
+          }));
         }
       }
     };
@@ -61,9 +91,19 @@ export default function DesignerDetailsPage() {
     return () => controller.abort();
   }, [id]);
 
+  const { loading, error, designer, portfolios } = state;
+
   const safeValue = (value?: string | null) => (value && value.trim() ? value : "-");
 
-  const { loading, error, designer, portfolios } = state;
+  // --- مدیریت کلیک روی دکمه ارسال پیام ---
+  const handleMessageClick = () => {
+    const authIdentity = getAuthIdentity();
+    if (authIdentity) {
+      navigate(`/chat/${id}`);
+    } else {
+      navigate("/login", { state: { from: `/chat/${id}` } });
+    }
+  };
 
   if (loading) return <div className="designer-details-layout">در حال بارگذاری...</div>;
   if (error) return <div className="designer-details-layout designer-alert">{error}</div>;
@@ -127,16 +167,12 @@ export default function DesignerDetailsPage() {
       <div className="designer-actions-wrapper">
         <div className="designer-actions">
           {/* دکمه ثبت سفارش */}
-         <button
-  className="btn btn-request"
-  onClick={() => navigate(`/designer-details/${id}/order`)}
->
-  ثبت درخواست
-</button>
-
+          <button className="btn btn-request" onClick={() => navigate(`/designer-details/${id}/order`)}>
+            ثبت درخواست
+          </button>
 
           {/* دکمه ارسال پیام */}
-          <button className="btn btn-message">
+          <button className="btn btn-message" onClick={handleMessageClick}>
             <MessageCircle size={18} /> ارسال پیام
           </button>
         </div>

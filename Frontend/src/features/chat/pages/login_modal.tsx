@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import "./login_modal.css";
+import "../styles/login_modal.css";
 
 type LoginRequiredModalProps = {
   open: boolean;

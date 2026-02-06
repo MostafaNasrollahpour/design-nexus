@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
-import "./chatbox.css";
+import "../styles/chatbox.css";
 
 type SenderType = "admin" | "user";
 

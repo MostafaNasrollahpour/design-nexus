@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import ChatBox from "./chatbox";
-import "./admin_page.css";
+import "../styles/admin_page.css";
 
 type ActiveUserId = string | number;
 

@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import Navbar from "../../shared/components/navbar";
-import Footer from "../../shared/components/footer";
+import Navbar from "../../../shared/components/navbar";
+import Footer from "../../../shared/components/footer";
 import ChatBox from "./chatbox";
 import LoginRequiredModal from "./login_modal";
-import "./user_chat_page.css";
+import "../styles/user_chat_page.css";
 
 function safeParseUser() {
   try {
