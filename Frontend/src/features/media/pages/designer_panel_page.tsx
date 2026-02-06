@@ -884,8 +884,7 @@ const loadOrders = async () => {
               )}
             </div>
           )}
-
-         {activeTab === "requests" && (
+{activeTab === "requests" && (
   <div className="panel-card">
     <h2>درخواست‌ها</h2>
     <p className="panel-muted">
@@ -897,18 +896,14 @@ const loadOrders = async () => {
     )}
 
     {requestsLoading ? (
-      <div className="projects-grid-wrapper">
-        <div className="projects-grid">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div className="project-card project-card--skeleton" key={i}>
-              <div className="project-body">
-                <div className="skeleton-line w-80" />
-                <div className="skeleton-line w-60" />
-                <div className="skeleton-line w-70" />
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="requests-list">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div className="request-card request-card--skeleton" key={i}>
+            <div className="skeleton-line w-60" />
+            <div className="skeleton-line w-80" />
+            <div className="skeleton-line w-70" />
+          </div>
+        ))}
       </div>
     ) : requests.length === 0 ? (
       <div className="projects-empty">
@@ -918,37 +913,70 @@ const loadOrders = async () => {
         </div>
       </div>
     ) : (
-      <div className="projects-grid-wrapper">
-        <div className="projects-grid">
-         {requests.map((r) => (
-  <div className="project-card" key={r.requestId}>
-    <div className="project-body">
-      <div className="project-title">{r.title}</div>
+      <div className="requests-list">
+        {requests.map((r) => (
+          <div className="request-card" key={r.requestId}>
+            <div className="request-header">
+              <div className="request-title">{r.title}</div>
+              <span className="request-status">{r.status}</span>
+            </div>
 
-      <div className="project-desc">
-        <b>شناسه:</b> {r.requestId} <br />
-        <b>توضیحات:</b> {r.description} <br />
-        <b>وضعیت:</b> {r.status} <br />
-        <b>تاریخ ایجاد:</b>{" "}
-        {new Date(r.createdAt).toLocaleDateString("fa-IR")} <br />
-        <b>آخرین بروزرسانی:</b>{" "}
-        {new Date(r.updatedAt).toLocaleDateString("fa-IR")} <br />
-        <b>دسته‌بندی:</b> {toCategoryTitle(r.categoryId)} <br />
-        <b>بودجه:</b> {r.budget ?? "—"} <br />
-        <b>آدرس:</b> {r.address} <br />
-        <b>ددلاین:</b>{" "}
-        {r.deadline ? new Date(r.deadline).toLocaleDateString("fa-IR") : "—"}
-      </div>
-    </div>
-  </div>
-))}
+            <div className="request-body">
+              <div><b>شناسه:</b> {r.requestId}</div>
+              <div><b>دسته‌بندی:</b> {toCategoryTitle(r.categoryId)}</div>
+              <div><b>بودجه:</b> {r.budget ?? "—"}</div>
+              <div><b>آدرس:</b> {r.address || "—"}</div>
+              <div>
+                <b>ددلاین:</b>{" "}
+                {r.deadline
+                  ? new Date(r.deadline).toLocaleDateString("fa-IR")
+                  : "—"}
+              </div>
+              <div>
+                <b>تاریخ ایجاد:</b>{" "}
+                {new Date(r.createdAt).toLocaleDateString("fa-IR")}
+              </div>
+              <div>
+                <b>آخرین بروزرسانی:</b>{" "}
+                {new Date(r.updatedAt).toLocaleDateString("fa-IR")}
+              </div>
 
+              {r.description && (
+                <div className="request-desc">
+                  <b>توضیحات:</b>
+                  <p>{r.description}</p>
+                </div>
+              )}
 
-        </div>
+              {/* دکمه‌های رد و قبول با همون استایل request-status */}
+              <div className="request-actions" style={{ marginTop: 12, display: "flex", gap: 10 }}>
+                <button
+                  type="button"
+                  className="request-status"
+                  style={{ background: "#ff6b6b", color: "#fff", cursor:"pointer" }}
+                  onClick={() => console.log("رد درخواست:", r.requestId)}
+                >
+                  رد
+                </button>
+                <button
+                  type="button"
+                  className="request-status"
+                  style={{ background: "#4caf50", color: "#fff", cursor:"pointer" }}
+                  onClick={() => console.log("قبول درخواست:", r.requestId)}
+                >
+                  قبول
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     )}
   </div>
 )}
+
+
+
 
 
 {activeTab === "orders" && (

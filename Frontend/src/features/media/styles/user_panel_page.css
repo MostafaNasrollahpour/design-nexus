@@ -592,3 +592,75 @@
   transform: translateY(-3px);
   box-shadow: 0 12px 30px rgba(255, 105, 180, 0.45);
 }
+
+
+/* =========================
+   Requests – Full Width
+========================= */
+
+.requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.request-card {
+  width: 100%;
+  background: #c6e7ff;
+  border-radius: 18px;
+  padding: 18px 20px;
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.request-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.request-title {
+  font-weight: 900;
+  font-size: 16px;
+}
+
+.request-status {
+  background: rgba(0,0,0,0.08);
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  border: none;
+  
+}
+
+.request-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.8;
+}
+
+.request-desc {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+}
+
+.request-desc p {
+  margin: 6px 0 0;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+/* Skeleton */
+.request-card--skeleton {
+  background: #e9e9e9;
+}
+.request-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
