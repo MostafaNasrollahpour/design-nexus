@@ -37,6 +37,17 @@ export default function UserPanelPage() {
     }
   };
 
+
+  const CATEGORIES: Record<number, string> = {
+  1: "اتاق خواب",
+  2: "پذیرایی",
+  3: "آشپزخانه",
+  4: "اتاق کار",
+  5: "عروسی و نامزدی",
+  6: "جشن تولد",
+  7: "کافی‌ شاپ و رستوران",
+};
+
   return (
     <div className="panel-container">
       <Navbar />
@@ -116,57 +127,61 @@ export default function UserPanelPage() {
             </div>
           )}
 
-          {activeTab === "orders" && (
-            <div className="panel-card">
-              <h2>سفارش‌ها</h2>
 
-              {loadingOrders ? (
-                <p>در حال بارگذاری...</p>
-              ) : orders.length === 0 ? (
-                <p className="projects-emptyText">
-                  فعلاً سفارشی برای نمایش ندارید.
-                </p>
-              ) : (
-                <div className="projects-grid-wrapper">
-                  <div className="projects-grid">
-                    {orders.map((order, index) => (
-                      <div
-                        key={index}
-                        className="project-card"
-                      >
-                        <div className="project-body">
-                          <div className="project-title">
-                            {order.title}
-                          </div>
 
-                          <div className="project-desc">
-                            دسته: {order.categoryId}
-                            <br />
-                            بودجه: {order.budget}
-                            <br />
-                            آدرس: {order.address}
-                            <br />
-                            مهلت: {order.deadline.toString()}
-                            <br />
-                            توضیحات: {order.description}
-                          </div>
-                        </div>
+{activeTab === "orders" && (
+  <div className="panel-card">
+    <h2>سفارش‌ها</h2>
+    <p className="panel-muted">
+      در این بخش تمام سفارش‌های ثبت‌شده نمایش داده می‌شوند.
+    </p>
 
-                        <div className="project-footer">
-                          <span className="project-badge project-badge--light">
-                            {order.status}
-                            {order.designerName
-                              ? ` - طراح: ${order.designerName}`
-                              : ""}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+    {loadingOrders ? (
+      <div className="requests-list">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div className="request-card request-card--skeleton" key={i}>
+            <div className="skeleton-line w-60" />
+            <div className="skeleton-line w-80" />
+            <div className="skeleton-line w-70" />
+          </div>
+        ))}
+      </div>
+    ) : orders.length === 0 ? (
+      <div className="projects-empty">
+        <div className="projects-emptyTitle">فعلاً سفارشی ندارید 🧩</div>
+        <div className="projects-emptyText">
+          وقتی مشتری‌ها سفارش جدید ثبت کنند اینجا نمایش داده می‌شود.
+        </div>
+      </div>
+    ) : (
+      <div className="requests-list">
+        {orders.map((order, index) => (
+          <div key={order.id ?? index} className="request-card">
+            <div className="request-header">
+              <div className="request-title">{order.title}</div>
+              <span className="request-status">{order.status}</span>
+            </div>
+
+            <div className="request-body">
+              <div><b>دسته‌بندی:</b> {CATEGORIES[order.categoryId] ?? "—"}</div>
+              <div><b>بودجه:</b> {order.budget} تومان</div>
+              <div><b>آدرس:</b> {order.address}</div>
+              <div><b>مهلت:</b> {order.deadline.toString()}</div>
+
+              {order.description && (
+                <div className="request-desc">
+                  <b>توضیحات:</b>
+                  <p>{order.description}</p>
                 </div>
               )}
             </div>
-          )}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+)}
+
 
           {activeTab === "favorites" && (
             <div className="panel-card">
