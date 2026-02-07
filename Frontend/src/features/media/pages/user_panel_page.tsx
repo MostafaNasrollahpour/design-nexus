@@ -48,6 +48,111 @@ export default function UserPanelPage() {
   7: "کافی‌ شاپ و رستوران",
 };
 
+
+
+type EditField =
+  | "fullName"
+  | "currentPassword"
+  | "newPassword"
+  | "confirmNewPassword";
+
+type SettingsDraft = {
+  fullName: string;
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};
+
+const [editing, setEditing] = useState<Record<EditField, boolean>>({
+  fullName: false,
+  currentPassword: false,
+  newPassword: false,
+  confirmNewPassword: false,
+});
+
+const [draft, setDraft] = useState<SettingsDraft>({
+  fullName: fullNameLS || "",
+  currentPassword: "",
+  newPassword: "",
+  confirmNewPassword: "",
+});
+
+const [saving, setSaving] = useState(false);
+const [settingsError, setSettingsError] = useState<string>("");
+
+/* شروع و پایان ویرایش هر فیلد */
+const startEdit = (field: EditField) => {
+  setEditing((prev) => ({ ...prev, [field]: true }));
+};
+
+const stopEdit = (field: EditField) => {
+  setEditing((prev) => ({ ...prev, [field]: false }));
+};
+
+/* بررسی اینکه چیزی تغییر کرده یا نه */
+const isDirty = () => {
+  return (
+    draft.fullName !== (fullNameLS || "") ||
+    draft.currentPassword ||
+    draft.newPassword ||
+    draft.confirmNewPassword
+  );
+};
+
+/* انصراف */
+const cancelAll = () => {
+  setDraft({
+    fullName: fullNameLS || "",
+    currentPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  });
+
+  setEditing({
+    fullName: false,
+    currentPassword: false,
+    newPassword: false,
+    confirmNewPassword: false,
+  });
+
+  setSettingsError("");
+};
+
+/* ذخیره تغییرات */
+const saveAll = async () => {
+  setSettingsError("");
+
+  if (draft.newPassword || draft.confirmNewPassword) {
+    if (!draft.currentPassword) {
+      setSettingsError("برای تغییر رمز عبور، رمز قبلی الزامی است.");
+      return;
+    }
+
+    if (draft.newPassword !== draft.confirmNewPassword) {
+      setSettingsError("رمز عبور جدید و تکرار آن یکسان نیستند.");
+      return;
+    }
+  }
+
+  try {
+    setSaving(true);
+
+    // TODO: اینجا API واقعی آپدیت پروفایل رو صدا بزن
+    // await updateUserProfile(draft);
+
+    localStorage.setItem("fullName", draft.fullName);
+
+    cancelAll();
+  } catch {
+    setSettingsError("خطا در ذخیره اطلاعات. لطفاً دوباره تلاش کنید.");
+  } finally {
+    setSaving(false);
+  }
+};
+
+
+
+
   return (
     <div className="panel-container">
       <Navbar />
@@ -193,11 +298,217 @@ export default function UserPanelPage() {
           )}
 
           {activeTab === "settings" && (
-            <div className="panel-card">
-              <h2>ویرایش اطلاعات</h2>
-              {/* بخش ویرایش اطلاعات */}
+  <div className="panel-card">
+    <h2>ویرایش اطلاعات</h2>
+
+    {settingsError && (
+      <p className="settings-error">{settingsError}</p>
+    )}
+
+    {/* FullName */}
+    <div className="settings-row">
+      <div className="settings-label">نام و نام خانوادگی</div>
+      <div className="settings-control">
+        {!editing.fullName ? (
+          <>
+            <div className="settings-value">
+              {draft.fullName || "—"}
             </div>
-          )}
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={() => startEdit("fullName")}
+              title="ویرایش"
+            >
+              ✎
+            </button>
+          </>
+        ) : (
+          <>
+            <input
+              className="settings-input"
+              value={draft.fullName}
+              onChange={(e) =>
+                setDraft((d) => ({
+                  ...d,
+                  fullName: e.target.value,
+                }))
+              }
+            />
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={() => stopEdit("fullName")}
+              title="تمام"
+            >
+              ✓
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+
+    {/* Current Password */}
+    <div className="settings-row">
+      <div className="settings-label">رمز عبور قبلی</div>
+      <div className="settings-control">
+        {!editing.currentPassword ? (
+          <>
+            <div className="settings-value">
+              {draft.currentPassword ? "********" : "—"}
+            </div>
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={() => startEdit("currentPassword")}
+              title="ویرایش"
+            >
+              ✎
+            </button>
+          </>
+        ) : (
+          <>
+            <input
+              className="settings-input"
+              type="password"
+              value={draft.currentPassword}
+              onChange={(e) =>
+                setDraft((d) => ({
+                  ...d,
+                  currentPassword: e.target.value,
+                }))
+              }
+              placeholder="رمز عبور قبلی"
+            />
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={() => stopEdit("currentPassword")}
+              title="تمام"
+            >
+              ✓
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+
+    {/* New Password */}
+    <div className="settings-row">
+      <div className="settings-label">رمز عبور جدید</div>
+      <div className="settings-control">
+        {!editing.newPassword ? (
+          <>
+            <div className="settings-value">
+              {draft.newPassword ? "********" : "—"}
+            </div>
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={() => startEdit("newPassword")}
+              title="ویرایش"
+            >
+              ✎
+            </button>
+          </>
+        ) : (
+          <>
+            <input
+              className="settings-input"
+              type="password"
+              value={draft.newPassword}
+              onChange={(e) =>
+                setDraft((d) => ({
+                  ...d,
+                  newPassword: e.target.value,
+                }))
+              }
+              placeholder="رمز عبور جدید"
+            />
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={() => stopEdit("newPassword")}
+              title="تمام"
+            >
+              ✓
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+
+    {/* Confirm New Password */}
+    <div className="settings-row">
+      <div className="settings-label">تکرار رمز عبور جدید</div>
+      <div className="settings-control">
+        {!editing.confirmNewPassword ? (
+          <>
+            <div className="settings-value">
+              {draft.confirmNewPassword ? "********" : "—"}
+            </div>
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={() =>
+                startEdit("confirmNewPassword")
+              }
+              title="ویرایش"
+            >
+              ✎
+            </button>
+          </>
+        ) : (
+          <>
+            <input
+              className="settings-input"
+              type="password"
+              value={draft.confirmNewPassword}
+              onChange={(e) =>
+                setDraft((d) => ({
+                  ...d,
+                  confirmNewPassword: e.target.value,
+                }))
+              }
+              placeholder="تکرار رمز عبور جدید"
+            />
+            <button
+              type="button"
+              className="icon-btn"
+              onClick={() =>
+                stopEdit("confirmNewPassword")
+              }
+              title="تمام"
+            >
+              ✓
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+
+    <div className="settings-footer">
+      <button
+        type="button"
+        className="btn-ghost"
+        onClick={cancelAll}
+        disabled={saving}
+      >
+        انصراف
+      </button>
+
+      <button
+        type="button"
+        className="btn-primary"
+        onClick={saveAll}
+        disabled={saving || !isDirty()}
+      >
+        {saving ? "در حال ذخیره..." : "ذخیره تغییرات"}
+      </button>
+    </div>
+  </div>
+)}
+
         </main>
       </div>
 
