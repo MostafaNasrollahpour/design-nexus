@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Request.Application.DTOs;
 
 using Request.Application.Commands.CreateProjectRequest;
+using Request.Application.Commands.UpdateProjectRequestStatus;
 
 using Request.Application.Queries.GetProjectRequestsByRequester;
 using Request.Application.Queries.GetProjectRequestsByDesigner;
@@ -69,5 +70,20 @@ namespace Request.Api.Controllers
             else
                 return BadRequest(result);
         }
+    
+        [HttpPut("status")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProjectRequestStatus(
+            [FromBody] UpdateProjectRequestStatusDto request, CancellationToken ct)
+        {
+            var command = new UpdateProjectRequestStatusCommand(request);
+            var result = await _mediator.Send(command, ct);
+
+            if (result.Success)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
     }
 }

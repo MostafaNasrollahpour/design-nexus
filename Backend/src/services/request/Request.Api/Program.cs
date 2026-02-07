@@ -146,5 +146,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Default route
+app.MapGet("/", () => "Request Service is running. Go to /swagger for API documentation.");
+
 app.Run();
 

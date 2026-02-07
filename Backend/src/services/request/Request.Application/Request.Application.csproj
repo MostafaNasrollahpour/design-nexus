@@ -10,6 +10,10 @@
     <ProjectReference Include="..\Request.Domain\Request.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands/UpdateProjectRequestStatus/" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
