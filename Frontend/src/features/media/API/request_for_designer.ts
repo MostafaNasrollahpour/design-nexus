@@ -1,6 +1,6 @@
-import axios from "axios";
+// types/designerRequests.ts
+// const API_BASE_URL = import.meta.env.VITE_API_URL.replace(/\/+$/, "") + "/designer";
 
-/* ✅ جایگزین enum */
 export const DesignerRequestStatus = {
   Pending: 0,
   Accepted: 1,
@@ -8,18 +8,24 @@ export const DesignerRequestStatus = {
   Cancelled: 3,
 } as const;
 
-/* ✅ نوع تایپی امن */
 export type DesignerRequestStatusType =
   (typeof DesignerRequestStatus)[keyof typeof DesignerRequestStatus];
 
-interface ChangeRequestStatusPayload {
+export interface ChangeRequestStatusPayload {
   requestId: number;
   status: DesignerRequestStatusType;
 }
 
+export interface ChangeRequestStatusResponse {
+  success: boolean;
+  message?: string;
+  updatedRequestId?: number;
+  newStatus?: DesignerRequestStatusType;
+}
+
 export async function changeDesignerRequestStatus(
   payload: ChangeRequestStatusPayload
-) {
+): Promise<ChangeRequestStatusResponse> {
   const token =
     localStorage.getItem("token") ||
     localStorage.getItem("accessToken") ||
@@ -30,15 +36,19 @@ export async function changeDesignerRequestStatus(
     throw new Error("توکن احراز هویت یافت نشد");
   }
 
-  const { data } = await axios.post(
-    "/api/designer/requests/status",
-    payload,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const res = await fetch(`http://localhost:5157/request/api/ProjectRequest/status`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
 
-  return data;
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => null);
+    throw new Error(errorData?.message || "خطا در تغییر وضعیت درخواست");
+  }
+
+  return res.json();
 }

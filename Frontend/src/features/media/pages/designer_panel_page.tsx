@@ -37,6 +37,8 @@ import {
   DesignerRequestStatus,
 } from "../API/request_for_designer";
 
+import { prettyAlert } from "../components/pretty_alert"; 
+
 
 
 
@@ -647,13 +649,13 @@ const loadOrders = async () => {
           <SidebarButton tab="upload" label="بارگذاری طرح" onClick={() => setActiveTab("upload")} />
           <SidebarButton tab="projects" label="پروژه‌ها" onClick={() => setActiveTab("projects")} />
           <SidebarButton tab="requests" label="درخواست‌ها" onClick={() => setActiveTab("requests")} />
-            <SidebarButton
+            {/* <SidebarButton
   tab="orders"
   label="سفارش‌ها"
   onClick={() => setActiveTab("orders")}
 />
 
-          <SidebarButton tab="wallet" label="کیف پول / درآمد" onClick={() => setActiveTab("wallet")} />
+          <SidebarButton tab="wallet" label="کیف پول / درآمد" onClick={() => setActiveTab("wallet")} /> */}
 
           <SidebarButton
             tab="settings"
@@ -889,8 +891,7 @@ const loadOrders = async () => {
               )}
             </div>
           )}
-
-
+{/* ------------------ تب درخواست‌ها ------------------ */}
 {activeTab === "requests" && (
   <div className="panel-card">
     <h2>درخواست‌ها</h2>
@@ -898,11 +899,7 @@ const loadOrders = async () => {
       در این بخش درخواست‌های مشتریان برای شما نمایش داده می‌شود.
     </p>
 
-    {requestsError && (
-      <div className="projects-alert projects-alert--error">
-        {requestsError}
-      </div>
-    )}
+    {requestsError && <div className="projects-alert projects-alert--error">{requestsError}</div>}
 
     {requestsLoading ? (
       <div className="requests-list">
@@ -916,9 +913,7 @@ const loadOrders = async () => {
       </div>
     ) : requests.length === 0 ? (
       <div className="projects-empty">
-        <div className="projects-emptyTitle">
-          فعلاً درخواستی ندارید 🧩
-        </div>
+        <div className="projects-emptyTitle">فعلاً درخواستی ندارید 🧩</div>
       </div>
     ) : (
       <div className="requests-list">
@@ -942,65 +937,74 @@ const loadOrders = async () => {
                 </div>
               )}
 
-              {/* اکشن‌ها */}
-              <div
-                className="request-actions"
-                style={{ marginTop: 12, display: "flex", gap: 10 }}
-              >
-                {/* رد */}
-                <button
-                  className="request-status"
-                  style={{ background: "#ff6b6b", color: "#fff",cursor:"pointer" }}
-                  onClick={async () => {
-                    const ok = window.confirm(
-                      "آیا مطمئن هستید که می‌خواهید این پروژه را رد کنید؟"
-                    );
-                    if (!ok) return;
+              {/* فقط اگر هنوز وضعیت Pending باشه دکمه‌ها نمایش داده بشن */}
+              {r.status === "Pending" && (
+                <div className="request-actions" style={{ marginTop: 12, display: "flex", gap: 10 }}>
+                  {/* رد کردن درخواست */}
+                  <button
+                    className="request-status"
+                    style={{ background: "#ff6b6b", color: "#fff", cursor: "pointer" }}
+                    onClick={async () => {
+                      const ok = window.confirm("آیا مطمئن هستید که می‌خواهید این پروژه را رد کنید؟");
+                      if (!ok) return;
 
-                    await changeDesignerRequestStatus({
-                      requestId: r.requestId,
-                      status: DesignerRequestStatus.Cancelled,
-                    });
+                      try {
+                        await changeDesignerRequestStatus({
+                          requestId: r.requestId,
+                          status: DesignerRequestStatus.Cancelled,
+                        });
 
-                    // حذف دائمی از لیست درخواست‌ها
-                    setRequests((prev) =>
-                      prev.filter((x) => x.requestId !== r.requestId)
-                    );
-                  }}
-                >
-                  رد
-                </button>
+                        setRequests((prev) => prev.filter((x) => x.requestId !== r.requestId));
+                      } catch (e) {
+                        alert(e instanceof Error ? e.message : "خطا در رد کردن درخواست");
+                      }
+                    }}
+                  >
+                    رد
+                  </button>
 
-                {/* قبول */}
-                <button
-                  className="request-status"
-                  style={{ background: "#4caf50", color: "#fff",cursor:"pointer" }}
-                  onClick={async () => {
-                    const ok = window.confirm(
-                      "آیا مطمئن هستید که می‌خواهید این پروژه را قبول کنید؟"
-                    );
-                    if (!ok) return;
+                  {/* قبول درخواست */}
+                  <button
+                    className="request-status"
+                    style={{ background: "#4caf50", color: "#fff", cursor: "pointer" }}
+                    onClick={async () => {
+                      const ok = window.confirm("آیا مطمئن هستید که می‌خواهید این پروژه را قبول کنید؟");
+                      if (!ok) return;
 
-                    const order = await changeDesignerRequestStatus({
-                      requestId: Number(r.requestId),
-                      status: DesignerRequestStatus.Accepted,
-                    });
+                      try {
+                        const updated = await changeDesignerRequestStatus({
+                          requestId: r.requestId,
+                          status: DesignerRequestStatus.Accepted,
+                        });
 
-                    // حذف از درخواست‌ها
-                    setRequests((prev) =>
-                      prev.filter((x) => x.requestId !== r.requestId)
-                    );
+                        // حذف از درخواست‌ها
+                        setRequests((prev) => prev.filter((x) => x.requestId !== r.requestId));
 
-                    // اضافه شدن به سفارش‌ها
-                    setOrders((prev) => [order, ...prev]);
+                        // اضافه شدن به سفارش‌ها
+                        const newOrder: OrderResponse = {
+                          id: String(updated.updatedRequestId),
+                          title: r.title || "بدون عنوان",
+                          categoryId: r.categoryId ?? 0,
+                          budget: r.budget ?? 0,
+                          address: r.address ?? "",
+                          description: r.description ?? "",
+                          status: "Accepted",
+                          designerName: user?.FullName || fullNameLS || "",
+                          deadline: r.deadline ? new Date(r.deadline) : new Date(),
+                        };
+                        setOrders((prev) => [newOrder, ...prev]);
 
-                    // سوییچ به تب سفارش‌ها
-                    setActiveTab("orders");
-                  }}
-                >
-                  قبول
-                </button>
-              </div>
+                        // سوییچ خودکار به تب سفارش‌ها
+                        setActiveTab("orders");
+                      } catch (e) {
+                        alert(e instanceof Error ? e.message : "خطا در قبول کردن درخواست");
+                      }
+                    }}
+                  >
+                    قبول
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -1010,108 +1014,6 @@ const loadOrders = async () => {
 )}
 
 
-{activeTab === "orders" && (
-  <div className="panel-card">
-    <h2>سفارش‌ها</h2>
-    <p className="panel-muted">
-      پروژه‌هایی که قبول کرده‌اید یا تکمیل شده‌اند در این بخش نمایش داده می‌شوند.
-    </p>
-
-    {loadingOrders ? (
-      <p>در حال بارگذاری...</p>
-    ) : orders.length === 0 ? (
-      <div className="projects-empty">
-        <div className="projects-emptyTitle">
-          فعلاً سفارشی ندارید 🧩
-        </div>
-        <div className="projects-emptyText">
-          سفارش‌هایی که قبول می‌کنید اینجا نمایش داده می‌شوند.
-        </div>
-      </div>
-    ) : (
-      <div className="projects-grid-wrapper">
-        <div className="projects-grid">
-          {orders.map((order) => (
-            <div key={order.id} className="project-card">
-              {/* بدنه کارت */}
-              <div className="project-body">
-                <div className="project-title">
-                  {order.title || "بدون عنوان"}
-                </div>
-
-                <div className="project-desc">
-                  <div>دسته: {toCategoryTitle(order.categoryId)}</div>
-                  <div>بودجه: {order.budget ?? "—"}</div>
-                  <div>آدرس: {order.address || "—"}</div>
-                  <div>
-                    مهلت:{" "}
-                    {order.deadline
-                      ? new Date(order.deadline).toLocaleDateString("fa-IR")
-                      : "—"}
-                  </div>
-
-                  {order.description && (
-                    <div style={{ marginTop: 6 }}>
-                      توضیحات: {order.description}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* فوتر کارت */}
-              <div className="project-footer">
-                {/* وضعیت سفارش */}
-                <span className="project-badge project-badge--light">
-                  {order.status}
-                  {order.designerName
-                    ? ` - طراح: ${order.designerName}`
-                    : ""}
-                </span>
-
-                {/* ✅ دکمه تکمیل پروژه فقط برای Accepted */}
-                {order.status === "Accepted" && (
-                  <button
-                    className="btn-primary"
-                    style={{ marginTop: 10 }}
-                    onClick={async () => {
-                      const ok = window.confirm(
-                        "آیا از تکمیل این پروژه مطمئن هستید؟"
-                      );
-                      if (!ok) return;
-
-                      try {
-                        const updated =
-                          await changeDesignerRequestStatus({
-                            requestId: Number(order.id),
-                            status: DesignerRequestStatus.Completed,
-                          });
-
-                        // آپدیت سفارش در لیست
-                        setOrders((prev) =>
-                          prev.map((o) =>
-                            o.id === updated.id ? updated : o
-                          )
-                        );
-                      } catch (e) {
-                        alert(
-                          e instanceof Error
-                            ? e.message
-                            : "خطا در تکمیل پروژه"
-                        );
-                      }
-                    }}
-                  >
-                    تکمیل پروژه
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    )}
-  </div>
-)}
 
 
           {activeTab === "wallet" && (
