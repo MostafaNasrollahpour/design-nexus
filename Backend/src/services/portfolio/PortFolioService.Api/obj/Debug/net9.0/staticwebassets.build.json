@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "S3gL3WCImclG61YnDTFqBB+PEHvIhdE42yCjEYmCuJo=",
+  "Hash": "WaF9xtWO48gL76arDumQSsFNNgU/pERa+pRrAvYofzA=",
   "Source": "PortFolioService.Api",
   "BasePath": "_content/PortFolioService.Api",
   "Mode": "Default",
@@ -17,12 +17,12 @@
   ],
   "Assets": [
     {
-      "Identity": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/fg8etgqtsh-5ipweew5fc.gz",
+      "Identity": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/fg8etgqtsh-ocquk86932.gz",
       "SourceId": "PortFolioService.Api",
       "SourceType": "Discovered",
       "ContentRoot": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/PortFolioService.Api",
-      "RelativePath": "testfile#[.{fingerprint=5ipweew5fc}]?.txt.gz",
+      "RelativePath": "testfile#[.{fingerprint=ocquk86932}]?.txt.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -31,8 +31,8 @@
       "RelatedAsset": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/testfile.txt",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "5ipweew5fc",
-      "Integrity": "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
+      "Fingerprint": "vmr5amwfu6",
+      "Integrity": "2cIT/Km32/agyfq+QcVsg102YOych02Ogm6W4JYMNx0=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/testfile.txt"
@@ -52,19 +52,19 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "5ipweew5fc",
-      "Integrity": "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
+      "Fingerprint": "ocquk86932",
+      "Integrity": "GMveQ45eMTL1UA5m8hcdVKN92KA59CprhaE547exNGY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/testfile.txt"
     },
     {
-      "Identity": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85.png",
+      "Identity": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-1/0cb90b39-de02-4e3e-b5fc-0cd7e4ba8f80.png",
       "SourceId": "PortFolioService.Api",
       "SourceType": "Discovered",
       "ContentRoot": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/",
       "BasePath": "_content/PortFolioService.Api",
-      "RelativePath": "uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85#[.{fingerprint}]?.png",
+      "RelativePath": "uploads/designer-1/0cb90b39-de02-4e3e-b5fc-0cd7e4ba8f80#[.{fingerprint}]?.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -73,19 +73,19 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "mvjzqjyxzh",
-      "Integrity": "YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8=",
+      "Fingerprint": "flj2tywh6n",
+      "Integrity": "TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85.png"
+      "OriginalItemSpec": "wwwroot/uploads/designer-1/0cb90b39-de02-4e3e-b5fc-0cd7e4ba8f80.png"
     },
     {
-      "Identity": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f.jpg",
+      "Identity": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-avatar-1/3453b009-c7ab-40a1-8c31-b6b75571846e.jpg",
       "SourceId": "PortFolioService.Api",
       "SourceType": "Discovered",
       "ContentRoot": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/",
       "BasePath": "_content/PortFolioService.Api",
-      "RelativePath": "uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f#[.{fingerprint}]?.jpg",
+      "RelativePath": "uploads/designer-avatar-1/3453b009-c7ab-40a1-8c31-b6b75571846e#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -94,43 +94,22 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "swrtr89ded",
-      "Integrity": "jB0Bj7Cutz4df0bPEPxwoglvzidmCx9yFBbRvfs5sHk=",
+      "Fingerprint": "hs73o0nyxy",
+      "Integrity": "z61OsuGnMrfTNnyd1ymsBfdjWwvNCo9Ngpiikr+z67Y=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f.jpg"
-    },
-    {
-      "Identity": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.png",
-      "SourceId": "PortFolioService.Api",
-      "SourceType": "Discovered",
-      "ContentRoot": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/",
-      "BasePath": "_content/PortFolioService.Api",
-      "RelativePath": "uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504#[.{fingerprint}]?.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "mvjzqjyxzh",
-      "Integrity": "YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.png"
+      "OriginalItemSpec": "wwwroot/uploads/designer-avatar-1/3453b009-c7ab-40a1-8c31-b6b75571846e.jpg"
     }
   ],
   "Endpoints": [
     {
-      "Route": "testfile.5ipweew5fc.txt",
-      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/fg8etgqtsh-5ipweew5fc.gz",
+      "Route": "testfile.ocquk86932.txt",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/fg8etgqtsh-ocquk86932.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "1.000000000000"
+          "Quality": "0.014084507042"
         }
       ],
       "ResponseHeaders": [
@@ -140,15 +119,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "0"
+          "Value": "70"
         },
         {
           "Name": "ETag",
-          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+          "Value": "\"2cIT/Km32/agyfq+QcVsg102YOych02Ogm6W4JYMNx0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 30 Dec 2025 07:37:25 GMT"
+          "Value": "Wed, 04 Feb 2026 12:46:12 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -168,13 +147,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+          "Value": "W/\"GMveQ45eMTL1UA5m8hcdVKN92KA59CprhaE547exNGY=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "5ipweew5fc"
+          "Value": "ocquk86932"
         },
         {
           "Name": "label",
@@ -182,12 +161,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+          "Value": "sha256-GMveQ45eMTL1UA5m8hcdVKN92KA59CprhaE547exNGY="
         }
       ]
     },
     {
-      "Route": "testfile.5ipweew5fc.txt",
+      "Route": "testfile.ocquk86932.txt",
       "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/testfile.txt",
       "Selectors": [],
       "ResponseHeaders": [
@@ -197,7 +176,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "0"
+          "Value": "62"
         },
         {
           "Name": "Content-Type",
@@ -205,11 +184,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+          "Value": "\"GMveQ45eMTL1UA5m8hcdVKN92KA59CprhaE547exNGY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 30 Dec 2025 07:37:25 GMT"
+          "Value": "Wed, 04 Feb 2026 12:46:12 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -219,7 +198,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "5ipweew5fc"
+          "Value": "ocquk86932"
         },
         {
           "Name": "label",
@@ -227,13 +206,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+          "Value": "sha256-GMveQ45eMTL1UA5m8hcdVKN92KA59CprhaE547exNGY="
         }
       ]
     },
     {
-      "Route": "testfile.5ipweew5fc.txt.gz",
-      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/fg8etgqtsh-5ipweew5fc.gz",
+      "Route": "testfile.ocquk86932.txt.gz",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/fg8etgqtsh-ocquk86932.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -242,7 +221,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "0"
+          "Value": "70"
         },
         {
           "Name": "Content-Type",
@@ -250,11 +229,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+          "Value": "\"2cIT/Km32/agyfq+QcVsg102YOych02Ogm6W4JYMNx0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 30 Dec 2025 07:37:25 GMT"
+          "Value": "Wed, 04 Feb 2026 12:46:12 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -272,7 +251,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "5ipweew5fc"
+          "Value": "ocquk86932"
         },
         {
           "Name": "label",
@@ -280,18 +259,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+          "Value": "sha256-2cIT/Km32/agyfq+QcVsg102YOych02Ogm6W4JYMNx0="
         }
       ]
     },
     {
       "Route": "testfile.txt",
-      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/fg8etgqtsh-5ipweew5fc.gz",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/fg8etgqtsh-ocquk86932.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "1.000000000000"
+          "Quality": "0.014084507042"
         }
       ],
       "ResponseHeaders": [
@@ -301,15 +280,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "0"
+          "Value": "70"
         },
         {
           "Name": "ETag",
-          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+          "Value": "\"2cIT/Km32/agyfq+QcVsg102YOych02Ogm6W4JYMNx0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 30 Dec 2025 07:37:25 GMT"
+          "Value": "Wed, 04 Feb 2026 12:46:12 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -329,13 +308,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+          "Value": "W/\"GMveQ45eMTL1UA5m8hcdVKN92KA59CprhaE547exNGY=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+          "Value": "sha256-GMveQ45eMTL1UA5m8hcdVKN92KA59CprhaE547exNGY="
         }
       ]
     },
@@ -350,7 +329,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "0"
+          "Value": "62"
         },
         {
           "Name": "Content-Type",
@@ -358,11 +337,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+          "Value": "\"GMveQ45eMTL1UA5m8hcdVKN92KA59CprhaE547exNGY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 30 Dec 2025 07:37:25 GMT"
+          "Value": "Wed, 04 Feb 2026 12:46:12 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -372,13 +351,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+          "Value": "sha256-GMveQ45eMTL1UA5m8hcdVKN92KA59CprhaE547exNGY="
         }
       ]
     },
     {
       "Route": "testfile.txt.gz",
-      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/fg8etgqtsh-5ipweew5fc.gz",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/fg8etgqtsh-ocquk86932.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -387,7 +366,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "0"
+          "Value": "70"
         },
         {
           "Name": "Content-Type",
@@ -395,11 +374,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+          "Value": "\"2cIT/Km32/agyfq+QcVsg102YOych02Ogm6W4JYMNx0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 30 Dec 2025 07:37:25 GMT"
+          "Value": "Wed, 04 Feb 2026 12:46:12 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -417,13 +396,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+          "Value": "sha256-2cIT/Km32/agyfq+QcVsg102YOych02Ogm6W4JYMNx0="
         }
       ]
     },
     {
-      "Route": "uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85.mvjzqjyxzh.png",
-      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85.png",
+      "Route": "uploads/designer-1/0cb90b39-de02-4e3e-b5fc-0cd7e4ba8f80.flj2tywh6n.png",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-1/0cb90b39-de02-4e3e-b5fc-0cd7e4ba8f80.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -432,7 +411,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "37121"
+          "Value": "1629941"
         },
         {
           "Name": "Content-Type",
@@ -440,11 +419,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8=\""
+          "Value": "\"TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 31 Dec 2025 09:02:05 GMT"
+          "Value": "Thu, 05 Feb 2026 11:52:23 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -454,21 +433,21 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "mvjzqjyxzh"
+          "Value": "flj2tywh6n"
         },
         {
           "Name": "label",
-          "Value": "uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85.png"
+          "Value": "uploads/designer-1/0cb90b39-de02-4e3e-b5fc-0cd7e4ba8f80.png"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8="
+          "Value": "sha256-TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE="
         }
       ]
     },
     {
-      "Route": "uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85.png",
-      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-1/f4d0f596-2abb-4ac9-ac62-3f5173e5da85.png",
+      "Route": "uploads/designer-1/0cb90b39-de02-4e3e-b5fc-0cd7e4ba8f80.png",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-1/0cb90b39-de02-4e3e-b5fc-0cd7e4ba8f80.png",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -477,7 +456,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "37121"
+          "Value": "1629941"
         },
         {
           "Name": "Content-Type",
@@ -485,11 +464,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8=\""
+          "Value": "\"TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 31 Dec 2025 09:02:05 GMT"
+          "Value": "Thu, 05 Feb 2026 11:52:23 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -499,13 +478,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8="
+          "Value": "sha256-TetGZhcEeKfHoPppjDZL7zs/yxUlu+6H4kZFouuY2HE="
         }
       ]
     },
     {
-      "Route": "uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f.jpg",
-      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f.jpg",
+      "Route": "uploads/designer-avatar-1/3453b009-c7ab-40a1-8c31-b6b75571846e.hs73o0nyxy.jpg",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-avatar-1/3453b009-c7ab-40a1-8c31-b6b75571846e.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -514,7 +493,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "92548"
+          "Value": "111868"
         },
         {
           "Name": "Content-Type",
@@ -522,27 +501,35 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"jB0Bj7Cutz4df0bPEPxwoglvzidmCx9yFBbRvfs5sHk=\""
+          "Value": "\"z61OsuGnMrfTNnyd1ymsBfdjWwvNCo9Ngpiikr+z67Y=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 31 Dec 2025 10:03:37 GMT"
+          "Value": "Thu, 05 Feb 2026 11:54:02 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
+          "Value": "max-age=31536000, immutable"
         }
       ],
       "EndpointProperties": [
         {
+          "Name": "fingerprint",
+          "Value": "hs73o0nyxy"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/designer-avatar-1/3453b009-c7ab-40a1-8c31-b6b75571846e.jpg"
+        },
+        {
           "Name": "integrity",
-          "Value": "sha256-jB0Bj7Cutz4df0bPEPxwoglvzidmCx9yFBbRvfs5sHk="
+          "Value": "sha256-z61OsuGnMrfTNnyd1ymsBfdjWwvNCo9Ngpiikr+z67Y="
         }
       ]
     },
     {
-      "Route": "uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f.swrtr89ded.jpg",
-      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f.jpg",
+      "Route": "uploads/designer-avatar-1/3453b009-c7ab-40a1-8c31-b6b75571846e.jpg",
+      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-avatar-1/3453b009-c7ab-40a1-8c31-b6b75571846e.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -551,7 +538,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "92548"
+          "Value": "111868"
         },
         {
           "Name": "Content-Type",
@@ -559,101 +546,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"jB0Bj7Cutz4df0bPEPxwoglvzidmCx9yFBbRvfs5sHk=\""
+          "Value": "\"z61OsuGnMrfTNnyd1ymsBfdjWwvNCo9Ngpiikr+z67Y=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 31 Dec 2025 10:03:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "swrtr89ded"
-        },
-        {
-          "Name": "label",
-          "Value": "uploads/designer-avatar-1/6fe122ee-26b8-49d6-bcbb-df2e5d2e4d6f.jpg"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-jB0Bj7Cutz4df0bPEPxwoglvzidmCx9yFBbRvfs5sHk="
-        }
-      ]
-    },
-    {
-      "Route": "uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.mvjzqjyxzh.png",
-      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "37121"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 31 Dec 2025 07:37:13 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "mvjzqjyxzh"
-        },
-        {
-          "Name": "label",
-          "Value": "uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.png"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8="
-        }
-      ]
-    },
-    {
-      "Route": "uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.png",
-      "AssetFile": "/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/designer-avatar-1/fd219bc1-d0d5-4fa9-b6f1-17723de2e504.png",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "37121"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/png"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 31 Dec 2025 07:37:13 GMT"
+          "Value": "Thu, 05 Feb 2026 11:54:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -663,7 +560,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-YjV7nPmFqMNl/+4C/ZOdVrIMFSPw/nXYnHLaqMLyx+8="
+          "Value": "sha256-z61OsuGnMrfTNnyd1ymsBfdjWwvNCo9Ngpiikr+z67Y="
         }
       ]
     }

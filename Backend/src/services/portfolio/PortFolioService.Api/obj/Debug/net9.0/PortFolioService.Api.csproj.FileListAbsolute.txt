@@ -622,4 +622,4 @@ C:/Users/Raziyeh/Desktop/dd/DesignNexus/Backend/src/services/portfolio/PortFolio
 /home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/PortFolioService.Api.genruntimeconfig.cache
 /home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/ref/PortFolioService.Api.dll
 /home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/bin/Debug/net9.0/PortFolioService.Api.staticwebassets.runtime.json
-/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/fg8etgqtsh-5ipweew5fc.gz
+/home/mostafa/MyProjects/DesignNexus/Backend/src/services/portfolio/PortFolioService.Api/obj/Debug/net9.0/compressed/fg8etgqtsh-ocquk86932.gz
