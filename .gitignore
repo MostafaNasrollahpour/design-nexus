@@ -1,0 +1,65 @@
+# =========================
+# .NET
+# =========================
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+
+# =========================
+# Tests / Coverage
+# =========================
+**/TestResults/
+**/*.trx
+**/coverage/
+**/coverage.*
+
+# =========================
+# Node / Frontend
+# =========================
+**/node_modules/
+Frontend/dist/
+Frontend/dist-ssr/
+**/*.tsbuildinfo
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Environment / Secrets
+# =========================
+**/.env
+**/.env.*
+!**/.env.example
+
+# =========================
+# Local appsettings
+# =========================
+**/appsettings.Local.json
+**/appsettings.*.local.json
+**/secrets.json
+
+# =========================
+# Certificates / Keys
+# =========================
+**/*.pfx
+**/*.p12
+**/*.pem
+**/*.key
+
+# =========================
+# IDE
+# =========================
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# =========================
+# Runtime uploads
+# =========================
+Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/*
+!Backend/src/services/portfolio/PortFolioService.Api/wwwroot/uploads/.gitkeep
