@@ -20,6 +20,26 @@ My primary responsibility was the **backend and infrastructure side** of the pro
 - Docker and Docker Compose support
 - React + TypeScript frontend
 
+## Frontend
+
+The frontend provides the main user experience for both clients and designers.
+
+It includes:
+
+- User registration, login, and account recovery flows
+- OTP and email verification interfaces
+- Designer discovery and profile views
+- Portfolio browsing and category filtering
+- Portfolio creation and editing
+- User and designer dashboards
+- Project request creation and management
+- Request status tracking
+- User profile management
+
+The frontend was developed primarily by [@EslamiRaziyeh84](https://github.com/EslamiRaziyeh84) using React and TypeScript, with integration through the YARP API Gateway.
+
+For frontend-specific details, see [Frontend Documentation](Frontend/README.md).
+
 ## Architecture
 
 ```mermaid
