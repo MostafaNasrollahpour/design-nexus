@@ -1,8 +1,10 @@
 # Design Nexus Backend
 
-The Design Nexus backend is a service-oriented ASP.NET Core solution composed of an API Gateway and three main backend services: **IAM**, **Portfolio**, and **Request**.
+The Design Nexus backend follows a microservices architecture composed of a YARP API Gateway and three independently structured ASP.NET Core services: **IAM**, **Portfolio**, and **Request**.
 
 The backend uses PostgreSQL for persistent data, Redis for temporary authentication-related data, Entity Framework Core for persistence, MediatR for application request handling, and YARP as the API Gateway.
+
+Each service has its own application boundary and persistence layer. IAM, Portfolio, and Request use separate PostgreSQL databases, while cross-service data is accessed through HTTP communication rather than direct access to another service's database.
 
 > This backend was developed as part of a collaborative team project and is presented here as a portfolio codebase. It should not be treated as production-ready without additional validation and hardening.
 

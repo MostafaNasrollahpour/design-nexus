@@ -1,6 +1,6 @@
 # Design Nexus
 
-Design Nexus is a collaborative full-stack platform for connecting clients with designers, built with a service-oriented **ASP.NET Core backend** and a **React/TypeScript frontend**.
+Design Nexus is a collaborative full-stack platform for connecting clients with designers, built around an **ASP.NET Core microservices architecture** and a **React/TypeScript frontend**.
 
 The project was originally developed as a **team project**. The original Git history has been preserved so the contributions of both developers remain visible.
 
@@ -8,7 +8,7 @@ My primary responsibility was the **backend and infrastructure side** of the pro
 
 ## Highlights
 
-- ASP.NET Core backend split into IAM, Portfolio, and Request services
+- ASP.NET Core microservices architecture with independent IAM, Portfolio, and Request services
 - YARP API Gateway as the main backend entry point
 - JWT authentication and refresh-token flow
 - OTP verification backed by Redis

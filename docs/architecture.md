@@ -48,7 +48,7 @@ flowchart LR
 
 ## Architectural Style
 
-The backend uses a small service-oriented / microservice-style structure.
+The backend follows a microservices architecture, with IAM, Portfolio, and Request implemented as separate ASP.NET Core services behind a YARP API Gateway.
 
 The main domains are separated because they have different responsibilities:
 
@@ -57,6 +57,8 @@ The main domains are separated because they have different responsibilities:
 - project requests
 
 Each service owns its own persistent data and exposes functionality through an ASP.NET Core API.
+
+The services are independently containerized and communicate through HTTP where cross-service information is required, while maintaining separate persistence boundaries.
 
 The project intentionally avoids adding distributed-system infrastructure only for architectural appearance. Technologies such as Kafka, RabbitMQ, Kubernetes, service meshes, and event sourcing were not required for the original scope.
 
@@ -309,9 +311,9 @@ A production system would require broader coverage across application handlers, 
 
 ## Trade-offs
 
-### Service-Oriented Architecture Without Heavy Infrastructure
+### Microservices Without Unnecessary Infrastructure
 
-The project uses multiple services and a Gateway but intentionally avoids adding message brokers or orchestration systems without a concrete requirement.
+The project uses independently structured services, separate persistence boundaries, containerized deployment units, and an API Gateway, while intentionally avoiding additional distributed-system infrastructure that was not required for the project's scope.
 
 ### Synchronous HTTP Between Services
 
